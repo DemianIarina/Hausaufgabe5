@@ -9,6 +9,7 @@ import repository.TeacherRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class RegistrationSystem {
     private CourseRepository courses;
@@ -39,14 +40,20 @@ public class RegistrationSystem {
                     throw new TooManyCreditsException("The credits limit has been reached");
                 }
                 else{
-                    //update students repo
-                    student.setTotalCredits(newCreditValue);
+                    //update students REPO
+
+                    //update the course list of the student
                     List<Course> studentCourses = student.getEnrolledCourses();
                     studentCourses.add(course);
-                    student.setEnrolledCourses(studentCourses);    //update the course list of the student
+                    student.setEnrolledCourses(studentCourses);
+
+                    //update the number of credits of the student
+                    student.setTotalCredits(newCreditValue);
+
                     students.update(student);
 
-                    //update course repo
+
+                    //update course REPO
                     List<Student> courseStudents = course.getStudentsEnrolled();   //add the list of students enrolled in the course
                     courseStudents.add(student);    //add the new Student
                     course.setStudentsEnrolled(courseStudents);
@@ -74,6 +81,94 @@ public class RegistrationSystem {
     }
 
     public List<Course> getAllCourses(){
+        return courses.getAll();
+    }
+
+    public List<Course> deleteCourse(Course course){
+        //delete from the course REPO
+        courses.delete(course);
+
+        //delete from the teacher REPO
+        Teacher teacher = (Teacher) course.getTeacher();
+        List<Course> teacherCourses = teacher.getCourses();
+        teacherCourses.remove(course);
+        teachers.update(teacher);
+
+        for (Student student: students.getAll()){       //delete from every student's list, the course
+            List<Course> studentCourses = student.getEnrolledCourses();
+
+            if(studentCourses.contains(course)){
+                //delete the course from the student's list
+                studentCourses.remove(course);
+                student.setEnrolledCourses(studentCourses);
+
+                //update the number of credits of the student
+                int newCreditValue = student.getTotalCredits() - course.getCredits();
+                student.setTotalCredits(newCreditValue);
+
+
+                //update the students REPO
+                students.update(student);
+            }
+        }
+        return courses.getAll();
+    }
+
+    public List<Course> updateCreditsCourse(Course course){
+        courses.updateCredits(course);    //update the course credits in the course REPO
+
+        //update teacher REPO
+        Teacher teacher = (Teacher) course.getTeacher();
+        List<Course> teacherCourses = teacher.getCourses();
+
+        for(Course actualCourse: teacherCourses){
+            if(Objects.equals(actualCourse.getName(), course.getName())){
+                teacherCourses.remove(actualCourse);   //remove the old course, with the old value of crredits
+                teacherCourses.add(course);            //add the new course
+                break;
+            }
+        }
+        teacher.setCourses(teacherCourses);
+
+        teachers.update(teacher);
+
+        //update student REPO
+        for(Student student: course.getStudentsEnrolled()){
+
+            //update the course list of the student
+            List<Course> studentCourses = student.getEnrolledCourses();
+            for(Course actualCourse: studentCourses) {
+                if (Objects.equals(actualCourse.getName(), course.getName())) {
+                    studentCourses.remove(actualCourse);
+                    studentCourses.add(course);
+                    student.setEnrolledCourses(studentCourses);
+                    break;
+                }
+            }
+
+            //update the nr of credits of the student -> 2 possibilities (ramane sub 30 de credite, or not)
+            for(Course actualCourse: studentCourses) {
+                if (Objects.equals(actualCourse.getName(), course.getName())) {
+                    int newCreditValue = student.getTotalCredits() - actualCourse.getCredits() + course.getCredits();
+
+                    if(newCreditValue <= 30){
+                        student.setTotalCredits(newCreditValue);
+                    }
+                    else{
+                        //remove the course from the students list
+                    }
+                    break;
+                }
+            }
+
+
+            //update student repo
+            students.update(student);
+
+        }
+
+
+
         return courses.getAll();
     }
 

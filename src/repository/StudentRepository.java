@@ -8,11 +8,12 @@ public class StudentRepository extends InMemoryRepository<Student> {
     }
 
     @Override
-    public Student update(Student obj) {
+    public Student update(Student obj) {    //used by adding and by deleting a course
         Student studentToUpdate = this.repoList.stream()
                 .filter(student -> student.getStudentId() == obj.getStudentId())
                 .findFirst()
                 .orElseThrow();
+
         studentToUpdate.setEnrolledCourses(obj.getEnrolledCourses());
         studentToUpdate.setTotalCredits(obj.getTotalCredits());
 

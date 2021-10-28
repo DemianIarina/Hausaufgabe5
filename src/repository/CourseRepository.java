@@ -23,15 +23,18 @@ public class CourseRepository extends InMemoryRepository<Course> {
         return courseToUpdate;
     }
 
+    public Course updateCredits(Course obj) {
+        Course courseToUpdate = this.repoList.stream()
+                .filter(course -> Objects.equals(course.getName(), obj.getName()) && course.getTeacher() == obj.getTeacher())
+                .findFirst()
+                .orElseThrow();
+
+        courseToUpdate.setCredits(obj.getCredits());
+        return courseToUpdate;
+    }
+
     @Override
     public void delete(Course obj) {
-        super.delete(obj);   //remove the obj from the repo
-
-        //delete from every student's list, the course
-        for (Student student: obj.getStudentsEnrolled()){
-            List<Course> studentCourses = student.getEnrolledCourses();
-            studentCourses.remove(obj);
-            student.setEnrolledCourses(studentCourses);
-        }
+        super.delete(obj);
     }
 }

@@ -28,32 +28,32 @@ public class RegistrationSystem {
             throw new AlreadyExistingException("Already registered to this course");  //try-cach o faci unde apelezi functioa
         }
         else
-        if (course.getStudentsEnrolled().size() == course.getMaxEnrollment()){
-            throw new FullCourseException("The course has no places available");  //try-cach care sa reapeleze functioa cu alt curs, da cu acelasi student
-        }
-        else{
-
-            int newCreditValue = student.getTotalCredits()+course.getCredits();
-
-            if(newCreditValue > 30){
-                throw new TooManyCreditsException("The credits limit has been reached");
+            if (course.getStudentsEnrolled().size() == course.getMaxEnrollment()){
+                throw new FullCourseException("The course has no places available");  //try-cach care sa reapeleze functioa cu alt curs, da cu acelasi student
             }
             else{
-                //update students repo
-                student.setTotalCredits(newCreditValue);
-                List<Course> studentCourses = student.getEnrolledCourses();
-                studentCourses.add(course);
-                student.setEnrolledCourses(studentCourses);    //update the course list of the student
-                students.update(student);
 
-                //update course repo
-                List<Student> courseStudents = course.getStudentsEnrolled();   //add the list of students enrolled in the course
-                courseStudents.add(student);    //add the new Student
-                course.setStudentsEnrolled(courseStudents);
-                courses.update(course);        //update the students list of the course
+                int newCreditValue = student.getTotalCredits() + course.getCredits();
 
-                return true;
-            }
+                if(newCreditValue > 30){
+                    throw new TooManyCreditsException("The credits limit has been reached");
+                }
+                else{
+                    //update students repo
+                    student.setTotalCredits(newCreditValue);
+                    List<Course> studentCourses = student.getEnrolledCourses();
+                    studentCourses.add(course);
+                    student.setEnrolledCourses(studentCourses);    //update the course list of the student
+                    students.update(student);
+
+                    //update course repo
+                    List<Student> courseStudents = course.getStudentsEnrolled();   //add the list of students enrolled in the course
+                    courseStudents.add(student);    //add the new Student
+                    course.setStudentsEnrolled(courseStudents);
+                    courses.update(course);        //update the students list of the course
+
+                    return true;
+                }
         }
     }
 

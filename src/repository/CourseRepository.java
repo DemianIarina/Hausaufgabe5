@@ -1,7 +1,9 @@
 package repository;
 
 import model.Course;
+import model.Student;
 
+import java.util.List;
 import java.util.Objects;
 
 public class CourseRepository extends InMemoryRepository<Course> {
@@ -19,5 +21,17 @@ public class CourseRepository extends InMemoryRepository<Course> {
         courseToUpdate.setStudentsEnrolled(obj.getStudentsEnrolled());
 
         return courseToUpdate;
+    }
+
+    @Override
+    public void delete(Course obj) {
+        super.delete(obj);   //remove the obj from the repo
+
+        //delete from every student's list, the course
+        for (Student student: obj.getStudentsEnrolled()){
+            List<Course> studentCourses = student.getEnrolledCourses();
+            studentCourses.remove(obj);
+            student.setEnrolledCourses(studentCourses);
+        }
     }
 }

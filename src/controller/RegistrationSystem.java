@@ -37,7 +37,7 @@ public class RegistrationSystem {
                 int newCreditValue = student.getTotalCredits() + course.getCredits();
 
                 if(newCreditValue > 30){
-                    throw new TooManyCreditsException("The credits limit has been reached");
+                    throw new TooManyCreditsException("The credits limit has been reached for " + student.getStudentId());
                 }
                 else{
                     //update students REPO
@@ -115,7 +115,8 @@ public class RegistrationSystem {
     }
 
     public List<Course> updateCreditsCourse(Course course){
-        courses.updateCredits(course);    //update the course credits in the course REPO
+        //update the course credits in the course REPO
+        courses.updateCredits(course);
 
         //update teacher REPO
         Teacher teacher = (Teacher) course.getTeacher();
@@ -123,8 +124,10 @@ public class RegistrationSystem {
 
         for(Course actualCourse: teacherCourses){
             if(Objects.equals(actualCourse.getName(), course.getName())){
-                teacherCourses.remove(actualCourse);   //remove the old course, with the old value of crredits
+                teacherCourses.remove(actualCourse);   //remove the old course, with the old value of credits
                 teacherCourses.add(course);            //add the new course
+
+                                                        //TODO: modificat cu un set credits la actualCourse
                 break;
             }
         }
@@ -134,40 +137,34 @@ public class RegistrationSystem {
 
         //update student REPO
         for(Student student: course.getStudentsEnrolled()){
-
-            //update the course list of the student
             List<Course> studentCourses = student.getEnrolledCourses();
-            for(Course actualCourse: studentCourses) {
-                if (Objects.equals(actualCourse.getName(), course.getName())) {
-                    studentCourses.remove(actualCourse);
-                    studentCourses.add(course);
-                    student.setEnrolledCourses(studentCourses);
-                    break;
-                }
-            }
 
             //update the nr of credits of the student -> 2 possibilities (ramane sub 30 de credite, or not)
+            //update the course list of the student
             for(Course actualCourse: studentCourses) {
                 if (Objects.equals(actualCourse.getName(), course.getName())) {
                     int newCreditValue = student.getTotalCredits() - actualCourse.getCredits() + course.getCredits();
 
                     if(newCreditValue <= 30){
                         student.setTotalCredits(newCreditValue);
+
+                        studentCourses.remove(actualCourse);
+                        studentCourses.add(course);
+                        student.setEnrolledCourses(studentCourses);
+                        break;
                     }
                     else{
-                        //remove the course from the students list
+                        //remove the course from the students list + throw to
+                        studentCourses.remove(actualCourse);
+                        throw new TooManyCreditsException("The credits limit has been reached for "+ student.getStudentId() +". Course has been deleted!");
+
                     }
-                    break;
                 }
             }
 
-
-            //update student repo
             students.update(student);
 
         }
-
-
 
         return courses.getAll();
     }

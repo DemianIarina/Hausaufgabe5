@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Course {
@@ -10,12 +11,12 @@ public class Course {
         private List<Student> studentsEnrolled;
         private int credits;
 
-        public Course(String name, Person teacher, int maxEnrollment, List<Student> studentsEnrolled, int credits) {
+        public Course(String name, Person teacher, int maxEnrollment, int credits) {
             this.name = name;
             this.teacher = teacher;
             this.maxEnrollment = maxEnrollment;
-            this.studentsEnrolled = studentsEnrolled;
             this.credits = credits;
+            this.studentsEnrolled = new ArrayList<Student>();;
         }
 
         public String getName() {
@@ -57,4 +58,15 @@ public class Course {
         public void setCredits(int credits) {
             this.credits = credits;
         }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "name='" + name + '\'' +
+                ", teacher=" + teacher +
+                ", maxEnrollment=" + maxEnrollment +
+                ", studentsEnrolled=" + studentsEnrolled +
+                ", credits=" + credits +
+                '}';
+    }
 }

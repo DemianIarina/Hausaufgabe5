@@ -119,7 +119,7 @@ public class RegistrationSystem {
         courses.updateCredits(course);
 
         //update teacher REPO
-        Teacher teacher = (Teacher) course.getTeacher();
+        /*Teacher teacher = (Teacher) course.getTeacher();
         List<Course> teacherCourses = teacher.getCourses();
 
         for(Course actualCourse: teacherCourses){
@@ -133,7 +133,7 @@ public class RegistrationSystem {
         }
         teacher.setCourses(teacherCourses);
 
-        teachers.update(teacher);
+        teachers.update(teacher);*/
 
         //update student REPO
         for(Student student: course.getStudentsEnrolled()){

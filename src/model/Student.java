@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Student extends Person{
@@ -7,11 +8,11 @@ public class Student extends Person{
     private int totalCredits;
     private List<Course> enrolledCourses;
 
-    public Student(String firstName, String lastName, long studentId, int totalCredits, List<Course> enrolledCourses) {
+    public Student(String firstName, String lastName, long studentId) {
         super(firstName, lastName);
         this.studentId = studentId;
-        this.totalCredits = totalCredits;
-        this.enrolledCourses = enrolledCourses;
+        this.totalCredits = 0;
+        this.enrolledCourses = new ArrayList<Course>();;
     }
 
     public long getStudentId() {

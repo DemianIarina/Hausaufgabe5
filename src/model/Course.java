@@ -6,6 +6,10 @@ import controller.FullCourseException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a subject taught in a university by one specific teacher, and has a credits vaue
+ * There can be none to as many students enrolled, as in maxEnrolled specified
+ */
 public class Course {
 
         private String name;
@@ -22,6 +26,12 @@ public class Course {
             this.studentsEnrolled = new ArrayList<Student>();
         }
 
+        /**
+         * Adds a new student to the course list
+         * @param student a new student object
+         * @throws AlreadyExistingException if the student already enrolled in the course is
+         * @throws FullCourseException if the max number of enrolled students has been reached
+         */
         public void addStudent(Student student) throws AlreadyExistingException, FullCourseException{
             if(studentsEnrolled.contains(student)){
                 throw new AlreadyExistingException("Already registered to this course");  //try-cach o faci unde apelezi functioa

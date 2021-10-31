@@ -1,5 +1,9 @@
 package model;
 
+/**
+ * Represents an abstract Person
+ * with a firstname and lastname
+ */
 public abstract class Person {
     private String firstName;
     private String lastName;

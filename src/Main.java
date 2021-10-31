@@ -24,11 +24,9 @@ public class Main {
         Course c2 = new Course("c2", t1, 2, 10);
         Course c3  = new Course("c3", t2, 2, 11);
 
-        List<Course> coursesT1 = new ArrayList<>(Arrays.asList(c1,c2));
-        List<Course> coursesT2 = new ArrayList<>(Arrays.asList(c3));
-
-        t1.setCourses(coursesT1);
-        t2.setCourses(coursesT2);
+        t1.addCourse(c1);
+        t1.addCourse(c2);
+        t2.addCourse(c3);
 
         courseRepository.create(c1);
         courseRepository.create(c2);
@@ -50,8 +48,6 @@ public class Main {
         rs.register(c2,s1);
         rs.register(c2,s3);
 
-
-
         rs.register(c3,s3);
 
 
@@ -62,6 +58,19 @@ public class Main {
         System.out.println(rs.getAllCourses());
 
        //delete
+        System.out.println(s3.getEnrolledCourses());
+        rs.deleteCourse(c3);
+        System.out.println(s3.getEnrolledCourses());
+        System.out.println("Courses:");
+        System.out.println(courseRepository.getAll());
+
+        //update
+        System.out.println("Courses updated:");
+        System.out.println(rs.updateCreditsCourse(c2,20));
+        System.out.println(s3.getTotalCredits());
+
+
+
 
 
     }

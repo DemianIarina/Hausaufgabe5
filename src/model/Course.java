@@ -19,7 +19,7 @@ public class Course {
             this.teacher = teacher;
             this.maxEnrollment = maxEnrollment;
             this.credits = credits;
-            this.studentsEnrolled = new ArrayList<Student>();;
+            this.studentsEnrolled = new ArrayList<Student>();
         }
 
         public void addStudent(Student student) throws AlreadyExistingException, FullCourseException{

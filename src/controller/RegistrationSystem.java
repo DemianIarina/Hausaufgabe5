@@ -24,7 +24,7 @@ public class RegistrationSystem {
 
 
     public boolean register(Course course, Student student)
-            throws AlreadyExistingException, FullCourseException, IllegalArgumentException{
+            throws IllegalArgumentException{
         if(!students.getAll().contains(student)){
             throw new IllegalArgumentException("No such Student");
         }
@@ -54,6 +54,7 @@ public class RegistrationSystem {
                 freePlacesCourses.add(course);
             }
         }
+        //TODO in View display nr of free places
         return freePlacesCourses;
     }
 
@@ -66,86 +67,42 @@ public class RegistrationSystem {
     }
 
     public List<Course> deleteCourse(Course course){
-        //delete from the course REPO
-        courses.delete(course);
-
-        //delete from the teacher REPO -> TODO no need ca se sterge automat
+        //delete from the teacher REPO
         Teacher teacher = (Teacher) course.getTeacher();
-        List<Course> teacherCourses = teacher.getCourses();
-        teacherCourses.remove(course);
+        teacher.removeCourse(course);
         teachers.update(teacher);
 
         for (Student student: students.getAll()){       //delete from every student's list, the course
             List<Course> studentCourses = student.getEnrolledCourses();
 
             if(studentCourses.contains(course)){
-                //delete the course from the student's list
-                studentCourses.remove(course);
-                student.setEnrolledCourses(studentCourses);
-
-                //update the number of credits of the student
-                int newCreditValue = student.getTotalCredits() - course.getCredits();
-                student.setTotalCredits(newCreditValue);
-
+                student.removeCouse(course);
 
                 //update the students REPO
                 students.update(student);
             }
         }
+
+        //delete from the course REPO
+        courses.delete(course);
+
         return courses.getAll();
     }
 
-    public List<Course> updateCreditsCourse(Course course){
-        //update the course credits in the course REPO
-        courses.updateCredits(course);
-
-        //update teacher REPO
-        Teacher teacher = (Teacher) course.getTeacher();
-        List<Course> teacherCourses = teacher.getCourses();
-
-        for(Course actualCourse: teacherCourses){
-            if(Objects.equals(actualCourse.getName(), course.getName())){
-                teacherCourses.remove(actualCourse);   //remove the old course, with the old value of credits
-                teacherCourses.add(course);            //add the new course
-
-                                                        //TODO: modificat cu un set credits la actualCourse
-                break;
-            }
-        }
-        teacher.setCourses(teacherCourses);
-
-        teachers.update(teacher);
+    public List<Course> updateCreditsCourse(Course course, int newCredits){
+        //credits number will be updated automatic in the Courses everywhere
 
         //update student REPO
         for(Student student: course.getStudentsEnrolled()){
-            List<Course> studentCourses = student.getEnrolledCourses();
-
-            //update the nr of credits of the student -> 2 possibilities (ramane sub 30 de credite, or not)
-            //update the course list of the student
-            for(Course actualCourse: studentCourses) {
-                if (Objects.equals(actualCourse.getName(), course.getName())) {
-                    int newCreditValue = student.getTotalCredits() - actualCourse.getCredits() + course.getCredits();
-
-                    if(newCreditValue <= 30){
-                        student.setTotalCredits(newCreditValue);
-
-                        studentCourses.remove(actualCourse);
-                        studentCourses.add(course);
-                        student.setEnrolledCourses(studentCourses);
-                        break;
-                    }
-                    else{
-                        //remove the course from the students list + throw to
-                        studentCourses.remove(actualCourse);
-                        throw new TooManyCreditsException("The credits limit has been reached for "+ student.getStudentId() +". Course has been deleted!");
-
-                    }
-                }
+            if(student.getEnrolledCourses().contains(course)){
+                student.updateCredits(course, newCredits);
+                students.update(student);
             }
-
-            students.update(student);
-
         }
+
+        //update the course credits in the course REPO
+        course.setCredits(newCredits);
+        courses.updateCredits(course);
 
         return courses.getAll();
     }

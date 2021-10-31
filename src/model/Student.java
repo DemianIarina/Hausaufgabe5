@@ -4,6 +4,7 @@ import controller.TooManyCreditsException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Student extends Person{
     private long studentId;
@@ -23,9 +24,37 @@ public class Student extends Person{
             totalCredits = totalCredits+course.getCredits();
         }
         else {
+            //TODO in UI catch: the user must input another course
             throw new TooManyCreditsException("The credits limit has been reached for " + this);
         }
 
+    }
+
+    public void removeCouse(Course course){
+        //update the number of credits of the student
+        totalCredits = totalCredits - course.getCredits();
+        enrolledCourses.remove(course);
+
+    }
+    
+    public void updateCredits(Course course, int newCredits){
+        for(Course actualCourse: enrolledCourses) {
+            //update the nr of credits of the student -> 2 possibilities (ramane sub 30 de credite, or not)
+            if (Objects.equals(actualCourse.getName(), course.getName())) {
+                int newValue = totalCredits - actualCourse.getCredits() + newCredits;
+
+                if (newValue <= 30) {
+                    totalCredits = newValue;
+                    break;
+                } else {
+                    //remove the course from the students list + throw to
+                    enrolledCourses.remove(actualCourse);
+                    totalCredits = totalCredits - actualCourse.getCredits();
+                    throw new TooManyCreditsException("The credits limit has been reached for " + this.studentId + ".\n Course has been deleted!");
+
+                }
+            }
+        }
     }
 
     public long getStudentId() {

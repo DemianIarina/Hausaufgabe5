@@ -11,6 +11,14 @@ public class Teacher extends Person{
         courses = new ArrayList<Course>();
     }
 
+    public void addCourse(Course course){
+        courses.add(course);
+    }
+
+    public void removeCourse(Course course){
+        courses.remove(course);
+    }
+
     public List<Course> getCourses() {
         return courses;
     }

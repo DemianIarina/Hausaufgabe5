@@ -24,43 +24,24 @@ public class RegistrationSystem {
 
 
     public boolean register(Course course, Student student)
-            throws AlreadyExistingException, FullCourseException {
-        if(course.getStudentsEnrolled().contains(student)){
-            throw new AlreadyExistingException("Already registered to this course");  //try-cach o faci unde apelezi functioa
+            throws AlreadyExistingException, FullCourseException, IllegalArgumentException{
+        if(!students.getAll().contains(student)){
+            throw new IllegalArgumentException("No such Student");
         }
-        else
-            if (course.getStudentsEnrolled().size() == course.getMaxEnrollment()){
-                throw new FullCourseException("The course has no places available");  //try-cach care sa reapeleze functioa cu alt curs, da cu acelasi student
-            }
-            else{
+        else {
 
-                int newCreditValue = student.getTotalCredits() + course.getCredits();
+            //update students REPO
 
-                if(newCreditValue > 30){
-                    throw new TooManyCreditsException("The credits limit has been reached for " + student.getStudentId());
-                }
-                else{
-                    //update students REPO
-
-                    //update the course list of the student
-                    List<Course> studentCourses = student.getEnrolledCourses();
-                    studentCourses.add(course);
-                    student.setEnrolledCourses(studentCourses);
-
-                    //update the number of credits of the student
-                    student.setTotalCredits(newCreditValue);
-
-                    students.update(student);
+            //update the course list of the student
+            student.addCourse(course);
+            students.update(student);
 
 
-                    //update course REPO
-                    List<Student> courseStudents = course.getStudentsEnrolled();   //add the list of students enrolled in the course
-                    courseStudents.add(student);    //add the new Student
-                    course.setStudentsEnrolled(courseStudents);
-                    courses.update(course);        //update the students list of the course
+            //update course REPO
+            course.addStudent(student);
+            courses.update(course);        //update the students list of the course
 
-                    return true;
-                }
+            return true;
         }
     }
 
@@ -88,7 +69,7 @@ public class RegistrationSystem {
         //delete from the course REPO
         courses.delete(course);
 
-        //delete from the teacher REPO
+        //delete from the teacher REPO -> TODO no need ca se sterge automat
         Teacher teacher = (Teacher) course.getTeacher();
         List<Course> teacherCourses = teacher.getCourses();
         teacherCourses.remove(course);
@@ -119,7 +100,7 @@ public class RegistrationSystem {
         courses.updateCredits(course);
 
         //update teacher REPO
-        /*Teacher teacher = (Teacher) course.getTeacher();
+        Teacher teacher = (Teacher) course.getTeacher();
         List<Course> teacherCourses = teacher.getCourses();
 
         for(Course actualCourse: teacherCourses){
@@ -133,7 +114,7 @@ public class RegistrationSystem {
         }
         teacher.setCourses(teacherCourses);
 
-        teachers.update(teacher);*/
+        teachers.update(teacher);
 
         //update student REPO
         for(Student student: course.getStudentsEnrolled()){

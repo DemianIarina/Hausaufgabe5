@@ -1,5 +1,8 @@
 package model;
 
+import controller.AlreadyExistingException;
+import controller.FullCourseException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +20,17 @@ public class Course {
             this.maxEnrollment = maxEnrollment;
             this.credits = credits;
             this.studentsEnrolled = new ArrayList<Student>();;
+        }
+
+        public void addStudent(Student student) throws AlreadyExistingException, FullCourseException{
+            if(studentsEnrolled.contains(student)){
+                throw new AlreadyExistingException("Already registered to this course");  //try-cach o faci unde apelezi functioa
+            }
+            else
+                if(studentsEnrolled.size() == maxEnrollment){
+                throw new FullCourseException("The course has no places available");  //try-cach care sa reapeleze functioa cu alt curs, da cu acelasi student
+            }
+            studentsEnrolled.add(student);
         }
 
         public String getName() {

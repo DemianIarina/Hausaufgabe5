@@ -21,7 +21,7 @@ public class Student extends Person{
         super(firstName, lastName);
         this.studentId = studentId;
         this.totalCredits = 0;
-        this.enrolledCourses = new ArrayList<Course>();;
+        this.enrolledCourses = new ArrayList<>();
     }
 
     /**

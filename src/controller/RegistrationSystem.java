@@ -63,7 +63,7 @@ public class RegistrationSystem {
      * @return a list of courses
      */
     public List<Course> retriveCoursesWithFreePlaces(){
-        List<Course> freePlacesCourses = new ArrayList<Course>();
+        List<Course> freePlacesCourses = new ArrayList<>();
         for (Course course : courses.getAll()){
             int freePlaces = course.getMaxEnrollment() - course.getStudentsEnrolled().size();
             if(freePlaces > 0){

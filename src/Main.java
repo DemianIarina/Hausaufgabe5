@@ -52,7 +52,7 @@ public class Main {
 
 
 
-        System.out.println(s1.getTotalCredits());
+        /*System.out.println(s1.getTotalCredits());
         System.out.println(rs.retriveCoursesWithFreePlaces());
         System.out.println(rs.retrieveStudentsEnrolledForACourse(c2));
         System.out.println(rs.getAllCourses());
@@ -62,11 +62,11 @@ public class Main {
         rs.deleteCourse(c3);
         System.out.println(s3.getEnrolledCourses());
         System.out.println("Courses:");
-        System.out.println(courseRepository.getAll());
+        System.out.println(courseRepository.getAll());*/
 
         //update
         System.out.println("Courses updated:");
-        System.out.println(rs.updateCreditsCourse(c2,20));
+        System.out.println(rs.updateCreditsCourse(c2,19));
         System.out.println(s3.getTotalCredits());
 
 

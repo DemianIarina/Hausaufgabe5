@@ -34,7 +34,7 @@ public class Main {
 
 
         StudentRepository studentRepository = new StudentRepository();
-        Student s1 = new Student("Mihai", "Dinu", 101);
+        Student s1 = new Student("Mihai", "Dinero", 101);
         Student s2 = new Student("Matei", "Rus", 102);
         Student s3 = new Student("Mihaela", "Pop", 103);
         studentRepository.create(s1);

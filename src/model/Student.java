@@ -3,6 +3,7 @@ package model;
 import controller.TooManyCreditsException;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -12,7 +13,7 @@ import java.util.Objects;
  * He can have maximum 30 credits
  * He can be enrolled in one or many courses
  */
-public class Student extends Person{
+public class Student extends Person implements Comparable<Student> {
     private long studentId;
     private int totalCredits;
     private List<Course> enrolledCourses;
@@ -124,5 +125,15 @@ public class Student extends Person{
                 ", studentId=" + studentId +
                 ", totalCredits=" + totalCredits +
                 '}';
+    }
+
+    /**
+     * Function to compare two instances of Student, according to firstName
+     * @param student2 another object of type Student
+     * @return a negative integer, zero, or a positive integer as this object is less than, equal to, or greater than the specified object.
+     */
+    @Override
+    public int compareTo(Student student2) {
+        return this.getFirstName().compareTo(student2.getFirstName());
     }
 }

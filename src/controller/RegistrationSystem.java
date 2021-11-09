@@ -8,6 +8,8 @@ import repository.StudentRepository;
 import repository.TeacherRepository;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -161,5 +163,19 @@ public class RegistrationSystem {
             throw new IllegalArgumentException("No such course");
         }
     }
+
+    public  List<Student> sortStudents(){
+        List<Student> studentsList = students.getAll();
+        Collections.sort(studentsList);
+        return studentsList;
+    }
+
+    public List <Course> sortCourses(){
+        List<Course> courseList = courses.getAll();
+        Collections.sort(courseList);
+        return courseList;
+    }
+
+
 
 }

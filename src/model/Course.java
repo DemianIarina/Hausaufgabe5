@@ -10,7 +10,7 @@ import java.util.List;
  * Represents a subject taught in a university by one specific teacher, and has a credits vaue
  * There can be none to as many students enrolled, as in maxEnrolled specified
  */
-public class Course {
+public class Course implements Comparable<Course>{
 
         private String name;
         private Person teacher;
@@ -92,5 +92,15 @@ public class Course {
                 ", studentsEnrolled=" + studentsEnrolled +
                 ", credits=" + credits +
                 '}';
+    }
+
+    /**
+     * Function to compare two instances of Course, according to name
+     * @param course2 another object of type Course
+     * @return a negative integer, zero, or a positive integer as this object is less than, equal to, or greater than the specified object.
+     */
+    @Override
+    public int compareTo(Course course2) {
+        return this.getName().compareTo(course2.getName());
     }
 }

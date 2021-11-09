@@ -164,12 +164,20 @@ public class RegistrationSystem {
         }
     }
 
+    /**
+     * Sorts the list of Students from the students Repo, according to firstName
+     * @return the sorted list of students
+     */
     public  List<Student> sortStudents(){
         List<Student> studentsList = students.getAll();
         Collections.sort(studentsList);
         return studentsList;
     }
 
+    /**
+     * Sorts the list of Courses from the courses Repo, according to name
+     * @return the sorted list of courses
+     */
     public List <Course> sortCourses(){
         List<Course> courseList = courses.getAll();
         Collections.sort(courseList);

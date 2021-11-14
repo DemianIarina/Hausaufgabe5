@@ -1,5 +1,7 @@
 package model;
 
+import controller.AlreadyExistingException;
+import controller.NonexistentArgumentException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -32,7 +34,7 @@ class TeacherTest {
         try{
             teacher.addCourse(course);
         }
-        catch (IllegalArgumentException e){
+        catch (AlreadyExistingException e){
             assertEquals(expectedCourses, teacher.getCourses());
         }
     }
@@ -41,14 +43,14 @@ class TeacherTest {
     void removeCourse() {
         teacher.addCourse(course2);
         teacher.removeCourse(course);
-        List<Course> expectedCourses = new ArrayList<>(Arrays.asList(course2));
+        List<Course> expectedCourses = new ArrayList<>(List.of(course2));
         assertEquals(expectedCourses,teacher.getCourses());
 
         //when removing a not existing course from a teachers list
         try{
             teacher.removeCourse(course);
         }
-        catch (IllegalArgumentException e){
+        catch (NonexistentArgumentException e){
             assertEquals(expectedCourses, teacher.getCourses());
         }
 

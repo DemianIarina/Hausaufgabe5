@@ -87,7 +87,7 @@ class RegistrationSystemTest {
         try{
             rs.register(c3,s4);
         }
-        catch (IllegalArgumentException e){
+        catch (NonexistentArgumentException e){
             assertEquals(expectedCourses2,s4.getEnrolledCourses());
             assertEquals(expectedStudents2, c3.getStudentsEnrolled());
         }
@@ -98,7 +98,7 @@ class RegistrationSystemTest {
         try{
             rs.register(c4,s1);
         }
-        catch (IllegalArgumentException e){
+        catch (NonexistentArgumentException e){
             assertEquals(expectedCourses,s1.getEnrolledCourses());
             assertEquals(expectedStudents3, c4.getStudentsEnrolled());
 
@@ -146,7 +146,7 @@ class RegistrationSystemTest {
         try{
             rs.deleteCourse(c4);
         }
-        catch (IllegalArgumentException e){
+        catch (NonexistentArgumentException e){
             assertEquals(expectedCourses2,courseRepository.getAll());
         }
     }
@@ -163,7 +163,7 @@ class RegistrationSystemTest {
         try{
             rs.updateCreditsCourse(c4,20);
         }
-        catch (IllegalArgumentException e){
+        catch (NonexistentArgumentException e){
             assertEquals(5, c4.getCredits());
         }
 

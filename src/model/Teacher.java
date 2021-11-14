@@ -1,5 +1,8 @@
 package model;
 
+import controller.AlreadyExistingException;
+import controller.NonexistentArgumentException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,11 +21,11 @@ public class Teacher extends Person{
     /**
      * Adds a new curse to the list of taught courses
      * @param course a new Course object
-     * @throws IllegalArgumentException if the course already exists
+     * @throws AlreadyExistingException if the course already exists
      */
-    public void addCourse(Course course) throws IllegalArgumentException{
+    public void addCourse(Course course) throws AlreadyExistingException {
         if(courses.contains(course)){
-            throw new IllegalArgumentException("Course already existing in the teachers list");
+            throw new AlreadyExistingException("Course already existing in the teachers list");
         }
         courses.add(course);
     }
@@ -30,11 +33,11 @@ public class Teacher extends Person{
     /**
      * Removes a course from the list of taught courses
      * @param course a course object
-     * @throws IllegalArgumentException if the course does not exist
+     * @throws NonexistentArgumentException if the course does not exist
      */
-    public void removeCourse(Course course) throws IllegalArgumentException{
+    public void removeCourse(Course course) throws NonexistentArgumentException {
         if(!courses.contains(course)){
-            throw new IllegalArgumentException("Course does not exist in the teachers list");
+            throw new NonexistentArgumentException("Course does not exist in the teachers list");
         }
         courses.remove(course);
     }

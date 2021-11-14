@@ -1,9 +1,10 @@
 package model;
 
+import controller.AlreadyExistingException;
+import controller.NonexistentArgumentException;
 import controller.TooManyCreditsException;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,11 +30,11 @@ public class Student extends Person implements Comparable<Student> {
      * Adds a new curse to the list of attended courses, and adds the corresponding number of credits to the total
      * @param course a new Course object
      * @throws TooManyCreditsException if the number of credits has been reached, the course list and credits number will not be upgraded
-     * @throws IllegalArgumentException if the course already exists in the list
+     * @throws AlreadyExistingException if the course already exists in the list
      */
-    public void addCourse(Course course) throws TooManyCreditsException, IllegalArgumentException{
+    public void addCourse(Course course) throws TooManyCreditsException, AlreadyExistingException{
         if(enrolledCourses.contains(course)){
-            throw new IllegalArgumentException("Course already existing in the student's list");
+            throw new AlreadyExistingException("Course already existing in the student's list");
         }
         if(totalCredits+course.getCredits() <= 30){
             enrolledCourses.add(course);
@@ -49,11 +50,11 @@ public class Student extends Person implements Comparable<Student> {
     /**
      * Removes a course from the list of attended courses, and decreases the total number of credits, with the according value
      * @param course a course object
-     * @throws IllegalArgumentException if the course does not exist in the list
+     * @throws NonexistentArgumentException if the course does not exist in the list
      */
-    public void removeCourse(Course course) throws IllegalArgumentException{
+    public void removeCourse(Course course) throws NonexistentArgumentException {
         if(!enrolledCourses.contains(course)){
-            throw new IllegalArgumentException("Course does not exist in the student's list");
+            throw new NonexistentArgumentException("Course does not exist in the student's list");
         }
 
         //update the number of credits of the student
@@ -66,12 +67,12 @@ public class Student extends Person implements Comparable<Student> {
      * If through the change, more than 30 credits are reached, the course will be removed from the students list, and the according value of credits will be decreased from the total
      * @param course a course object
      * @param newCredits the new value for the credits
-     * @throws IllegalArgumentException if the course does not exist in the list
+     * @throws NonexistentArgumentException if the course does not exist in the list
      * @throws TooManyCreditsException if the maximum value of credits will be reached
      */
-    public void updateCredits(Course course, int newCredits) throws IllegalArgumentException, TooManyCreditsException{
+    public void updateCredits(Course course, int newCredits) throws NonexistentArgumentException, TooManyCreditsException{
         if(!enrolledCourses.contains(course)){
-            throw new IllegalArgumentException("Course does not exist in the student's list");
+            throw new NonexistentArgumentException("Course does not exist in the student's list");
         }
 
         for(Course actualCourse: enrolledCourses) {

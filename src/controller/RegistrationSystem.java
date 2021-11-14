@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Represents all the actions of an university, that can be acted upon the 3 repositorys - courses, teachers and students
@@ -184,6 +185,26 @@ public class RegistrationSystem {
         return courseList;
     }
 
+    /**
+     * Filters the list of Students from students Repo, whose firstname starts with a "B"
+     * @return a list of Students, whose firstname starts with a "B"
+     */
+    public List<Student> filterStudents(){
 
+        return students.getAll().stream()
+                .filter(entry -> entry.getFirstName().startsWith("B"))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Filters the list of Students from courses Repo, whose credits are greater than 5
+     * @return a list of Courses, whose credits are greater than 5
+     */
+    public List<Course> filterCourses(){
+
+        return courses.getAll().stream()
+                .filter(entry -> entry.getCredits() >5 )
+                .collect(Collectors.toList());
+    }
 
 }

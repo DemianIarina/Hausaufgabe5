@@ -1,7 +1,6 @@
 package view;
 
-import controller.Controller;
-import controller.NonexistentArgumentException;
+import controller.*;
 import model.Course;
 import model.Student;
 
@@ -63,6 +62,9 @@ public class KonsoleView {
                     } catch (NonexistentArgumentException | IOException e) {
                         System.out.println("Invalid arguments, try again");
                         main_menu();
+                    } catch (AlreadyExistingException |FullCourseException | TooManyCreditsException e2){
+                        System.out.println("Could not register, error occurred while registering: "+ e2);
+                        main_menu();
                     }
                     break;
 
@@ -123,6 +125,9 @@ public class KonsoleView {
                         System.out.println("Invalid arguments, try again");
                         main_menu();
                     }
+                    catch (TooManyCreditsException e2){
+                        System.out.println(e2);
+                    }
                     break;
 
                 case 7:
@@ -149,7 +154,7 @@ public class KonsoleView {
                     System.out.println("Quiting...");
                     break loop;
 
-                default: //wenn den input war keine den gegebene Optionen, wird den menu neu angezeigt
+                default: //wenn den input is not one of the options,the meniu will be shown once again
                     System.out.println("Input is invalid \n Enter again:");
                     main_menu();
             }

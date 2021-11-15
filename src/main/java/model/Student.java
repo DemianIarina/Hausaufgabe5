@@ -89,7 +89,7 @@ public class Student extends Person implements Comparable<Student> {
                     //remove the course from the students list + throw to
                     enrolledCourses.remove(actualCourse);
                     totalCredits = totalCredits - actualCourse.getCredits();
-                    throw new TooManyCreditsException("The credits limit has been reached for " + this.studentId + ".\n Course has been deleted!");
+                    throw new TooManyCreditsException("The credits limit has been reached for " + this.studentId + ". Course has been deleted!");
 
                 }
             }

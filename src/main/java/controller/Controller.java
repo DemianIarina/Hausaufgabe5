@@ -159,12 +159,20 @@ public class Controller {
     public List<Course> updateCreditsCourse(Course course, int newCredits) throws NonexistentArgumentException, IOException {
         if(courses.getAll().contains(course)) {
             //update student REPO
-            for (Student student : course.getStudentsEnrolled()) {
-                if (student.getEnrolledCourses().contains(course)) {
-                    student.updateCredits(course, newCredits);
-                    students.update(student);
+            //try{
+                for (Student student : course.getStudentsEnrolled()) {
+                    if (student.getEnrolledCourses().contains(course)) {
+                        student.updateCredits(course, newCredits);
+                        students.update(student);
+                    }
                 }
-            }
+            //}
+            /*catch (TooManyCreditsException e){
+                //TODO: remove student from course
+                System.out.println("Credit limit exceded for a student:" + e);
+
+            }*/
+
 
             //credits number will be updated automatic in the Courses in every repo
             //update the course credits in the course REPO

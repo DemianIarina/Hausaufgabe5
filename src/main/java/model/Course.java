@@ -13,18 +13,20 @@ import java.util.List;
 public class Course implements Comparable<Course>{
 
         private String name;
-        private Person teacher;
+        private Teacher teacher;
         private int maxEnrollment;
         private List<Student> studentsEnrolled;
         private int credits;
 
-        public Course(String name, Person teacher, int maxEnrollment, int credits) {
+        public Course(String name, Teacher teacher, int maxEnrollment, int credits) {
             this.name = name;
             this.teacher = teacher;
             this.maxEnrollment = maxEnrollment;
             this.credits = credits;
             this.studentsEnrolled = new ArrayList<>();
         }
+
+        public Course(){}
 
         /**
          * Adds a new student to the course list
@@ -55,7 +57,7 @@ public class Course implements Comparable<Course>{
             return teacher;
         }
 
-        public void setTeacher(Person teacher) {
+        public void setTeacher(Teacher teacher) {
             this.teacher = teacher;
         }
 

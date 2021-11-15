@@ -20,7 +20,7 @@ public class Teacher extends Person{
 
     public Teacher(){
         super();
-    };
+    }
 
     /**
      * Adds a new curse to the list of taught courses

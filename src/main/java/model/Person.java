@@ -13,7 +13,8 @@ public abstract class Person {
         this.lastName = lastName;
     }
 
-    public Person() {}
+    public Person() {
+    }
 
     public String getFirstName() {
         return firstName;

@@ -1,16 +1,16 @@
 [{
-  "firstname" : "Mihai",
-  "lastname": "Dinero",
+  "firstName" : "Mihai",
+  "lastName": "Dinero",
   "studentId" : 101,
   "totalCredits" : 0
 },{
-  "firstname" : "Matei",
-  "lastname" : "Rus",
+  "firstName" : "Matei",
+  "lastName" : "Rus",
   "studentId" : 102,
   "totalCredits" : 0
 },{
-  "firstname" : "Mihaela",
-  "lastname" : "Pop",
+  "firstName" : "Mihaela",
+  "lastName" : "Pop",
   "studentId" : 103,
   "totalCredits" :0
 }]

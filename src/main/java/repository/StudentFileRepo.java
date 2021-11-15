@@ -22,7 +22,7 @@ public class StudentFileRepo extends FileRepository<Student> {
     public List<Student> readFromFile() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
-        return Arrays.asList(objectMapper.readValue(new File("data.json"), Student[].class));
+        return Arrays.asList(objectMapper.readValue(new File(fileName), Student[].class));
     }
 
 

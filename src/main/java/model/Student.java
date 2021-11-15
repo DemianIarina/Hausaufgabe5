@@ -26,6 +26,8 @@ public class Student extends Person implements Comparable<Student> {
         this.enrolledCourses = new ArrayList<>();
     }
 
+    public Student(){super();}
+
     /**
      * Adds a new curse to the list of attended courses, and adds the corresponding number of credits to the total
      * @param course a new Course object

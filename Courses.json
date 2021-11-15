@@ -1,0 +1,28 @@
+[{
+  "name" : "c1",
+  "teacher" : {
+    "firstName" : "Ana",
+    "lastName" : "Mare"
+  },
+  "maxEnrollment" : 2,
+  "studentsEnrolled": [],
+  "credits" : 10
+},{
+  "name" : "c2",
+  "teacher" : {
+    "firstName" : "Ana",
+    "lastName" : "Mare"
+  },
+  "maxEnrollment" : 2,
+  "studentsEnrolled" : [],
+  "credits" : 10
+},{
+  "name" : "c3",
+  "teacher" :{
+    "firstName" : "Maria",
+    "lastName" : "Pop"
+  },
+  "maxEnrollment" : 2,
+  "studentsEnrolled":[],
+  "credits" : 11
+}]

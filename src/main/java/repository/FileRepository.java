@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -13,9 +14,10 @@ public abstract class FileRepository<T> implements ICrudRepository<T>{
     protected String fileName;
     protected List<T> repoList;
 
-    public FileRepository(String fileName) {
+    public FileRepository(String fileName) throws IOException {
+        repoList = new ArrayList<>(){};
         this.fileName = fileName;
-        repoList = getAll();
+        repoList = readFromFile();
     }
     public abstract List<T>  readFromFile() throws IOException;
 

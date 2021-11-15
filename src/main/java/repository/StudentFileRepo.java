@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class StudentFileRepo extends FileRepository<Student> {
-    public StudentFileRepo(String fileName) {
+    public StudentFileRepo(String fileName) throws IOException {
         super(fileName);
     }
 

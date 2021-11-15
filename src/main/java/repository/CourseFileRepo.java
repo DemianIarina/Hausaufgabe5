@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class CourseFileRepo extends FileRepository<Course> {
-    public CourseFileRepo(String fileName) {
+    public CourseFileRepo(String fileName) throws IOException {
         super(fileName);
     }
 

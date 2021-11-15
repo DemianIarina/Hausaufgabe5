@@ -18,6 +18,10 @@ public class Teacher extends Person{
         courses = new ArrayList<>();
     }
 
+    public Teacher(){
+        super();
+    };
+
     /**
      * Adds a new curse to the list of taught courses
      * @param course a new Course object

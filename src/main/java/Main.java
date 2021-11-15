@@ -1,52 +1,49 @@
-import controller.RegistrationSystem;
+import controller.Controller;
 import model.Course;
 import model.Student;
 import model.Teacher;
 import repository.CourseRepository;
 import repository.StudentRepository;
 import repository.TeacherRepository;
+import view.KonsoleView;
 
-import javax.swing.text.View;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.io.IOException;
 
 public class Main {
 
-    public static void main(String[] args) {
-        while(true){
-            System.out.println("-----------------\n" +
-                    "Menu\n" +
-                    "1. Register Student to Course\n" +
-                    "2. Retrive Courses With Free Places\n" +
-                    "3. Retrieve Students Enrolled For A Course\n" +
-                    "4. Get All Courses\n" +
-                    "5. Delete Course\n" +
-                    "6. Update Credits Course\n" +
-                    "7. Sort Students by First Name\n" +
-                    "8. Sort Courses by Name\n" +
-                    "9. Filter Students\n" +
-                    "10. FilterCourses\n" +
-                    "11. Exit\n" +
-                    "------------------------");
+    public static void main(String[] args) throws IOException {
+        TeacherRepository teacherRepository = new TeacherRepository();
+        Teacher t1 = new Teacher("Ana", "Mare");
+        Teacher t2 = new Teacher("Maria", "Pop");
+        teacherRepository.create(t1);
+        teacherRepository.create(t2);
 
-            Scanner reader = new Scanner(System.in);
-            System.out.println("Choose a option (write the number):");
-            int inp = reader.nextInt();
+        CourseRepository courseRepository = new CourseRepository();
+        Course c1 = new Course("c1", t1, 2, 10);
+        Course c2 = new Course("c2", t1, 2, 10);
+        Course c3 = new Course("c3", t2, 2, 11);
 
-            if (inp == 1)
-                System.out.println("1 pressed");
-            else {
-                if (inp == 11) {
-                    System.out.println("Quiting...");
-                    break;
-                } else {  //wenn den input war keine den gegebene Optionen, wird den menu neu angezeigt
-                    System.out.println("Input is invalid \nEnter again:");
-                    main(args);
-                }
-            }
-        }
+        t1.addCourse(c1);
+        t1.addCourse(c2);
+        t2.addCourse(c3);
+
+        courseRepository.create(c1);
+        courseRepository.create(c2);
+        courseRepository.create(c3);
+
+
+        StudentRepository studentRepository = new StudentRepository();
+        Student s1 = new Student("Mihai", "Dinero", 101);
+        Student s2 = new Student("Batei", "Rus", 102);
+        Student s3 = new Student("Bihaela", "Pop", 103);
+        studentRepository.create(s1);
+        studentRepository.create(s2);
+        studentRepository.create(s3);
+
+        Controller controller = new Controller(courseRepository, studentRepository, teacherRepository);
+        KonsoleView view = new KonsoleView(controller);
+        view.main_menu();
+
     }
 
 }

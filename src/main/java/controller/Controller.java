@@ -1,6 +1,5 @@
 package controller;
 
-import View.KonsoleView;
 import model.Course;
 import model.Student;
 import model.Teacher;
@@ -13,16 +12,26 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Controller {
-    private CourseFileRepo courses;
-    private StudentFileRepo students;
-    private TeacherFileRepo teachers;
-    private KonsoleView view;
+    private CourseRepository courses;
+    private StudentRepository students;
+    private TeacherRepository teachers;
 
-    public Controller(CourseFileRepo courses, StudentFileRepo students, TeacherFileRepo teachers, KonsoleView view) {
+    public Controller(CourseRepository courses, StudentRepository students, TeacherRepository teachers) {
         this.courses = courses;
         this.students = students;
         this.teachers = teachers;
-        this.view = view;
+    }
+
+    public CourseRepository getCourses() {
+        return courses;
+    }
+
+    public StudentRepository getStudents() {
+        return students;
+    }
+
+    public TeacherRepository getTeachers() {
+        return teachers;
     }
 
     /**

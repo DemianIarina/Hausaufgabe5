@@ -44,7 +44,7 @@ public class Student extends Person implements Comparable<Student> {
         }
         else {
             //TODO in UI catch: the user must input another course
-            throw new TooManyCreditsException("The credits limit has been reached for " + this);
+            throw new TooManyCreditsException("The credits limit has been reached for " + this, this.getStudentId());
         }
 
     }
@@ -89,8 +89,7 @@ public class Student extends Person implements Comparable<Student> {
                     //remove the course from the students list + throw to
                     enrolledCourses.remove(actualCourse);
                     totalCredits = totalCredits - actualCourse.getCredits();
-                    throw new TooManyCreditsException("The credits limit has been reached for " + this.studentId + ". Course has been deleted!");
-
+                    throw new TooManyCreditsException("The credits limit has been reached for " + this.studentId + ". Student unenrolled!", this.studentId);
                 }
             }
         }

@@ -43,8 +43,7 @@ public class Student extends Person implements Comparable<Student> {
             totalCredits = totalCredits+course.getCredits();
         }
         else {
-            //TODO in UI catch: the user must input another course
-            throw new TooManyCreditsException("The credits limit has been reached for " + this, this.getStudentId());
+            throw new TooManyCreditsException("The credits limit has been reached for " + this.studentId, this.getStudentId());
         }
 
     }

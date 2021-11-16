@@ -44,7 +44,7 @@ public class Controller {
      * @throws NonexistentArgumentException if the given student or course does not exist in the according repository
      * @throws IOException  if there occurs an error with the ObjectOutputStream
      */
-    public boolean register(Course course, Student student) throws NonexistentArgumentException, IOException {
+    public boolean register(Course course, Student student) throws NonexistentArgumentException, IOException, TooManyCreditsException {
         if(!students.getAll().contains(student)){
             throw new NonexistentArgumentException("No such student");
         }

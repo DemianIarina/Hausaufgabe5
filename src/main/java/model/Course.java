@@ -36,11 +36,11 @@ public class Course implements Comparable<Course>{
          */
         public void addStudent(Student student) throws AlreadyExistingException, FullCourseException{
             if(studentsEnrolled.contains(student)){
-                throw new AlreadyExistingException("Already registered to this course");  //TODO: try-cach o faci unde apelezi functioa
+                throw new AlreadyExistingException("Already registered to this course");
             }
             else
                 if(studentsEnrolled.size() == maxEnrollment){
-                throw new FullCourseException("The course has no places available");  //TODO: try-cach care sa reapeleze functioa cu alt curs, da cu acelasi student
+                throw new FullCourseException("The course has no places available");
             }
             studentsEnrolled.add(student);
         }

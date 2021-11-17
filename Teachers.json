@@ -1,12 +1,7 @@
 [ {
   "firstName" : "Ana",
   "lastName" : "Mare",
-  "courses" : [ {
-    "name" : "c2",
-    "maxEnrollment" : 2,
-    "studentsEnrolled" : [ ],
-    "credits" : 10
-  } ]
+  "courses" : [ ]
 }, {
   "firstName" : "Maria",
   "lastName" : "Pop",

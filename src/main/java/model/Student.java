@@ -1,5 +1,8 @@
 package model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import controller.AlreadyExistingException;
 import controller.NonexistentArgumentException;
 import controller.TooManyCreditsException;
@@ -14,6 +17,7 @@ import java.util.Objects;
  * He can have maximum 30 credits
  * He can be enrolled in one or many courses
  */
+@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property="@UUID")
 public class Student extends Person implements Comparable<Student> {
     private long studentId;
     private int totalCredits;

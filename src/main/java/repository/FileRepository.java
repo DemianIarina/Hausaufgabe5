@@ -42,10 +42,10 @@ public abstract class FileRepository<T> implements ICrudRepository<T>{
 
     public abstract T update(T obj) throws IOException;
 
-    public void delete(T obj){
-        this.repoList.remove(obj);
+    public void delete(T obj) throws IOException {
+        repoList.remove(obj);
 
-        //TODO: remove from json
+        writeToFile(repoList);
 
     }
 

@@ -31,9 +31,7 @@ class TeacherFileRepoTest {
         Course c1 = new Course("c2", t1,2, 10 );
         t1.setCourses(List.of(c1));
 
-
         teacherFileRepo.update(t1);
-
     }
 
     @Test
@@ -41,5 +39,18 @@ class TeacherFileRepoTest {
 
         Teacher t2 = new Teacher("AnaMaria", "Mara");
         teacherFileRepo.create(t2);
+    }
+
+    @Test
+    void delete() throws IOException {
+
+        Teacher t2 = teacherFileRepo.getAll().get(2);
+        //teacherFileRepo.create(t2);
+        List<Teacher> teachers = teacherFileRepo.getAll();
+        teachers.forEach(System.out::println);
+
+        teacherFileRepo.delete(t2);
+        System.out.println("-----------");
+        teachers.forEach(System.out::println);
     }
 }

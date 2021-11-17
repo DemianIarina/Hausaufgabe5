@@ -1,5 +1,6 @@
 package model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import controller.AlreadyExistingException;
 import controller.FullCourseException;
 
@@ -13,6 +14,7 @@ import java.util.List;
 public class Course implements Comparable<Course>{
 
         private String name;
+        @JsonBackReference
         private Teacher teacher;
         private int maxEnrollment;
         private List<Student> studentsEnrolled;
@@ -89,7 +91,7 @@ public class Course implements Comparable<Course>{
     public String toString() {
         return "Course{" +
                 "name='" + name + '\'' +
-                ", teacher=" + teacher +
+                ", teacher=" + teacher.toString() +
                 ", maxEnrollment=" + maxEnrollment +
                 ", studentsEnrolled=" + studentsEnrolled +
                 ", credits=" + credits +

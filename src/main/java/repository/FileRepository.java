@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 public abstract class FileRepository<T> implements ICrudRepository<T>{
@@ -15,7 +16,7 @@ public abstract class FileRepository<T> implements ICrudRepository<T>{
     protected List<T> repoList;
 
     public FileRepository(String fileName) throws IOException {
-        repoList = new ArrayList<>(){};
+        this.repoList = new ArrayList<>();
         this.fileName = fileName;
         repoList = readFromFile();
     }
@@ -33,8 +34,8 @@ public abstract class FileRepository<T> implements ICrudRepository<T>{
 
 
     public T create(T obj) throws IOException {
-        this.repoList.add(obj);
-        writeToFile(repoList);   //TODO check daca functioneaza sa adaugi obiect nou
+        repoList.add(obj);
+        writeToFile(repoList);
 
         return obj;
     }

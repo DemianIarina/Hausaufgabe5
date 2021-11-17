@@ -5,6 +5,7 @@ import model.Student;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class StudentFileRepo extends FileRepository<Student> {
     public List<Student> readFromFile() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
-        return Arrays.asList(objectMapper.readValue(new File(fileName), Student[].class));
+        return new ArrayList<Student>(Arrays.asList(objectMapper.readValue(new File(fileName), Student[].class)));
     }
 
 

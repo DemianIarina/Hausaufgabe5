@@ -1,7 +1,18 @@
-[{
+[ {
   "firstName" : "Ana",
-  "lastName" : "Mare"
-},{
+  "lastName" : "Mare",
+  "courses" : [ {
+    "name" : "c2",
+    "maxEnrollment" : 2,
+    "studentsEnrolled" : [ ],
+    "credits" : 10
+  } ]
+}, {
   "firstName" : "Maria",
-  "lastName" : "Pop"
-}]
+  "lastName" : "Pop",
+  "courses" : [ ]
+}, {
+  "firstName" : "AnaMaria",
+  "lastName" : "Mara",
+  "courses" : [ ]
+} ]

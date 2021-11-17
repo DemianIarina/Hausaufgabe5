@@ -1,5 +1,6 @@
 package model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import controller.AlreadyExistingException;
 import controller.NonexistentArgumentException;
 
@@ -11,6 +12,7 @@ import java.util.List;
  * He teaches one or more courses
  */
 public class Teacher extends Person{
+    @JsonManagedReference
     private List<Course> courses;
 
     public Teacher(String firstName, String lastName) {
@@ -53,6 +55,5 @@ public class Teacher extends Person{
     public void setCourses(List<Course> courses) {
         this.courses = courses;
     }
-
 
 }

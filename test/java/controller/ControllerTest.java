@@ -72,7 +72,7 @@ class ControllerTest {
     }
 
     @Test
-    void register() {
+    void register() throws IOException{
         //check the effect on the students
         List<Course> expectedCourses = new ArrayList<>(Arrays.asList(c1,c2));
         assertEquals(expectedCourses,s1.getEnrolledCourses());
@@ -88,7 +88,7 @@ class ControllerTest {
         try{
             controller.register(c3,s4);
         }
-        catch (NonexistentArgumentException | IOException e){
+        catch (NonexistentArgumentException e){
             assertEquals(expectedCourses2,s4.getEnrolledCourses());
             assertEquals(expectedStudents2, c3.getStudentsEnrolled());
         }
@@ -99,11 +99,13 @@ class ControllerTest {
         try{
             controller.register(c4,s1);
         }
-        catch (NonexistentArgumentException | IOException e){
+        catch (NonexistentArgumentException e){
             assertEquals(expectedCourses,s1.getEnrolledCourses());
             assertEquals(expectedStudents3, c4.getStudentsEnrolled());
 
         }
+
+        //TODO test cand ai too many credits exception
     }
 
     @Test

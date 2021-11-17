@@ -23,14 +23,23 @@ class TeacherFileRepoTest {
         System.out.println(teacherFileRepo.getAll());
     }
 
-    //TODO: intra in bucla infnita
     @Test
     void update() throws IOException {
         List<Teacher> teachers = teacherFileRepo.getAll();
         teachers.forEach(System.out::println);
+        Teacher t1 = new Teacher("Ana", "Mare");
+        Course c1 = new Course("c2", t1,2, 10 );
+        t1.setCourses(List.of(c1));
 
-        teachers.add(teachers.get(0));
 
-        teacherFileRepo.writeToFile(teachers);
+        teacherFileRepo.update(t1);
+
+    }
+
+    @Test
+    void create() throws IOException {
+
+        Teacher t2 = new Teacher("AnaMaria", "Mara");
+        teacherFileRepo.create(t2);
     }
 }

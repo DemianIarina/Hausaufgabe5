@@ -1,13 +1,22 @@
 [ {
+  "@json_id" : "cfa6b55f-6394-41e9-a1ab-fd49b5a39d21",
   "firstName" : "Ana",
   "lastName" : "Mare",
   "courses" : [ {
+    "@json_id" : "ce13ee7c-a1f7-45c7-8792-2b5e87928aef",
     "name" : "c2",
+    "teacher" : {
+      "@json_id" : "144e74a5-4d76-4d12-bf64-2e39a9bb9dba",
+      "firstName" : "Ana",
+      "lastName" : "Mare",
+      "courses" : [ "ce13ee7c-a1f7-45c7-8792-2b5e87928aef" ]
+    },
     "maxEnrollment" : 2,
     "studentsEnrolled" : [ ],
     "credits" : 10
   } ]
 }, {
+  "@json_id" : "2f2c515b-6cd0-471f-a930-09353ecbe502",
   "firstName" : "Maria",
   "lastName" : "Pop",
   "courses" : [ ]

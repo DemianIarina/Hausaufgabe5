@@ -17,6 +17,7 @@ import java.util.Objects;
  * He can have maximum 30 credits
  * He can be enrolled in one or many courses
  */
+@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "@json_id")
 public class Student extends Person implements Comparable<Student> {
     private long studentId;
     private int totalCredits;

@@ -1,6 +1,8 @@
 package model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import controller.AlreadyExistingException;
 import controller.NonexistentArgumentException;
 
@@ -11,6 +13,7 @@ import java.util.List;
  * A specific type of person, who teaches at a Univeristy
  * He teaches one or more courses
  */
+@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "@json_id")
 public class Teacher extends Person{
     private List<Course> courses;
 
@@ -54,5 +57,6 @@ public class Teacher extends Person{
     public void setCourses(List<Course> courses) {
         this.courses = courses;
     }
+
 
 }

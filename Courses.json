@@ -1,28 +1,32 @@
-[{
+[ {
+  "@json_id" : "16ac5d4c-e563-4348-835a-e686b12d00f1",
   "name" : "c1",
   "teacher" : {
+    "@json_id" : "303bcf5a-a76e-49fb-a123-28ac7d80adbe",
     "firstName" : "Ana",
-    "lastName" : "Mare"
+    "lastName" : "Mare",
+    "courses" : [ ]
   },
   "maxEnrollment" : 2,
-  "studentsEnrolled": [],
+  "studentsEnrolled" : [ ],
   "credits" : 10
-},{
+}, {
+  "@json_id" : "96ffb7c4-1a7b-4444-b619-517df04512ac",
   "name" : "c2",
-  "teacher" : {
-    "firstName" : "Ana",
-    "lastName" : "Mare"
-  },
+  "teacher" : "303bcf5a-a76e-49fb-a123-28ac7d80adbe",
   "maxEnrollment" : 2,
-  "studentsEnrolled" : [],
+  "studentsEnrolled" : [ ],
   "credits" : 10
-},{
+}, {
+  "@json_id" : "f247b586-0cd7-4fa5-8250-ffbe8c30984d",
   "name" : "c3",
-  "teacher" :{
+  "teacher" : {
+    "@json_id" : "dcfcb244-2d4c-45bf-9805-87a163249b6b",
     "firstName" : "Maria",
-    "lastName" : "Pop"
+    "lastName" : "Pop",
+    "courses" : [ ]
   },
   "maxEnrollment" : 2,
-  "studentsEnrolled":[],
+  "studentsEnrolled" : [ ],
   "credits" : 11
-}]
+} ]

@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 class StudentFileRepoTest {
@@ -15,6 +16,17 @@ class StudentFileRepoTest {
     @BeforeEach
     void init() throws IOException {
         studentFileRepo = new StudentFileRepo("Students.json");
+    }
+
+    @Test
+    void writeToFile() throws IOException {
+        Student s1 = new Student("Mihai", "Dinero", 101);
+        Student s2 = new Student("Bob", "Rus", 102);
+        Student s3 = new Student("Bibi", "Pop", 103);
+
+        List<Student> students = new ArrayList<>(List.of(s1,s2,s3));
+
+        studentFileRepo.writeToFile(students);
     }
 
     @Test

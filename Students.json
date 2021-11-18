@@ -1,16 +1,19 @@
 [ {
+  "@json_id" : "4f528e7d-78b1-410b-ad9b-58ee2e58bc93",
   "firstName" : "Mihai",
   "lastName" : "Dinero",
   "studentId" : 101,
   "totalCredits" : 0,
   "enrolledCourses" : [ ]
 }, {
-  "firstName" : "Matei",
+  "@json_id" : "dd5459a8-503d-4638-aa12-eeeee086c5e6",
+  "firstName" : "Bob",
   "lastName" : "Rus",
   "studentId" : 102,
   "totalCredits" : 0,
   "enrolledCourses" : [ ]
 }, {
+  "@json_id" : "0f40beb6-8658-4a25-aca3-92ab881d0a90",
   "firstName" : "Ion",
   "lastName" : "Goga",
   "studentId" : 104,

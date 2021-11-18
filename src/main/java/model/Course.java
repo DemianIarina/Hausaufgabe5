@@ -10,9 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents a subject taught in a university by one specific teacher, and has a credits vaue
+ * Represents a subject taught in a university by one specific teacher, and has a credits value
  * There can be none to as many students enrolled, as in maxEnrolled specified
  */
+@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "@json_id")
 public class Course implements Comparable<Course>{
 
         private String name;

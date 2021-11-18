@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,6 +18,17 @@ class TeacherFileRepoTest {
     void init() throws IOException {
         teacherFileRepo = new TeacherFileRepo("Teachers.json");
     }
+
+    @Test
+    void writeToFile() throws IOException {
+        Teacher t1 = new Teacher("Ana", "Mare");
+        Teacher t2 = new Teacher("Maria", "Pop");
+
+        List<Teacher> teachers = new ArrayList<>(List.of(t1,t2));
+
+        teacherFileRepo.writeToFile(teachers);
+    }
+
 
     @Test
     void readFromFile() {
@@ -53,4 +65,6 @@ class TeacherFileRepoTest {
         System.out.println("-----------");
         teachers.forEach(System.out::println);
     }
+
+
 }

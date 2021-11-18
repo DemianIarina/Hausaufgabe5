@@ -13,7 +13,6 @@ import java.util.List;
  * Represents a subject taught in a university by one specific teacher, and has a credits vaue
  * There can be none to as many students enrolled, as in maxEnrolled specified
  */
-@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property="@UUID")
 public class Course implements Comparable<Course>{
 
         private String name;

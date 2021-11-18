@@ -1,19 +1,16 @@
 [ {
-  "@UUID" : "186e9b09-8df4-4716-ba70-d468601f742c",
   "firstName" : "Mihai",
   "lastName" : "Dinero",
   "studentId" : 101,
   "totalCredits" : 0,
   "enrolledCourses" : [ ]
 }, {
-  "@UUID" : "3159424d-9fee-43b3-aa53-a65df0295229",
   "firstName" : "Matei",
   "lastName" : "Rus",
   "studentId" : 102,
   "totalCredits" : 0,
   "enrolledCourses" : [ ]
 }, {
-  "@UUID" : "eec7ac68-7921-4239-b2ad-65de1d86598e",
   "firstName" : "Ion",
   "lastName" : "Goga",
   "studentId" : 104,

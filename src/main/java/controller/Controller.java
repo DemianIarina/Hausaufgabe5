@@ -43,6 +43,7 @@ public class Controller {
      * @return true if all repos have been updated successfully
      * @throws NonexistentArgumentException if the given student or course does not exist in the according repository
      * @throws IOException  if there occurs an error with the ObjectOutputStream
+     * @throws TooManyCreditsException if the credits has been exited
      */
     public boolean register(Course course, Student student) throws NonexistentArgumentException, IOException, TooManyCreditsException {
         if(!students.getAll().contains(student)){

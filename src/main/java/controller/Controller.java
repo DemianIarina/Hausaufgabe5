@@ -12,25 +12,25 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Controller {
-    private CourseRepository courses;
-    private StudentRepository students;
-    private TeacherRepository teachers;
+    private CourseFileRepo courses;
+    private StudentFileRepo students;
+    private TeacherFileRepo teachers;
 
-    public Controller(CourseRepository courses, StudentRepository students, TeacherRepository teachers) {
+    public Controller(CourseFileRepo courses, StudentFileRepo students, TeacherFileRepo teachers) {
         this.courses = courses;
         this.students = students;
         this.teachers = teachers;
     }
 
-    public CourseRepository getCourses() {
+    public CourseFileRepo getCourses() {
         return courses;
     }
 
-    public StudentRepository getStudents() {
+    public StudentFileRepo getStudents() {
         return students;
     }
 
-    public TeacherRepository getTeachers() {
+    public TeacherFileRepo getTeachers() {
         return teachers;
     }
 

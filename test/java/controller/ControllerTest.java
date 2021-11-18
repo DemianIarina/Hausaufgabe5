@@ -5,9 +5,7 @@ import model.Student;
 import model.Teacher;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import repository.CourseRepository;
-import repository.StudentRepository;
-import repository.TeacherRepository;
+import repository.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,29 +14,42 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ControllerTest {
+/*class ControllerTest {
     Controller controller;
-    Teacher t1;
-    Teacher t2;
-    Course c1;
-    Course c2;
-    Course c3;
-    Student s1;
-    Student s2;
-    Student s3;
-    StudentRepository studentRepository;
-    TeacherRepository teacherRepository;
-    CourseRepository courseRepository;
+    StudentFileRepo studentRepository;
+    {
+        try {
+            studentRepository = new StudentFileRepo("Students.json");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    TeacherFileRepo teacherRepository;
+    {
+        try {
+            teacherRepository = new TeacherFileRepo("Teachers.json");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    CourseFileRepo courseRepository;
+    {
+        try {
+            courseRepository = new CourseFileRepo("Courses.json");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @BeforeEach
     void init() throws IOException {
-        teacherRepository = new TeacherRepository();
+        controller = new Controller(courseRepository, studentRepository, teacherRepository);
+
         t1 = new Teacher("Ana", "Mare");
         t2 = new Teacher("Maria", "Pop");
-        teacherRepository.create(t1);
-        teacherRepository.create(t2);
 
-        courseRepository = new CourseRepository();
         c1 = new Course("c1", t1,2, 10 );
         c2 = new Course("c2", t1, 2, 10);
         c3  = new Course("c3", t2, 2, 11);
@@ -202,3 +213,4 @@ class ControllerTest {
         assertEquals(expectedCourses,obtainedCourses);
     }
 }
+*/

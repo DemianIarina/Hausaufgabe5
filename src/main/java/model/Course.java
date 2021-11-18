@@ -1,6 +1,8 @@
 package model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import controller.AlreadyExistingException;
 import controller.FullCourseException;
 
@@ -11,6 +13,7 @@ import java.util.List;
  * Represents a subject taught in a university by one specific teacher, and has a credits vaue
  * There can be none to as many students enrolled, as in maxEnrolled specified
  */
+@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property="@UUID")
 public class Course implements Comparable<Course>{
 
         private String name;

@@ -54,15 +54,28 @@ class CourseFileRepoTest {
     }
 
     @Test
-    void updateCredits() {
+    void updateCredits() throws IOException {
+        Teacher t1 = new Teacher("Ana", "Mare");
+        Course c1  = new Course("c1", t1, 2, 20);
+
+        courseFileRepo.updateCredits(c1);
+
     }
 
     @Test
-    void create() {
+    void create() throws IOException {
+        Teacher t1 = new Teacher("Ana", "Mare");
+        Course c4  = new Course("c4", t1, 2, 13);
+
+        courseFileRepo.create(c4);
     }
 
     @Test
-    void delete() {
+    void delete() throws IOException {
+        Teacher t1 = new Teacher("Ana", "Mare");
+        Course c4  = new Course("c4", t1, 2, 13);
+
+        courseFileRepo.delete(c4);
     }
 
 }

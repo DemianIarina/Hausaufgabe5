@@ -39,7 +39,7 @@ public class CourseFileRepo extends FileRepository<Course> {
     @Override
     public Course update(Course obj) throws IOException {
         Course courseToUpdate = this.repoList.stream()
-                .filter(course -> Objects.equals(course.getName(), obj.getName()) && course.getTeacher() == obj.getTeacher())
+                .filter(course -> Objects.equals(course.getName(), obj.getName()))
                 .findFirst()
                 .orElseThrow();
 
@@ -59,7 +59,7 @@ public class CourseFileRepo extends FileRepository<Course> {
      */
     public Course updateCredits(Course obj) throws IOException {
         Course courseToUpdate = this.repoList.stream()
-                .filter(course -> Objects.equals(course.getName(), obj.getName()) && course.getTeacher() == obj.getTeacher())
+                .filter(course -> Objects.equals(course.getName(), obj.getName()))
                 .findFirst()
                 .orElseThrow();
 

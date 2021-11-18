@@ -14,7 +14,6 @@ import java.util.List;
 public class Course implements Comparable<Course>{
 
         private String name;
-        @JsonBackReference
         private Teacher teacher;
         private int maxEnrollment;
         private List<Student> studentsEnrolled;

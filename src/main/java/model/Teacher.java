@@ -12,7 +12,6 @@ import java.util.List;
  * He teaches one or more courses
  */
 public class Teacher extends Person{
-    @JsonManagedReference
     private List<Course> courses;
 
     public Teacher(String firstName, String lastName) {

@@ -93,8 +93,6 @@ class ControllerTest {
             assertEquals(expectedStudents3, c4.getStudentsEnrolled());
 
         }
-
-        //TODO test cand ai too many credits exception
     }
 
     @Test

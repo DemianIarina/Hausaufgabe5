@@ -1,39 +1,39 @@
 [ {
-  "@json_id" : "095fa3c7-9d61-4b85-802d-e0d065d96630",
+  "@json_id" : "98d9530e-6b86-4dd7-accd-eb8e86d5e9e7",
   "name" : "c1",
   "teacher" : {
-    "@json_id" : "058c3fb1-dc94-4041-8833-dabbf6cff956",
+    "@json_id" : "fcb83957-9bb7-4e9e-8def-08c8f756e164",
     "firstName" : "Ana",
     "lastName" : "Mare",
-    "courses" : [ "095fa3c7-9d61-4b85-802d-e0d065d96630", {
-      "@json_id" : "726e6b39-15c2-40e2-be41-8592681c5a8d",
+    "courses" : [ "98d9530e-6b86-4dd7-accd-eb8e86d5e9e7", {
+      "@json_id" : "e02028a8-41b3-4057-a65e-254e7f6cdcfd",
       "name" : "c2",
-      "teacher" : "058c3fb1-dc94-4041-8833-dabbf6cff956",
+      "teacher" : "fcb83957-9bb7-4e9e-8def-08c8f756e164",
       "maxEnrollment" : 2,
       "studentsEnrolled" : [ {
-        "@json_id" : "0296c640-64fc-4dd6-beb1-195e401b06f5",
+        "@json_id" : "0e0b7b6a-cb4d-4905-8125-ba710c39b326",
         "firstName" : "Mihai",
         "lastName" : "Dinero",
         "studentId" : 101,
         "totalCredits" : 20,
-        "enrolledCourses" : [ "095fa3c7-9d61-4b85-802d-e0d065d96630", "726e6b39-15c2-40e2-be41-8592681c5a8d" ]
+        "enrolledCourses" : [ "98d9530e-6b86-4dd7-accd-eb8e86d5e9e7", "e02028a8-41b3-4057-a65e-254e7f6cdcfd" ]
       }, {
-        "@json_id" : "71e9701e-4ae0-42d9-8922-15aa5a4ce221",
+        "@json_id" : "24fc2bff-24f4-4738-93de-0bc0b2fc92c9",
         "firstName" : "Ion",
         "lastName" : "Goga",
         "studentId" : 104,
         "totalCredits" : 21,
-        "enrolledCourses" : [ "726e6b39-15c2-40e2-be41-8592681c5a8d", {
-          "@json_id" : "d97327ae-1e68-4d18-88e1-f056ebd2d630",
+        "enrolledCourses" : [ "e02028a8-41b3-4057-a65e-254e7f6cdcfd", {
+          "@json_id" : "8a6ffe7b-79a0-4e94-b4ac-ed241305dcb0",
           "name" : "c3",
           "teacher" : {
-            "@json_id" : "54dbbe49-0b2f-4809-8920-0ff71452ab9d",
+            "@json_id" : "e6653092-62fb-482e-9ddc-a34a618627c5",
             "firstName" : "Maria",
             "lastName" : "Pop",
-            "courses" : [ "d97327ae-1e68-4d18-88e1-f056ebd2d630" ]
+            "courses" : [ "8a6ffe7b-79a0-4e94-b4ac-ed241305dcb0" ]
           },
           "maxEnrollment" : 2,
-          "studentsEnrolled" : [ "71e9701e-4ae0-42d9-8922-15aa5a4ce221" ],
+          "studentsEnrolled" : [ "24fc2bff-24f4-4738-93de-0bc0b2fc92c9" ],
           "credits" : 11
         } ]
       } ],
@@ -41,13 +41,13 @@
     } ]
   },
   "maxEnrollment" : 2,
-  "studentsEnrolled" : [ "0296c640-64fc-4dd6-beb1-195e401b06f5", {
-    "@json_id" : "bbb5c70c-1438-4f92-8a2f-3dec35135aa1",
+  "studentsEnrolled" : [ "0e0b7b6a-cb4d-4905-8125-ba710c39b326", {
+    "@json_id" : "505f7205-7fe9-4493-84ca-1ebdb35045fe",
     "firstName" : "Bob",
     "lastName" : "Rus",
     "studentId" : 102,
     "totalCredits" : 10,
-    "enrolledCourses" : [ "095fa3c7-9d61-4b85-802d-e0d065d96630" ]
+    "enrolledCourses" : [ "98d9530e-6b86-4dd7-accd-eb8e86d5e9e7" ]
   } ],
   "credits" : 10
-}, "726e6b39-15c2-40e2-be41-8592681c5a8d", "d97327ae-1e68-4d18-88e1-f056ebd2d630" ]
+}, "e02028a8-41b3-4057-a65e-254e7f6cdcfd", "8a6ffe7b-79a0-4e94-b4ac-ed241305dcb0" ]

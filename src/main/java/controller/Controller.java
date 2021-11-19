@@ -225,13 +225,13 @@ public class Controller {
     }
 
     /**
-     * Filters the list of Students from courses Repo, whose credits are greater than 5
-     * @return a list of Courses, whose credits are greater than 5
+     * Filters the list of Students from courses Repo, whose credits are greater than 10
+     * @return a list of Courses, whose credits are greater than 10
      */
     public List<Course> filterCourses(){
 
         return courses.getAll().stream()
-                .filter(entry -> entry.getCredits() >5 )
+                .filter(entry -> entry.getCredits() > 10 )
                 .collect(Collectors.toList());
     }
 

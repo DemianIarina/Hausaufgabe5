@@ -162,7 +162,7 @@ class ControllerTest {
     @Test
     void sortStudents() {
         List<Student> obtainedStudents = controller.sortStudents();
-        List<Student> expectedStudents = new ArrayList<>(Arrays.asList(s3,s2,s1));
+        List<Student> expectedStudents = new ArrayList<>(Arrays.asList(s2,s3,s1));
 
         assertEquals(expectedStudents,obtainedStudents);
     }
@@ -178,7 +178,7 @@ class ControllerTest {
     @Test
     void filterStudents() {
         List<Student> obtainedStudents = controller.filterStudents();
-        List<Student> expectedStudents = new ArrayList<>(Arrays.asList(s2,s3));
+        List<Student> expectedStudents = new ArrayList<>(List.of(s2));
 
         assertEquals(expectedStudents,obtainedStudents);
     }
@@ -186,7 +186,7 @@ class ControllerTest {
     @Test
     void filterCourses() {
         List<Course> obtainedCourses = controller.filterCourses();
-        List<Course> expectedCourses= new ArrayList<>(Arrays.asList(c1,c2,c3));
+        List<Course> expectedCourses= new ArrayList<>(List.of(c3));
 
         assertEquals(expectedCourses,obtainedCourses);
     }

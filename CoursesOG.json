@@ -9,7 +9,7 @@
   },
   "maxEnrollment" : 2,
   "studentsEnrolled" : [ ],
-  "credits" : 20
+  "credits" : 10
 }, {
   "@json_id" : "3b216b52-55e8-438f-a8fc-800165fd9488",
   "name" : "c2",

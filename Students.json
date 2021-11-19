@@ -1,22 +1,53 @@
 [ {
-  "@json_id" : "4f528e7d-78b1-410b-ad9b-58ee2e58bc93",
+  "@json_id" : "1a0fcb23-949f-4bc3-9257-5c796377132d",
   "firstName" : "Mihai",
   "lastName" : "Dinero",
   "studentId" : 101,
-  "totalCredits" : 0,
-  "enrolledCourses" : [ ]
-}, {
-  "@json_id" : "dd5459a8-503d-4638-aa12-eeeee086c5e6",
-  "firstName" : "Bob",
-  "lastName" : "Rus",
-  "studentId" : 102,
-  "totalCredits" : 0,
-  "enrolledCourses" : [ ]
-}, {
-  "@json_id" : "0f40beb6-8658-4a25-aca3-92ab881d0a90",
-  "firstName" : "Ion",
-  "lastName" : "Goga",
-  "studentId" : 104,
-  "totalCredits" : 0,
-  "enrolledCourses" : [ ]
-} ]
+  "totalCredits" : 20,
+  "enrolledCourses" : [ {
+    "@json_id" : "af2a2253-3cbd-4647-8158-8cd555cd70f8",
+    "name" : "c1",
+    "teacher" : {
+      "@json_id" : "4e8e56c1-f225-4241-bca0-280d450f22df",
+      "firstName" : "Ana",
+      "lastName" : "Mare",
+      "courses" : [ "af2a2253-3cbd-4647-8158-8cd555cd70f8", {
+        "@json_id" : "ff6cf435-0020-4cd4-8695-71f17b5d7d33",
+        "name" : "c2",
+        "teacher" : "4e8e56c1-f225-4241-bca0-280d450f22df",
+        "maxEnrollment" : 2,
+        "studentsEnrolled" : [ "1a0fcb23-949f-4bc3-9257-5c796377132d", {
+          "@json_id" : "12e7c0eb-135e-4261-97f3-4332021a4fda",
+          "firstName" : "Ion",
+          "lastName" : "Goga",
+          "studentId" : 104,
+          "totalCredits" : 30,
+          "enrolledCourses" : [ "ff6cf435-0020-4cd4-8695-71f17b5d7d33", {
+            "@json_id" : "8254faea-d455-412a-9a76-4f99ef042fb6",
+            "name" : "c3",
+            "teacher" : {
+              "@json_id" : "2940a398-9166-4a65-9408-57c21684240b",
+              "firstName" : "Maria",
+              "lastName" : "Pop",
+              "courses" : [ "8254faea-d455-412a-9a76-4f99ef042fb6" ]
+            },
+            "maxEnrollment" : 2,
+            "studentsEnrolled" : [ "12e7c0eb-135e-4261-97f3-4332021a4fda" ],
+            "credits" : 11
+          } ]
+        } ],
+        "credits" : 10
+      } ]
+    },
+    "maxEnrollment" : 2,
+    "studentsEnrolled" : [ "1a0fcb23-949f-4bc3-9257-5c796377132d", {
+      "@json_id" : "2fe36f97-39d3-43cc-8309-b683ddc49019",
+      "firstName" : "Bob",
+      "lastName" : "Rus",
+      "studentId" : 102,
+      "totalCredits" : 20,
+      "enrolledCourses" : [ "af2a2253-3cbd-4647-8158-8cd555cd70f8" ]
+    } ],
+    "credits" : 20
+  } ]
+}, "2fe36f97-39d3-43cc-8309-b683ddc49019", "12e7c0eb-135e-4261-97f3-4332021a4fda" ]

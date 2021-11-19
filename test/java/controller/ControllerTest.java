@@ -14,64 +14,41 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/*class ControllerTest {
+class ControllerTest {
     Controller controller;
+    Teacher t1;
+    Teacher t2;
+    Course c1;
+    Course c2;
+    Course c3;
+    Student s1;
+    Student s2;
+    Student s3;
     StudentFileRepo studentRepository;
-    {
-        try {
-            studentRepository = new StudentFileRepo("Students.json");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     TeacherFileRepo teacherRepository;
-    {
-        try {
-            teacherRepository = new TeacherFileRepo("Teachers.json");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     CourseFileRepo courseRepository;
-    {
-        try {
-            courseRepository = new CourseFileRepo("Courses.json");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     @BeforeEach
-    void init() throws IOException {
+    void init() throws Exception {
+        CopyFromFileaToFileb.copyContent("StudentsOG.json", "Students.json");
+        CopyFromFileaToFileb.copyContent("TeachersOG.json", "Teachers.json");
+        CopyFromFileaToFileb.copyContent("CoursesOG.json", "Courses.json");
+
+        studentRepository = new StudentFileRepo("Students.json");
+        teacherRepository = new TeacherFileRepo("Teachers.json");
+        courseRepository = new CourseFileRepo("Courses.json");
         controller = new Controller(courseRepository, studentRepository, teacherRepository);
 
-        t1 = new Teacher("Ana", "Mare");
-        t2 = new Teacher("Maria", "Pop");
+        t1 = teacherRepository.getAll().get(0);
+        t2 = teacherRepository.getAll().get(1);
 
-        c1 = new Course("c1", t1,2, 10 );
-        c2 = new Course("c2", t1, 2, 10);
-        c3  = new Course("c3", t2, 2, 11);
+        c1 = courseRepository.getAll().get(0);
+        c2 = courseRepository.getAll().get(1);
+        c3  = courseRepository.getAll().get(2);
 
-        t1.addCourse(c1);
-        t1.addCourse(c2);
-        t2.addCourse(c3);
-
-        courseRepository.create(c1);
-        courseRepository.create(c2);
-        courseRepository.create(c3);
-
-
-        studentRepository = new StudentRepository();
-        s1 = new Student("Mihai", "Dinero", 101);
-        s2 = new Student("Bob", "Rus", 102);
-        s3 = new Student("Bibi", "Pop", 103);
-        studentRepository.create(s1);
-        studentRepository.create(s2);
-        studentRepository.create(s3);
-
-        controller = new Controller(courseRepository,studentRepository,teacherRepository);
+        s1 = studentRepository.getAll().get(0);
+        s2 = studentRepository.getAll().get(1);
+        s3 = studentRepository.getAll().get(2);
 
         controller.register(c1,s1);
         controller.register(c1,s2);
@@ -84,6 +61,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
     @Test
     void register() throws IOException{
+
         //check the effect on the students
         List<Course> expectedCourses = new ArrayList<>(Arrays.asList(c1,c2));
         assertEquals(expectedCourses,s1.getEnrolledCourses());
@@ -213,4 +191,3 @@ import static org.junit.jupiter.api.Assertions.*;
         assertEquals(expectedCourses,obtainedCourses);
     }
 }
-*/

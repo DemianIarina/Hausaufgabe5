@@ -6,22 +6,22 @@ import java.io.FileOutputStream;
 
 public class CopyFromFileaToFileb {
     public static void copyContent(String fileName1, String fileName2) throws Exception {
-        File a = new File(fileName1);
-        File b = new File(fileName2);
+        File file1 = new File(fileName1);
+        File file2 = new File(fileName2);
 
-        FileInputStream in = new FileInputStream(a);
-        FileOutputStream out = new FileOutputStream(b);
+        FileInputStream in = new FileInputStream(file1);
+        FileOutputStream out = new FileOutputStream(file2);
 
         try {
 
-            int n;
+            int nrBytesRead;
 
             // read() function to read the
             // byte of data
-            while ((n = in.read()) != -1) {
+            while ((nrBytesRead = in.read()) != -1) {
                 // write() function to write
                 // the byte of data
-                out.write(n);
+                out.write(nrBytesRead);
             }
         } finally {
             if (in != null) {

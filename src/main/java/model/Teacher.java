@@ -13,17 +13,33 @@ import java.util.List;
  * A specific type of person, who teaches at a Univeristy
  * He teaches one or more courses
  */
+//TODO maybe lista de cursuri sa fie numa u id uri
 @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "@json_id")
 public class Teacher extends Person{
+    private int idPerson;
     private List<Course> courses;
+
+    public Teacher(int idPerson, String firstName, String lastName) {
+        super(firstName, lastName);
+        this.idPerson = idPerson;
+        this.courses = new ArrayList<>();
+    }
 
     public Teacher(String firstName, String lastName) {
         super(firstName, lastName);
-        courses = new ArrayList<>();
+        this.courses = new ArrayList<>();
     }
 
     public Teacher(){
         super();
+    }
+
+    public int getIdPerson() {
+        return idPerson;
+    }
+
+    public void setIdPerson(int idPerson) {
+        this.idPerson = idPerson;
     }
 
     /**

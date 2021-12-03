@@ -17,11 +17,21 @@ import java.util.Objects;
  * He can have maximum 30 credits
  * He can be enrolled in one or many courses
  */
+//TODO maybe lista de cursuri facuta lista de id uri
 @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "@json_id")
 public class Student extends Person implements Comparable<Student> {
+    private int idPerson;
     private long studentId;
     private int totalCredits;
     private List<Course> enrolledCourses;
+
+    public Student(int idPerson, String firstName, String lastName, long studentId) {
+        super(firstName, lastName);
+        this.idPerson = idPerson;
+        this.studentId = studentId;
+        this.totalCredits = 0;
+        this.enrolledCourses = new ArrayList<>();
+    }
 
     public Student(String firstName, String lastName, long studentId) {
         super(firstName, lastName);

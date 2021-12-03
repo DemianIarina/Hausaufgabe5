@@ -14,13 +14,23 @@ import java.util.List;
  * There can be none to as many students enrolled, as in maxEnrolled specified
  */
 @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "@json_id")
+//TODO teacher ca id, nu ca obiect, lista de studenti, ca id-uri
 public class Course implements Comparable<Course>{
-
+        private int idCourse;
         private String name;
         private Teacher teacher;
         private int maxEnrollment;
         private List<Student> studentsEnrolled;
         private int credits;
+
+    public Course(int idCourse,String name, Teacher teacher, int maxEnrollment, int credits) {
+        this.idCourse = idCourse;
+        this.name = name;
+        this.teacher = teacher;
+        this.maxEnrollment = maxEnrollment;
+        this.credits = credits;
+        this.studentsEnrolled = new ArrayList<>();
+    }
 
         public Course(String name, Teacher teacher, int maxEnrollment, int credits) {
             this.name = name;

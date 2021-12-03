@@ -1,6 +1,5 @@
 package model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import controller.AlreadyExistingException;
@@ -16,7 +15,7 @@ import java.util.List;
 @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "@json_id")
 //TODO teacher ca id, nu ca obiect, lista de studenti, ca id-uri
 public class Course implements Comparable<Course>{
-        private int idCourse;
+        private int id;
         private String name;
         private Teacher teacher;
         private int maxEnrollment;
@@ -24,7 +23,7 @@ public class Course implements Comparable<Course>{
         private int credits;
 
     public Course(int idCourse,String name, Teacher teacher, int maxEnrollment, int credits) {
-        this.idCourse = idCourse;
+        this.id = idCourse;
         this.name = name;
         this.teacher = teacher;
         this.maxEnrollment = maxEnrollment;

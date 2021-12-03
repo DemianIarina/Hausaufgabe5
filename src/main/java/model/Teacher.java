@@ -1,7 +1,6 @@
 package model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import controller.AlreadyExistingException;
 import controller.NonexistentArgumentException;
@@ -16,12 +15,12 @@ import java.util.List;
 //TODO maybe lista de cursuri sa fie numa u id uri
 @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "@json_id")
 public class Teacher extends Person{
-    private int idPerson;
+    private int id;
     private List<Course> courses;
 
     public Teacher(int idPerson, String firstName, String lastName) {
         super(firstName, lastName);
-        this.idPerson = idPerson;
+        this.id = idPerson;
         this.courses = new ArrayList<>();
     }
 
@@ -34,12 +33,12 @@ public class Teacher extends Person{
         super();
     }
 
-    public int getIdPerson() {
-        return idPerson;
+    public int getId() {
+        return id;
     }
 
-    public void setIdPerson(int idPerson) {
-        this.idPerson = idPerson;
+    public void setId(int id) {
+        this.id = id;
     }
 
     /**

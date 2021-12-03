@@ -1,7 +1,6 @@
 package model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import controller.AlreadyExistingException;
 import controller.NonexistentArgumentException;
@@ -20,14 +19,14 @@ import java.util.Objects;
 //TODO maybe lista de cursuri facuta lista de id uri
 @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "@json_id")
 public class Student extends Person implements Comparable<Student> {
-    private int idPerson;
+    private int id;
     private long studentId;
     private int totalCredits;
     private List<Course> enrolledCourses;
 
     public Student(int idPerson, String firstName, String lastName, long studentId) {
         super(firstName, lastName);
-        this.idPerson = idPerson;
+        this.id = idPerson;
         this.studentId = studentId;
         this.totalCredits = 0;
         this.enrolledCourses = new ArrayList<>();

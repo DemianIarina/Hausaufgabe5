@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class TeacherJDBCRepository extends JDBCRepository<Teacher>{
     public TeacherJDBCRepository(Statement stmt) {
@@ -22,7 +23,7 @@ public class TeacherJDBCRepository extends JDBCRepository<Teacher>{
      */
     @Override
     public List<Teacher> read() throws SQLException {
-        String selectSql = "SELECT * FROM teacher  inner join course c on teacher.id = c.idTeacher";
+        String selectSql = "SELECT * FROM teacher left join course c on teacher.id = c.idTeacher";
         try (ResultSet resultSet = stmt.executeQuery(selectSql)) {
             List<Teacher> teachers = new ArrayList<>();
             while (resultSet.next()) {
@@ -31,16 +32,22 @@ public class TeacherJDBCRepository extends JDBCRepository<Teacher>{
                 String lastName = resultSet.getString("lastName");
                 int courseId = resultSet.getInt("c.id");
 
-                if(teachers.stream().anyMatch(teacher -> teacher.getId() == id)){
-                    Teacher searchedTeacher = teachers.stream()
-                            .filter(teacher -> teacher.getId() == id)
-                            .findAny()
-                            .orElse(null);
-                    searchedTeacher.addCourse(courseId);
+                if(courseId>0) {
+                    if (teachers.stream().anyMatch(teacher -> teacher.getId() == id)) {
+                        Teacher searchedTeacher = teachers.stream()
+                                .filter(teacher -> teacher.getId() == id)
+                                .findAny()
+                                .orElse(null);
+                        assert searchedTeacher != null;
+                        searchedTeacher.addCourse(courseId);
+                    } else {
+                        Teacher teacher = new Teacher(id, firstName, lastName);
+                        teacher.addCourse(courseId);
+                        teachers.add(teacher);
+                    }
                 }
                 else{
-                    Teacher teacher = new Teacher(id, firstName,lastName);
-                    teacher.addCourse(courseId);
+                    Teacher teacher = new Teacher(id, firstName, lastName);
                     teachers.add(teacher);
                 }
             }
@@ -51,13 +58,16 @@ public class TeacherJDBCRepository extends JDBCRepository<Teacher>{
     }
 
     /**
-     * Adds a new Teacher to the repository
+     * Adds a new Teacher, WITHOUT COURSES, to the repository
      * @param obj a new Object of type Teacher
      * @return the added object
      */
     @Override
-    public Teacher create(Teacher obj) {
-        return null;
+    public Teacher create(Teacher obj) throws SQLException {
+        repoList.add(obj);
+        stmt.executeUpdate("INSERT INTO teacher VALUES ("+ obj.getId()
+                + ", \'" + obj.getFirstName() + "\', \'" + obj.getLastName() + "\');");
+        return obj;
     }
 
     /**
@@ -68,6 +78,14 @@ public class TeacherJDBCRepository extends JDBCRepository<Teacher>{
      */
     @Override
     public Teacher update(Teacher obj) {
+        Teacher teacherToUpdate = this.repoList.stream()
+                .filter(teacher -> teacher.getId()== obj.getId())
+                .findFirst()
+                .orElseThrow();
+
+        teacherToUpdate.setCourses(obj.getCourses());
+        //TODO update pe baza de date, pe tabelu de cursuri
+        // stmt.executeUpdate("UPDATE teacher SET ")
         return null;
     }
 
@@ -76,7 +94,8 @@ public class TeacherJDBCRepository extends JDBCRepository<Teacher>{
      * @param obj the Teacher to be deleted
      */
     @Override
-    public void delete(Teacher obj) {
-
+    public void delete(Teacher obj) throws SQLException {
+        repoList.remove(obj);
+        stmt.executeUpdate("DELETE FROM teacher where id = "+ obj.getId()+";");
     }
 }

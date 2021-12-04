@@ -1,6 +1,7 @@
 package repository;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -9,11 +10,11 @@ import java.util.List;
  */
 public interface ICrudRepository <T> {
 
-    T create(T obj) throws IOException;
+    T create(T obj) throws IOException, SQLException;
 
     List<T> getAll();
 
     T update(T obj) throws IOException;
 
-    void delete(T obj) throws IOException;
+    void delete(T obj) throws IOException, SQLException;
 }

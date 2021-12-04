@@ -21,14 +21,12 @@ public abstract class JDBCRepository<T> implements ICrudRepository<T> {
      */
     public abstract List<T>  read() throws SQLException;
 
-    //TODO write(Iterable<T> repoList) ?
-
     /**
      * Adds a new object to the repository
      * @param obj a new Object of type T
      * @return the added object
      */
-    public abstract T create(T obj);
+    public abstract T create(T obj) throws SQLException;
 
     /**
      * Gives all the object from the repository
@@ -49,5 +47,5 @@ public abstract class JDBCRepository<T> implements ICrudRepository<T> {
      * delete an existing object from the repo
      * @param obj the object to be deleted
      */
-    public abstract void delete(T obj);
+    public abstract void delete(T obj) throws SQLException;
 }

@@ -70,7 +70,7 @@ public class Teacher extends Person{
                 "id=" + getId()  +
                 ", firstName='" + getFirstName() + '\'' +
                 ", lastName='" + getLastName() + '\'' +
-                "courses=" + courses +
+                ", courses=" + courses +
                 '}';
     }
 }

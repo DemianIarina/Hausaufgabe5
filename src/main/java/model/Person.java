@@ -15,10 +15,6 @@ public abstract class Person {
         this.lastName = lastName;
     }
 
-    public Person(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
 
     public Person() {
     }
@@ -48,7 +44,6 @@ public abstract class Person {
     }
 
     @Override
-    //TODO String cu tot cu id?
     public String toString() {
         return "Person{" +
                 "id=" + id  +

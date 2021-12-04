@@ -1,9 +1,9 @@
-import controller.Controller;
+//import controller.Controller;
 import model.Course;
 import model.Student;
 import model.Teacher;
 import repository.*;
-import view.KonsoleView;
+//import view.KonsoleView;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -32,8 +32,10 @@ public class Main {
             Statement stmt = conn.createStatement();){
             TeacherJDBCRepository teacherJDBCRepository = new TeacherJDBCRepository(stmt);
             StudentJDBCRepository studentJDBCRepository = new StudentJDBCRepository(stmt);
+            CourseJDBCRepository courseJDBCRepository = new CourseJDBCRepository(stmt);
             System.out.println(teacherJDBCRepository.read());
             System.out.println(studentJDBCRepository.read());
+            System.out.println(courseJDBCRepository.read());
 
         } catch (SQLException exeption) {
             exeption.printStackTrace();

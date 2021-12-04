@@ -1,5 +1,6 @@
 package repository;
 
+import model.Course;
 import model.Teacher;
 
 import java.io.IOException;
@@ -21,16 +22,27 @@ public class TeacherJDBCRepository extends JDBCRepository<Teacher>{
      */
     @Override
     public List<Teacher> read() throws SQLException {
-        String selectSql = "SELECT * FROM teacher";
+        String selectSql = "SELECT * FROM teacher  inner join course c on teacher.id = c.idTeacher";
         try (ResultSet resultSet = stmt.executeQuery(selectSql)) {
             List<Teacher> teachers = new ArrayList<>();
             while (resultSet.next()) {
-                int id= resultSet.getInt("id");
+                int id= resultSet.getInt("teacher.id");
                 String firstName = resultSet.getString("firstName");
                 String lastName = resultSet.getString("lastName");
-                Teacher teacher = new Teacher(id, firstName,lastName);
-                //TODO lista de cursuri
-                teachers.add(teacher);
+                int courseId = resultSet.getInt("c.id");
+
+                if(teachers.stream().anyMatch(teacher -> teacher.getId() == id)){
+                    Teacher searchedTeacher = teachers.stream()
+                            .filter(teacher -> teacher.getId() == id)
+                            .findAny()
+                            .orElse(null);
+                    searchedTeacher.addCourse(courseId);
+                }
+                else{
+                    Teacher teacher = new Teacher(id, firstName,lastName);
+                    teacher.addCourse(courseId);
+                    teachers.add(teacher);
+                }
             }
             repoList = teachers;
         }

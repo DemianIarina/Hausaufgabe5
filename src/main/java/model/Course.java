@@ -31,13 +31,6 @@ public class Course implements Comparable<Course>{
             this.studentsEnrolled = new ArrayList<>();
         }
 
-        public Course(String name, int idTeacher, int maxEnrollment, int credits) {
-            this.name = name;
-            this.idTeacher = idTeacher;
-            this.maxEnrollment = maxEnrollment;
-            this.credits = credits;
-            this.studentsEnrolled = new ArrayList<>();
-        }
 
         public Course(){}
 
@@ -96,6 +89,14 @@ public class Course implements Comparable<Course>{
 
         public void setCredits(int credits) {
             this.credits = credits;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
         }
 
     @Override

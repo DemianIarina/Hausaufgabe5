@@ -1,3 +1,4 @@
+/*
 package controller;
 
 import model.Course;
@@ -34,7 +35,8 @@ public class Controller {
         return teachers;
     }
 
-    /**
+    */
+/**
      * Registers a student to a specific course
      * It adds the course to the list of courses of the student in the student repository +
      * adds the student to the list of students in the course repository
@@ -44,7 +46,8 @@ public class Controller {
      * @throws NonexistentArgumentException if the given student or course does not exist in the according repository
      * @throws IOException  if there occurs an error with the ObjectOutputStream
      * @throws TooManyCreditsException if the credits has been exited
-     */
+     *//*
+
     public boolean register(Course course, Student student) throws NonexistentArgumentException, IOException, TooManyCreditsException {
         if(!students.getAll().contains(student)){
             throw new NonexistentArgumentException("No such student");
@@ -70,10 +73,12 @@ public class Controller {
         }
     }
 
-    /**
+    */
+/**
      * Gives a list of courses which at the moment have free places - the number of enrolled students is less than the courses macEnrolled argument
      * @return a list of courses
-     */
+     *//*
+
     public List<Course> retriveCoursesWithFreePlaces(){
         List<Course> freePlacesCourses = new ArrayList<>();
         for (Course course : courses.getAll()){
@@ -87,12 +92,14 @@ public class Controller {
     }
 
 
-    /***
+    */
+/***
      * Gives a list of all students enrolled in a given course found in the course
      * @param course the course from which we want the students enrolled
      * @return a list of students
      * @throws NonexistentArgumentException if the given course does not exist is the courses repository
-     */
+     *//*
+
     public List<Student> retrieveStudentsEnrolledForACourse(Course course) throws NonexistentArgumentException {
         if(courses.getAll().contains(course)){
             return course.getStudentsEnrolled();
@@ -101,23 +108,27 @@ public class Controller {
             throw new NonexistentArgumentException("No such course");
     }
 
-    /**
+    */
+/**
      * Gives a list of all courses in the courses repository
      * @return a list of courses
-     */
+     *//*
+
     public List<Course> getAllCourses(){
         return courses.getAll();
     }
 
 
-    /**
+    */
+/**
      * Removes a course from the course repository, as well as from the corresponding teacher list, and every student
      * that is enrolled to it (modifying also the total credits of each student - through removeCourse)
      * @param course the course to be deleted
      * @return the modified list of courses
      * @throws NonexistentArgumentException if the given course does not exist in te courses list
      * @throws IOException  if there occurs an error with the ObjectOutputStream
-     */
+     *//*
+
     public List<Course> deleteCourse(Course course) throws NonexistentArgumentException, IOException {
         if(courses.getAll().contains(course)){
             //delete from the teacher REPO
@@ -147,7 +158,8 @@ public class Controller {
 
     }
 
-    /***
+    */
+/***
      * A teacher can update the number of credits of his/her course, automaticly modifying the value of the total value of credits
      * for each student enrolled by his/her course - if the total credits of the student has been reached,
      * the course will be automatically be taken out - through student.updateCourse()
@@ -156,7 +168,8 @@ public class Controller {
      * @return the updated list of courses
      * @throws NonexistentArgumentException if the given course does not exist in te courses list
      * @throws IOException  if there occurs an error with the ObjectOutputStream
-     */
+     *//*
+
     public List<Course> updateCreditsCourse(Course course, int newCredits) throws NonexistentArgumentException, IOException {
         List<Student> toUnenrollStudents = new ArrayList<>();
         if(courses.getAll().contains(course)) {
@@ -193,30 +206,36 @@ public class Controller {
         }
     }
 
-    /**
+    */
+/**
      * Sorts the list of Students from the students Repo, according to firstName
      * @return the sorted list of students
-     */
+     *//*
+
     public  List<Student> sortStudents(){
         List<Student> studentsList = students.getAll();
         Collections.sort(studentsList);
         return studentsList;
     }
 
-    /**
+    */
+/**
      * Sorts the list of Courses from the courses Repo, according to name
      * @return the sorted list of courses
-     */
+     *//*
+
     public List <Course> sortCourses(){
         List<Course> courseList = courses.getAll();
         Collections.sort(courseList);
         return courseList;
     }
 
-    /**
+    */
+/**
      * Filters the list of Students from students Repo, whose firstname starts with a "B"
      * @return a list of Students, whose firstname starts with a "B"
-     */
+     *//*
+
     public List<Student> filterStudents(){
 
         return students.getAll().stream()
@@ -224,10 +243,12 @@ public class Controller {
                 .collect(Collectors.toList());
     }
 
-    /**
+    */
+/**
      * Filters the list of Students from courses Repo, whose credits are greater than 10
      * @return a list of Courses, whose credits are greater than 10
-     */
+     *//*
+
     public List<Course> filterCourses(){
 
         return courses.getAll().stream()
@@ -236,3 +257,4 @@ public class Controller {
     }
 
 }
+*/

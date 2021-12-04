@@ -1,5 +1,6 @@
 package repository;
 
+import model.Course;
 import model.Student;
 import model.Teacher;
 
@@ -22,23 +23,45 @@ public class StudentJDBCRepository extends JDBCRepository<Student> {
      */
     @Override
     public List<Student> read() throws SQLException {
-        String selectSql = "SELECT * FROM student";
+        String selectSql = "SELECT * FROM student inner join studenten_course sc " +
+                "on student.id = sc.idStudent " +
+                "inner join course c " +
+                "on sc.idCourse = c.id";
         try (ResultSet resultSet = stmt.executeQuery(selectSql)) {
             List<Student> students = new ArrayList<>();
             while (resultSet.next()) {
-                int id= resultSet.getInt("id");
+                int id = resultSet.getInt("student.id");
                 String firstName = resultSet.getString("firstName");
                 String lastName = resultSet.getString("lastName");
                 long studentId = resultSet.getLong("studentId");
-                int totalCredits= resultSet.getInt("totalCredits");
-                Student student = new Student(id, firstName,lastName,studentId,totalCredits);
-                //TODO lista de cursuri
-                students.add(student);
+                int totalCredits = resultSet.getInt("totalCredits");
+                int courseId = resultSet.getInt("idCourse");
+                String name = resultSet.getString("name");
+                int idTeacher = resultSet.getInt("idTeacher");
+                int maxEnrollment = resultSet.getInt("maxEnrollment");
+                int credits = resultSet.getInt("credits");
+
+                if (students.stream().anyMatch(student -> student.getId() == id)) {
+                    Student searchedStudent = students.stream()
+                            .filter(student -> student.getId() == id)
+                            .findAny()
+                            .orElse(null);
+                    Course newCourse = new Course(courseId, name, idTeacher, maxEnrollment, credits);
+                    assert searchedStudent != null;
+                    searchedStudent.addCourse(newCourse);
+
+
+                }
+                else{
+                    Student student = new Student(id, firstName, lastName, studentId, totalCredits);
+                    Course newCourse = new Course(courseId, name, idTeacher, maxEnrollment, credits);
+                    student.addCourse(newCourse);
+                    students.add(student);
+                }
             }
             repoList = students;
         }
         return repoList;
-
     }
 
     /**

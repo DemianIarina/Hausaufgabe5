@@ -31,7 +31,7 @@ public class CourseJDBCRepository extends JDBCRepository<Course>{
                 int maxEnrollment = resultSet.getInt("maxEnrollment");
                 int credits= resultSet.getInt("credits");
                 Course course = new Course(id, name, idTeacher,maxEnrollment,credits);
-                //TODO lista de cursuri
+                //TODO lista de studenti
                 courses.add(course);
             }
             repoList = courses;

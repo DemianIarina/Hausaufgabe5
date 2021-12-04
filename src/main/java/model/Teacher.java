@@ -15,41 +15,33 @@ import java.util.List;
 //TODO maybe lista de cursuri sa fie numa u id uri
 @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "@json_id")
 public class Teacher extends Person{
-    private int id;
-    private List<Course> courses;
+    private List<Integer> courses;
 
     public Teacher(int id, String firstName, String lastName) {
         super(id, firstName, lastName);
         this.courses = new ArrayList<>();
     }
 
-    public Teacher(String firstName, String lastName) {
-        super(firstName, lastName);
-        this.courses = new ArrayList<>();
+    public Teacher(int id, String firstName, String lastName, List<Integer> courses) {
+        super(id, firstName, lastName);
+        this.courses = courses;
     }
+
 
     public Teacher(){
         super();
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     /**
      * Adds a new curse to the list of taught courses
-     * @param course a new Course object
+     * @param courseId a new Course object
      * @throws AlreadyExistingException if the course already exists
      */
-    public void addCourse(Course course) throws AlreadyExistingException {
-        if(courses.contains(course)){
+    public void addCourse(int courseId) throws AlreadyExistingException {
+        if(courses.contains(courseId)){
             throw new AlreadyExistingException("Course already existing in the teachers list");
         }
-        courses.add(course);
+        courses.add(courseId);
     }
 
     /**
@@ -64,13 +56,21 @@ public class Teacher extends Person{
         courses.remove(course);
     }
 
-    public List<Course> getCourses() {
+    public List<Integer> getCourses() {
         return courses;
     }
 
-    public void setCourses(List<Course> courses) {
+    public void setCourses(List<Integer> courses) {
         this.courses = courses;
     }
 
-
+    @Override
+    public String toString() {
+        return "Teacher{" +
+                "id=" + getId()  +
+                ", firstName='" + getFirstName() + '\'' +
+                ", lastName='" + getLastName() + '\'' +
+                "courses=" + courses +
+                '}';
+    }
 }

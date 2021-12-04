@@ -1,12 +1,17 @@
 package repository;
 
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class JDBCRepository<T> implements ICrudRepository<T> {
     protected List<T> repoList;
+    protected Statement stmt;
 
-    public JDBCRepository(List<T> repoList) {
-        this.repoList = repoList;
+    public JDBCRepository(Statement stmt) {
+        this.repoList = new ArrayList<>();
+        this.stmt = stmt;
     }
 
 
@@ -14,7 +19,7 @@ public abstract class JDBCRepository<T> implements ICrudRepository<T> {
      * Gives a list of same type objects from the file
      * @return list of ojects
      */
-    public abstract List<T>  read();
+    public abstract List<T>  read() throws SQLException;
 
     //TODO write(Iterable<T> repoList) ?
 

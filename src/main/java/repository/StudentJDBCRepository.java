@@ -1,14 +1,19 @@
 package repository;
 
 import model.Student;
+import model.Teacher;
 
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 public class StudentJDBCRepository extends JDBCRepository<Student> {
 
-    public StudentJDBCRepository(List<Student> repoList) {
-        super(repoList);
+    public StudentJDBCRepository(Statement stmt) {
+        super(stmt);
     }
 
     /**
@@ -16,8 +21,24 @@ public class StudentJDBCRepository extends JDBCRepository<Student> {
      * @return a list of Students objects that were read
      */
     @Override
-    public List<Student> read() {
-        return null;
+    public List<Student> read() throws SQLException {
+        String selectSql = "SELECT * FROM student";
+        try (ResultSet resultSet = stmt.executeQuery(selectSql)) {
+            List<Student> students = new ArrayList<>();
+            while (resultSet.next()) {
+                int id= resultSet.getInt("id");
+                String firstName = resultSet.getString("firstName");
+                String lastName = resultSet.getString("lastName");
+                long studentId = resultSet.getLong("studentId");
+                int totalCredits= resultSet.getInt("totalCredits");
+                Student student = new Student(id, firstName,lastName,studentId,totalCredits);
+                //TODO lista de cursuri
+                students.add(student);
+            }
+            repoList = students;
+        }
+        return repoList;
+
     }
 
     /**

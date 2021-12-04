@@ -17,23 +17,23 @@ import java.util.List;
 public class Course implements Comparable<Course>{
         private int id;
         private String name;
-        private Teacher teacher;
+        private int idTeacher;
         private int maxEnrollment;
         private List<Student> studentsEnrolled;
         private int credits;
 
-    public Course(int idCourse,String name, Teacher teacher, int maxEnrollment, int credits) {
-        this.id = idCourse;
-        this.name = name;
-        this.teacher = teacher;
-        this.maxEnrollment = maxEnrollment;
-        this.credits = credits;
-        this.studentsEnrolled = new ArrayList<>();
-    }
-
-        public Course(String name, Teacher teacher, int maxEnrollment, int credits) {
+        public Course(int id,String name, int idTeacher, int maxEnrollment, int credits) {
+            this.id = id;
             this.name = name;
-            this.teacher = teacher;
+            this.idTeacher = idTeacher;
+            this.maxEnrollment = maxEnrollment;
+            this.credits = credits;
+            this.studentsEnrolled = new ArrayList<>();
+        }
+
+        public Course(String name, int idTeacher, int maxEnrollment, int credits) {
+            this.name = name;
+            this.idTeacher = idTeacher;
             this.maxEnrollment = maxEnrollment;
             this.credits = credits;
             this.studentsEnrolled = new ArrayList<>();
@@ -66,12 +66,12 @@ public class Course implements Comparable<Course>{
             this.name = name;
         }
 
-        public Person getTeacher() {
-            return teacher;
+        public int getIdTeacher() {
+            return idTeacher;
         }
 
-        public void setTeacher(Teacher teacher) {
-            this.teacher = teacher;
+        public void setIdTeacher(int idTeacher) {
+            this.idTeacher = idTeacher;
         }
 
         public int getMaxEnrollment() {
@@ -102,7 +102,7 @@ public class Course implements Comparable<Course>{
     public String toString() {
         return "Course{" +
                 "name='" + name + '\'' +
-                ", teacher=" + teacher.toString() +
+                ", idTeacher=" + idTeacher+
                 ", maxEnrollment=" + maxEnrollment +
                 ", studentsEnrolled=" + studentsEnrolled +
                 ", credits=" + credits +

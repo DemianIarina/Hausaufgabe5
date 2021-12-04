@@ -19,16 +19,14 @@ import java.util.Objects;
 //TODO maybe lista de cursuri facuta lista de id uri
 @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "@json_id")
 public class Student extends Person implements Comparable<Student> {
-    private int id;
     private long studentId;
     private int totalCredits;
     private List<Course> enrolledCourses;
 
-    public Student(int idPerson, String firstName, String lastName, long studentId) {
-        super(firstName, lastName);
-        this.id = idPerson;
+    public Student(int id, String firstName, String lastName, long studentId, int totalCredits) {
+        super(id, firstName, lastName);
         this.studentId = studentId;
-        this.totalCredits = 0;
+        this.totalCredits = totalCredits;
         this.enrolledCourses = new ArrayList<>();
     }
 
@@ -134,7 +132,8 @@ public class Student extends Person implements Comparable<Student> {
     @Override
     public String toString() {
         return "Student{" +
-                "firstname=" + getFirstName() +
+                "id="+ getId() +
+                ", firstname=" + getFirstName() +
                 ", lastname=" + getLastName() +
                 ", studentId=" + studentId +
                 ", totalCredits=" + totalCredits +

@@ -3,13 +3,16 @@ package repository;
 import model.Teacher;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TeacherJDBCRepository extends JDBCRepository<Teacher>{
-    public TeacherJDBCRepository(List<Teacher> repoList) {
-        super(repoList);
+    public TeacherJDBCRepository(Statement stmt) {
+        super(stmt);
     }
 
     /**
@@ -17,15 +20,15 @@ public class TeacherJDBCRepository extends JDBCRepository<Teacher>{
      * @return a list of Teacher objects that were read
      */
     @Override
-    public List<Teacher> read() {
-        String selectSql = "SELECT * FROM employees";
+    public List<Teacher> read() throws SQLException {
+        String selectSql = "SELECT * FROM teacher";
         try (ResultSet resultSet = stmt.executeQuery(selectSql)) {
             List<Teacher> teachers = new ArrayList<>();
             while (resultSet.next()) {
-                Teacher teacher = new Teacher();
-                teacher.setId(resultSet.getInt("id"));
-                teacher.setFirstName(resultSet.getString("firstName"));
-                teacher.setFirstName(resultSet.getString("firstName"));
+                int id= resultSet.getInt("id");
+                String firstName = resultSet.getString("firstName");
+                String lastName = resultSet.getString("lastName");
+                Teacher teacher = new Teacher(id, firstName,lastName);
                 //TODO lista de cursuri
                 teachers.add(teacher);
             }

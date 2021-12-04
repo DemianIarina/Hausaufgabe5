@@ -121,7 +121,7 @@ public class Controller {
     public List<Course> deleteCourse(Course course) throws NonexistentArgumentException, IOException {
         if(courses.getAll().contains(course)){
             //delete from the teacher REPO
-            Teacher teacher = (Teacher) course.getTeacher();
+            Teacher teacher = (Teacher) course.getIdTeacher();
             teacher.removeCourse(course);
             teachers.update(teacher);
 

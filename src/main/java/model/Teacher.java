@@ -18,9 +18,8 @@ public class Teacher extends Person{
     private int id;
     private List<Course> courses;
 
-    public Teacher(int idPerson, String firstName, String lastName) {
-        super(firstName, lastName);
-        this.id = idPerson;
+    public Teacher(int id, String firstName, String lastName) {
+        super(id, firstName, lastName);
         this.courses = new ArrayList<>();
     }
 

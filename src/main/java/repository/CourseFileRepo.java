@@ -2,7 +2,6 @@ package repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import model.Course;
-import model.Teacher;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,7 +42,7 @@ public class CourseFileRepo extends FileRepository<Course> {
                 .findFirst()
                 .orElseThrow();
 
-        courseToUpdate.setStudentsEnrolled(obj.getStudentsEnrolled());
+        courseToUpdate.setStudentsEnrolledId(obj.getStudentsEnrolledId());
 
         writeToFile(repoList);
 

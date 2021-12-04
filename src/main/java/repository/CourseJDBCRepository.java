@@ -21,18 +21,31 @@ public class CourseJDBCRepository extends JDBCRepository<Course>{
      */
     @Override
     public List<Course> read() throws SQLException {
-        String selectSql = "SELECT * FROM course";
+        String selectSql = "SELECT * FROM course inner join studenten_course sc " +
+                "on course.id = sc.idCourse ";
         try (ResultSet resultSet = stmt.executeQuery(selectSql)) {
             List<Course> courses = new ArrayList<>();
             while (resultSet.next()) {
-                int id = resultSet.getInt("id");
+                int id = resultSet.getInt("course.id");
                 String name = resultSet.getString("name");
                 int idTeacher= resultSet.getInt("idTeacher");
                 int maxEnrollment = resultSet.getInt("maxEnrollment");
                 int credits= resultSet.getInt("credits");
+                int studentId = resultSet.getInt("idStudent");
+
+                if (courses.stream().anyMatch(course -> course.getId() == id)) {
+                    Course searchedcourse = courses.stream()
+                            .filter(course -> course.getId() == id)
+                            .findAny()
+                            .orElse(null);
+                    assert searchedcourse != null;
+                    searchedcourse.addStudent(studentId);
+                }
+                else{
                 Course course = new Course(id, name, idTeacher,maxEnrollment,credits);
-                //TODO lista de studenti
+                course.addStudent(studentId);
                 courses.add(course);
+                }
             }
             repoList = courses;
         }

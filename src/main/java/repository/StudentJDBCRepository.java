@@ -50,7 +50,6 @@ public class StudentJDBCRepository extends JDBCRepository<Student> {
                     assert searchedStudent != null;
                     searchedStudent.addCourse(newCourse);
 
-
                 }
                 else{
                     Student student = new Student(id, firstName, lastName, studentId, totalCredits);

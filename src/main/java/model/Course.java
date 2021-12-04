@@ -13,13 +13,12 @@ import java.util.List;
  * There can be none to as many students enrolled, as in maxEnrolled specified
  */
 @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "@json_id")
-//TODO teacher ca id, nu ca obiect, lista de studenti, ca id-uri
 public class Course implements Comparable<Course>{
         private int id;
         private String name;
         private int idTeacher;
         private int maxEnrollment;
-        private List<Student> studentsEnrolled;
+        private List<Integer> studentsEnrolledId;
         private int credits;
 
         public Course(int id,String name, int idTeacher, int maxEnrollment, int credits) {
@@ -28,7 +27,7 @@ public class Course implements Comparable<Course>{
             this.idTeacher = idTeacher;
             this.maxEnrollment = maxEnrollment;
             this.credits = credits;
-            this.studentsEnrolled = new ArrayList<>();
+            this.studentsEnrolledId = new ArrayList<>();
         }
 
 
@@ -36,19 +35,19 @@ public class Course implements Comparable<Course>{
 
         /**
          * Adds a new student to the course list
-         * @param student a new student object
+         * @param studentId a new student object
          * @throws AlreadyExistingException if the student already enrolled in the course is
          * @throws FullCourseException if the max number of enrolled students has been reached
          */
-        public void addStudent(Student student) throws AlreadyExistingException, FullCourseException{
-            if(studentsEnrolled.contains(student)){
+        public void addStudent(int studentId) throws AlreadyExistingException, FullCourseException{
+            if(studentsEnrolledId.contains(studentId)){
                 throw new AlreadyExistingException("Already registered to this course");
             }
             else
-                if(studentsEnrolled.size() == maxEnrollment){
+                if(studentsEnrolledId.size() == maxEnrollment){
                 throw new FullCourseException("The course has no places available");
             }
-            studentsEnrolled.add(student);
+            studentsEnrolledId.add(studentId);
         }
 
         public String getName() {
@@ -75,12 +74,12 @@ public class Course implements Comparable<Course>{
             this.maxEnrollment = maxEnrollment;
         }
 
-        public List<Student> getStudentsEnrolled() {
-            return studentsEnrolled;
+        public List<Integer> getStudentsEnrolledId() {
+            return studentsEnrolledId;
         }
 
-        public void setStudentsEnrolled(List<Student> studentsEnrolled) {
-            this.studentsEnrolled = studentsEnrolled;
+        public void setStudentsEnrolledId(List<Integer> studentsEnrolledId) {
+            this.studentsEnrolledId = studentsEnrolledId;
         }
 
         public int getCredits() {
@@ -105,7 +104,7 @@ public class Course implements Comparable<Course>{
                 "name='" + name + '\'' +
                 ", idTeacher=" + idTeacher+
                 ", maxEnrollment=" + maxEnrollment +
-                ", studentsEnrolled=" + studentsEnrolled +
+                ", studentsEnrolledId=" + studentsEnrolledId +
                 ", credits=" + credits +
                 '}';
     }

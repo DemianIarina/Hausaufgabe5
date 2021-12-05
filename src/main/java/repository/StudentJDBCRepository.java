@@ -92,43 +92,56 @@ public class StudentJDBCRepository extends JDBCRepository<Student> {
                 .filter(student -> student.getStudentId() == obj.getStudentId())
                 .findFirst()
                 .orElseThrow();
-        studentToUpdate.setEnrolledCourses(obj.getEnrolledCourses());
-        studentToUpdate.setTotalCredits(obj.getTotalCredits());
 
-        //update the total of credits in the database
-        stmt.executeUpdate("UPDATE student SET totalCredits = "+ obj.getTotalCredits() + " where id = " + obj.getId() +";");
 
-        ResultSet rs = stmt.executeQuery("SELECT idCourse FROM studenten_course WHERE idStudent = " + obj.getId() + ";");
         List<Integer> oldCourses = new ArrayList<>();
-        while(rs.next()) {
-            oldCourses.add(rs.getInt("idCourse"));      //find the actual list of courses from the database
+        for(Pair elem: studentToUpdate.getEnrolledCourses()) {
+            oldCourses.add(elem.getCourseId());      //find the old courses ids
         }
 
         if(oldCourses.size() > obj.getEnrolledCourses().size()){    //when a course has been deleted
             //find the deleted course
             List<Integer> aux = new ArrayList<>(oldCourses);
-            List<Integer> enrolledCoursesId = new ArrayList<>();
+            List<Integer> newEnrolledCoursesId = new ArrayList<>();
             for(Pair elem : obj.getEnrolledCourses()){
-                enrolledCoursesId.add(elem.getCourseId());    //from the pairs, get only the id
+                newEnrolledCoursesId.add(elem.getCourseId());    //from the pairs, get only the id
             }
-            aux.removeAll(enrolledCoursesId);        //the one which is in the database
+            aux.removeAll(newEnrolledCoursesId);        //the one which is in the database
             int deletedCourseId = aux.get(0);        // but in the given student object not
 
-            stmt.executeUpdate("DELETE FROM studenten_course WHERE idStudent = " +obj.getId() + "AND idCourse = " + deletedCourseId +";");
+            Pair deletedCoursePair = obj.getEnrolledCourses().stream()
+                    .filter(elem -> elem.getCourseId() == deletedCourseId)
+                    .findFirst()
+                    .orElseThrow();
+
+            Course deletedCourse = new Course(deletedCoursePair.getCourseId(), deletedCoursePair.getCredits());
+            studentToUpdate.removeCourse(deletedCourse);
+            stmt.executeUpdate("DELETE FROM studenten_course WHERE idStudent = " +studentToUpdate.getId() + "AND idCourse = " + deletedCourseId +";");
         }
         else
             if(oldCourses.size() < obj.getEnrolledCourses().size()){    //when a course has been added
-                List<Integer> enrolledCoursesId = new ArrayList<>();
+                List<Integer> newEnrolledCoursesId = new ArrayList<>();
                 for(Pair elem : obj.getEnrolledCourses()){
-                    enrolledCoursesId.add(elem.getCourseId());    //from the pairs, get only the id
+                    newEnrolledCoursesId.add(elem.getCourseId());    //from the pairs, get only the id
                 }
 
-                List<Integer> aux = new ArrayList<>(enrolledCoursesId);
+                List<Integer> aux = new ArrayList<>(newEnrolledCoursesId);
                 aux.removeAll(oldCourses);
                 int addedCourseId = aux.get(0);
 
-                stmt.executeUpdate("INSERT INTO studenten_course VALUES(" +obj.getId() + ", " + addedCourseId +");");
+                Pair addedCoursePair = obj.getEnrolledCourses().stream()
+                        .filter(elem -> elem.getCourseId() == addedCourseId)
+                        .findFirst()
+                        .orElseThrow();
+
+                Course deletedCourse = new Course(addedCoursePair.getCourseId(), addedCoursePair.getCredits());
+                studentToUpdate.addCourse(deletedCourse);
+
+                stmt.executeUpdate("INSERT INTO studenten_course VALUES(" +studentToUpdate.getId() + ", " + addedCourseId +");");
             }
+
+        //update the total of credits in the database
+        stmt.executeUpdate("UPDATE student SET totalCredits = "+ studentToUpdate.getTotalCredits() + " where id = " + studentToUpdate.getId() +";");
 
 
         return studentToUpdate;

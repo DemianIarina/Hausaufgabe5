@@ -2,11 +2,13 @@
 package controller;
 
 import model.Course;
+import model.Pair;
 import model.Student;
 import model.Teacher;
 import repository.*;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -48,18 +50,18 @@ public class Controller {
      * @throws TooManyCreditsException if the credits has been exited
      */
 
-    public boolean register(Course course, Student student) throws NonexistentArgumentException, TooManyCreditsException {
-        if(!students.getAll().contains(student)){
+    public boolean register(Course course, Student student) throws NonexistentArgumentException, TooManyCreditsException, SQLException {
+        if(students.getAll().stream().noneMatch(elem -> elem.getId() == student.getId())){
             throw new NonexistentArgumentException("No such student");
         }
         else
-        if(!courses.getAll().contains(course)){
+        if(!courses.getAll().stream().noneMatch(elem -> elem.getId() == course.getId())){
             throw new NonexistentArgumentException("No such course");
         }
         else {
 
             //update students REPO
-
+            //TODO: check daca nu depaseste limita de credite 
             //update the course list of the student
             student.addCourse(course);
             students.update(student);
@@ -99,7 +101,7 @@ public class Controller {
      */
 
     public List<Integer> retrieveStudentsEnrolledForACourse(Course course) throws NonexistentArgumentException {
-        if(courses.getAll().contains(course)){
+        if(courses.getAll().stream().anyMatch(elem -> elem.getId() == course.getId())){
             return course.getStudentsEnrolledId();
         }
         else
@@ -110,7 +112,6 @@ public class Controller {
      * Gives a list of all courses in the courses repository
      * @return a list of courses
      */
-
     public List<Course> getAllCourses(){
         return courses.getAll();
     }
@@ -124,24 +125,35 @@ public class Controller {
      * @throws NonexistentArgumentException if the given course does not exist in te courses list
      * @throws IOException  if there occurs an error with the ObjectOutputStream
      */
-
-    public List<Course> deleteCourse(Course course) throws NonexistentArgumentException, IOException {
-        if(courses.getAll().contains(course)){
-            //delete from the teacher REPO
-            Teacher teacher = (Teacher) course.getIdTeacher();
-            teacher.removeCourse(course);
-            teachers.update(teacher);
-
+    public List<Course> deleteCourse(Course course) throws NonexistentArgumentException, SQLException {
+        if(courses.getAll().stream().anyMatch(elem -> elem.getId() == course.getId())){
             for (Student student: students.getAll()){       //delete from every student's list, the course
-                List<Course> studentCourses = student.getEnrolledCourses();
+                List<Pair> studentCourses = student.getEnrolledCourses();
+                List<Integer> enrolledCoursesId = new ArrayList<>();
+                for(Pair elem : studentCourses){
+                    enrolledCoursesId.add(elem.getCourseId());    //from the pairs, get only the id
+                }
 
-                if(studentCourses.contains(course)){
+                if(enrolledCoursesId.contains(course.getId())){
                     student.removeCourse(course);
 
                     //update the students REPO
                     students.update(student);
                 }
             }
+
+            //delete from the teacher REPO
+            int teacherId = course.getIdTeacher();
+
+            Teacher teacher = teachers.getAll().stream()
+                    .filter(elem -> elem.getId() == teacherId)
+                    .findAny()
+                    .orElse(null);
+            assert teacher != null;
+            teacher.removeCourse(course.getId());
+            teachers.update(teacher);    //we remove the course from the course database
+
+
 
             //delete from the course REPO
             courses.delete(course);

@@ -30,6 +30,11 @@ public class Course implements Comparable<Course>{
             this.studentsEnrolledId = new ArrayList<>();
         }
 
+        public Course(int id, int credits){
+            this.id = id;
+            this.credits = credits;
+        }
+
 
         public Course(){}
 

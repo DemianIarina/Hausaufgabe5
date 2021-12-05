@@ -73,7 +73,7 @@ public class TeacherJDBCRepository extends JDBCRepository<Teacher>{
 
     /**
      * Modifies the list of courses of a specific teacher in the repository, found by id
-     * Modifies the database also
+     * Modifies the COURSE database also
      * @param obj a teacher with the new list of courses
      * @return modified teacher
      */

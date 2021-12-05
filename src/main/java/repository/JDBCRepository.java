@@ -9,9 +9,10 @@ public abstract class JDBCRepository<T> implements ICrudRepository<T> {
     protected List<T> repoList;
     protected Statement stmt;
 
-    public JDBCRepository(Statement stmt) {
+    public JDBCRepository(Statement stmt) throws SQLException {
         this.repoList = new ArrayList<>();
         this.stmt = stmt;
+        repoList = read();
     }
 
 

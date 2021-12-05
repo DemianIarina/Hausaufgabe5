@@ -12,7 +12,6 @@ import java.util.List;
  * A specific type of person, who teaches at a Univeristy
  * He teaches one or more courses
  */
-//TODO maybe lista de cursuri sa fie numa u id uri
 @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "@json_id")
 public class Teacher extends Person{
     private List<Integer> courses;

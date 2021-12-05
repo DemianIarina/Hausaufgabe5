@@ -64,13 +64,16 @@ public class StudentJDBCRepository extends JDBCRepository<Student> {
     }
 
     /**
-     * Adds a new Student to the repository
+     * Adds a new Student to the repository, WITH THE DEFAULT NR OF CREDITS
      * @param obj a new Object of type Student
      * @return the added object
      */
     @Override
-    public Student create(Student obj) {
-        return null;
+    public Student create(Student obj) throws SQLException {
+        repoList.add(obj);
+        stmt.executeUpdate("INSERT INTO student VALUES ("+ obj.getId()
+                + ", \'" + obj.getFirstName() + "\', \'" + obj.getLastName() + "\' ," + obj.getStudentId()+ ", DEFAULT);");
+        return obj;
     }
 
     /**
@@ -89,7 +92,8 @@ public class StudentJDBCRepository extends JDBCRepository<Student> {
      * @param obj the Student to be deleted
      */
     @Override
-    public void delete(Student obj) {
-
+    public void delete(Student obj) throws SQLException {
+        repoList.remove(obj);
+        stmt.executeUpdate("DELETE FROM student where id = "+ obj.getId()+";");
     }
 }

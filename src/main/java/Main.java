@@ -50,6 +50,11 @@ public class Main {
             teacherJDBCRepository.delete(t1);
             System.out.println(teacherJDBCRepository.read());*/
 
+
+           Student s1 = new Student(4,"Ionela", "Fira", 104);
+           studentJDBCRepository.create(s1);
+           studentJDBCRepository.delete(s1);
+
         } catch (SQLException exeption) {
             exeption.printStackTrace();
         }

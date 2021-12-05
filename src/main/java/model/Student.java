@@ -19,8 +19,6 @@ import java.util.Objects;
  */
 @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "@json_id")
 public class Student extends Person implements Comparable<Student> {
-
-
     private long studentId;
     private int totalCredits;
     private List<Pair> enrolledCourses;
@@ -29,6 +27,12 @@ public class Student extends Person implements Comparable<Student> {
         super(id, firstName, lastName);
         this.studentId = studentId;
         this.totalCredits = totalCredits;
+        this.enrolledCourses = new ArrayList<>();
+    }
+
+    public Student(int id, String firstName, String lastName, long studentId) {
+        super(id, firstName, lastName);
+        this.studentId = studentId;
         this.enrolledCourses = new ArrayList<>();
     }
 

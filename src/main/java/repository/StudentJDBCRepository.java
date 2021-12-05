@@ -80,7 +80,7 @@ public class StudentJDBCRepository extends JDBCRepository<Student> {
 
     /**
      * Modifies the courses list and the number of credits from a student in the repository, found by id
-     * Modifies in the database also
+     * Modifies the studenten_course database also
      * @param obj a student with the new courses and number of credits
      * @return modified student
      */

@@ -70,7 +70,7 @@ public class CourseJDBCRepository extends JDBCRepository<Course>{
 
     /**
      * Modifies the students list of a course in repository
-     * Modifies in the database also
+     * Does NOT update the studenten_course database
      * @param obj a course with the new list of students
      * @return modified course
      */
@@ -81,20 +81,6 @@ public class CourseJDBCRepository extends JDBCRepository<Course>{
                 .findFirst()
                 .orElseThrow();
         courseToUpdate.setStudentsEnrolledId(obj.getStudentsEnrolledId());
-
-        ResultSet rs = stmt.executeQuery("SELECT idStudent FROM studenten_course WHERE idCourse = " + obj.getId() + ";");
-        List<Integer> oldStudents = new ArrayList<>();
-        while(rs.next()) {
-            oldStudents.add(rs.getInt("idStudent"));      //find the actual list of students from the database
-        }
-
-        if(oldStudents.size() < obj.getStudentsEnrolledId().size()) {    //when a student has been added
-            List<Integer> aux = new ArrayList<>(obj.getStudentsEnrolledId());
-            aux.removeAll(oldStudents);
-            int addedStudentId = aux.get(0);
-
-            stmt.executeUpdate("INSERT INTO studenten_course VALUES(" + addedStudentId + ", " + obj.getId() + ");");
-        }
 
         return courseToUpdate;
     }

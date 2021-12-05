@@ -56,20 +56,19 @@ public class Controller {
             throw new NonexistentArgumentException("No such student");
         }
         else
-        if(!courses.getAll().stream().noneMatch(elem -> elem.getId() == course.getId())){
+        if(courses.getAll().stream().noneMatch(elem -> elem.getId() == course.getId())){
             throw new NonexistentArgumentException("No such course");
         }
         else {
 
             //update students REPO
-            //TODO: check daca nu depaseste limita de credite 
             //update the course list of the student
             student.addCourse(course);
             students.update(student);
 
 
             //update course REPO
-            course.addStudent(student);
+            course.addStudent(student.getId());
             courses.update(course);        //update the students list of the course
 
             return true;

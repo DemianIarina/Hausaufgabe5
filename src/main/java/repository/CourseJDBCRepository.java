@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class CourseJDBCRepository extends JDBCRepository<Course>{
-    public CourseJDBCRepository(Statement stmt) {
+    public CourseJDBCRepository(Statement stmt) throws SQLException {
         super(stmt);
     }
 

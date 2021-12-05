@@ -1,4 +1,5 @@
 //import controller.Controller;
+import controller.Controller;
 import model.Course;
 import model.Student;
 import model.Teacher;
@@ -33,9 +34,14 @@ public class Main {
             TeacherJDBCRepository teacherJDBCRepository = new TeacherJDBCRepository(stmt);
             StudentJDBCRepository studentJDBCRepository = new StudentJDBCRepository(stmt);
             CourseJDBCRepository courseJDBCRepository = new CourseJDBCRepository(stmt);
-            System.out.println(teacherJDBCRepository.read());
-            System.out.println(studentJDBCRepository.read());
-            System.out.println(courseJDBCRepository.read());
+
+            System.out.println(teacherJDBCRepository.getAll());
+            System.out.println(studentJDBCRepository.getAll());
+            System.out.println(courseJDBCRepository.getAll());
+
+
+            Controller controller = new Controller(courseJDBCRepository,studentJDBCRepository,teacherJDBCRepository);
+
 
             /*Teacher t1 = new Teacher(3,"Lala", "Haa");
             //teacherJDBCRepository.create(t1);
@@ -70,7 +76,7 @@ public class Main {
             System.out.println(s1.getEnrolledCourses());
 
 
-            studentJDBCRepository.delete(s1);*/
+            studentJDBCRepository.delete(s1);
 
 
             Course c1 = new Course(4,"c4", 3, 2,12);
@@ -86,7 +92,7 @@ public class Main {
             c1.addStudent(1);
             courseJDBCRepository.update(c1);
 
-            /*courseJDBCRepository.delete(c1);
+            courseJDBCRepository.delete(c1);
             System.out.println(courseJDBCRepository.getAll());*/
 
         } catch (SQLException exeption) {

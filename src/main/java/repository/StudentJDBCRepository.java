@@ -15,7 +15,7 @@ import java.util.List;
 
 public class StudentJDBCRepository extends JDBCRepository<Student> {
 
-    public StudentJDBCRepository(Statement stmt) {
+    public StudentJDBCRepository(Statement stmt) throws SQLException {
         super(stmt);
     }
 
@@ -25,9 +25,9 @@ public class StudentJDBCRepository extends JDBCRepository<Student> {
      */
     @Override
     public List<Student> read() throws SQLException {
-        String selectSql = "SELECT * FROM student inner join studenten_course sc " +
+        String selectSql = "SELECT * FROM student left join studenten_course sc " +
                 "on student.id = sc.idStudent " +
-                "inner join course c " +
+                "left join course c " +
                 "on sc.idCourse = c.id";
         try (ResultSet resultSet = stmt.executeQuery(selectSql)) {
             List<Student> students = new ArrayList<>();
@@ -55,8 +55,10 @@ public class StudentJDBCRepository extends JDBCRepository<Student> {
                 }
                 else{
                     Student student = new Student(id, firstName, lastName, studentId, totalCredits);
-                    Course newCourse = new Course(courseId, name, idTeacher, maxEnrollment, credits);
-                    student.addCourse(newCourse);
+                    if(courseId != 0){
+                        Course newCourse = new Course(courseId, name, idTeacher, maxEnrollment, credits);
+                        student.addCourse(newCourse);
+                    }
                     students.add(student);
                 }
             }

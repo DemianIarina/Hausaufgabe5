@@ -80,7 +80,8 @@ public class StudentJDBCRepository extends JDBCRepository<Student> {
 
     /**
      * Modifies the courses list and the number of credits from a student in the repository, found by id
-     * Modifies the studenten_course database also
+     * Modifies the student database, in the credits column
+     * Does NOT modify the studenten_course database
      * @param obj a student with the new courses and number of credits
      * @return modified student
      */
@@ -116,7 +117,6 @@ public class StudentJDBCRepository extends JDBCRepository<Student> {
 
             Course deletedCourse = new Course(deletedCoursePair.getCourseId(), deletedCoursePair.getCredits());
             studentToUpdate.removeCourse(deletedCourse);
-            stmt.executeUpdate("DELETE FROM studenten_course WHERE idStudent = " +studentToUpdate.getId() + "AND idCourse = " + deletedCourseId +";");
         }
         else
             if(oldCourses.size() < obj.getEnrolledCourses().size()){    //when a course has been added
@@ -136,12 +136,11 @@ public class StudentJDBCRepository extends JDBCRepository<Student> {
 
                 Course deletedCourse = new Course(addedCoursePair.getCourseId(), addedCoursePair.getCredits());
                 studentToUpdate.addCourse(deletedCourse);
-
-                stmt.executeUpdate("INSERT INTO studenten_course VALUES(" +studentToUpdate.getId() + ", " + addedCourseId +");");
             }
 
         //update the total of credits in the database
-        stmt.executeUpdate("UPDATE student SET totalCredits = "+ studentToUpdate.getTotalCredits() + " where id = " + studentToUpdate.getId() +";");
+        stmt.executeUpdate("UPDATE student SET totalCredits = "+ obj.getTotalCredits() + " where id = " + studentToUpdate.getId() +";");  //total credits of given object
+                                                                                                                                              // because it has the modified nr of credits
 
 
         return studentToUpdate;

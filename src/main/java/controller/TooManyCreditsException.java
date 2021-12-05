@@ -7,14 +7,14 @@ import model.Student;
  */
 public class TooManyCreditsException extends RuntimeException{
 
-    private final long studentId;
+    private final int id;
 
-    public TooManyCreditsException(String message, long studentId) {
+    public TooManyCreditsException(String message, int id) {
         super(message);
-        this.studentId = studentId;
+        this.id = id;
     }
 
-    public long getStudentId() {
-        return studentId;
+    public int getId() {
+        return id;
     }
 }

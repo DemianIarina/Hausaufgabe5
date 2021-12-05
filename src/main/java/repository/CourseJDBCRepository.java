@@ -70,7 +70,7 @@ public class CourseJDBCRepository extends JDBCRepository<Course>{
 
     /**
      * Modifies the students list of a course in repository
-     * Does NOT update the studenten_course database
+     * Modifies studenten_course database  also
      * @param obj a course with the new list of students
      * @return modified course
      */
@@ -80,6 +80,25 @@ public class CourseJDBCRepository extends JDBCRepository<Course>{
                 .filter(course -> course.getId() == obj.getId())
                 .findFirst()
                 .orElseThrow();
+
+        List<Integer> oldStudents = courseToUpdate.getStudentsEnrolledId();
+
+        if(oldStudents.size() > obj.getStudentsEnrolledId().size()){   //when a student has been deleted
+            List<Integer> aux = new ArrayList<>(oldStudents);
+            aux.removeAll(obj.getStudentsEnrolledId());        //the one which is in the database
+            int deletedStudentId = aux.get(0);                   // but in the given student object not
+
+            stmt.executeUpdate("DELETE FROM studenten_course WHERE idCourse = " + courseToUpdate.getId() + "AND idStudent = " + deletedStudentId +";");
+        }
+        else
+            if(oldStudents.size() < obj.getStudentsEnrolledId().size()) {    //when a student has been added
+                List<Integer> aux = new ArrayList<>(obj.getStudentsEnrolledId());
+                aux.removeAll(oldStudents);
+                int addedStudentId = aux.get(0);
+
+                stmt.executeUpdate("INSERT INTO studenten_course VALUES(" + addedStudentId + ", " + obj.getId() + ");");
+            }
+
         courseToUpdate.setStudentsEnrolledId(obj.getStudentsEnrolledId());
 
         return courseToUpdate;

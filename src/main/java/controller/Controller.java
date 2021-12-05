@@ -175,29 +175,33 @@ public class Controller {
      * @throws IOException  if there occurs an error with the ObjectOutputStream
      */
 
-    public List<Course> updateCreditsCourse(Course course, int newCredits) throws NonexistentArgumentException, IOException {
-        List<Student> toUnenrollStudents = new ArrayList<>();
+    public List<Course> updateCreditsCourse(Course course, int newCredits) throws NonexistentArgumentException, IOException, SQLException {
+        List<Integer> toUnenrollStudents = new ArrayList<>();
         if(courses.getAll().contains(course)) {
             //update student REPO
-            for (Student student : course.getStudentsEnrolled()) {
+            for (int studentId : course.getStudentsEnrolledId()) {
+                Student student = students.getAll().stream()
+                        .filter(elem -> elem.getId() == studentId)
+                        .findAny()
+                        .orElse(null);
                 try{
 
-                        if (student.getEnrolledCourses().contains(course)) {
+                    assert student != null;
+                    if(student.getEnrolledCourses().stream().anyMatch(elem -> elem.getCourseId() == course.getId())) {
                             student.updateCredits(course, newCredits);
                             students.update(student);
-                        }
+                    }
                 }
                 catch (TooManyCreditsException e){
                     System.out.println("Credit limit exceded for a student:" + e);
-                    long problemStudentId = e.getStudentId();
-                    Student problemStudent = students.getAll().stream()
-                            .filter(actualStudent -> problemStudentId==actualStudent.getStudentId())
-                            .findAny()
-                            .orElse(null);
-                    toUnenrollStudents.add(problemStudent);
+                    int problemStudentId = e.getId();
+                    toUnenrollStudents.add(problemStudentId);
                 }
             }
-            course.getStudentsEnrolled().removeAll(toUnenrollStudents);
+            if(toUnenrollStudents.size()>0){
+                course.getStudentsEnrolledId().removeAll(toUnenrollStudents);
+                courses.update(course);
+            }
 
             //credits number will be updated automatic in the Courses in every repo
             //update the course credits in the course REPO

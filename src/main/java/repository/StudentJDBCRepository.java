@@ -1,6 +1,8 @@
 package repository;
 
+import com.mysql.cj.conf.ConnectionUrlParser;
 import model.Course;
+import model.Pair;
 import model.Student;
 import model.Teacher;
 
@@ -82,9 +84,53 @@ public class StudentJDBCRepository extends JDBCRepository<Student> {
      * @param obj a student with the new courses and number of credits
      * @return modified student
      */
+    //TODO peste tot unde imi arunca exceptii sa pun in javadocs
     @Override
-    public Student update(Student obj) {
-        return null;
+    public Student update(Student obj) throws SQLException {
+        Student studentToUpdate = this.repoList.stream()
+                .filter(student -> student.getStudentId() == obj.getStudentId())
+                .findFirst()
+                .orElseThrow();
+        studentToUpdate.setEnrolledCourses(obj.getEnrolledCourses());
+        studentToUpdate.setTotalCredits(obj.getTotalCredits());
+
+        //update the total of credits in the database
+        stmt.executeUpdate("UPDATE student SET totalCredits = "+ obj.getTotalCredits() + " where id = " + obj.getId() +";");
+
+        ResultSet rs = stmt.executeQuery("SELECT idCourse FROM studenten_course WHERE idStudent = " + obj.getId() + ";");
+        List<Integer> oldCourses = new ArrayList<>();
+        while(rs.next()) {
+            oldCourses.add(rs.getInt("id"));      //find the actual list of courses from the database
+        }
+
+        if(oldCourses.size() > obj.getEnrolledCourses().size()){    //when a course has been deleted
+            //find the deleted course
+            List<Integer> aux = new ArrayList<>(oldCourses);
+            List<Integer> enrolledCoursesId = new ArrayList<>();
+            for(Pair elem : obj.getEnrolledCourses()){
+                enrolledCoursesId.add(elem.getCourseId());    //from the pairs, get only the id
+            }
+            aux.removeAll(enrolledCoursesId);        //the one which is in the database
+            int deletedCourseId = aux.get(0);        // but in the given student object not
+
+            stmt.executeUpdate("DELETE FROM studenten_course WHERE idStudent = " +obj.getId() + "AND idCourse = " + deletedCourseId +";");
+        }
+        else
+            if(oldCourses.size() < obj.getEnrolledCourses().size()){    //when a course has been added
+                List<Integer> enrolledCoursesId = new ArrayList<>();
+                for(Pair elem : obj.getEnrolledCourses()){
+                    enrolledCoursesId.add(elem.getCourseId());    //from the pairs, get only the id
+                }
+
+                List<Integer> aux = new ArrayList<>(enrolledCoursesId);
+                aux.removeAll(oldCourses);
+                int addedCourseId = aux.get(0);
+
+                stmt.executeUpdate("INSERT INTO studenten_course VALUES(" +obj.getId() + ", " + addedCourseId +");");
+            }
+
+
+        return studentToUpdate;
     }
 
     /**

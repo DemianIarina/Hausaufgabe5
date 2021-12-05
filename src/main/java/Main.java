@@ -52,8 +52,15 @@ public class Main {
 
 
            Student s1 = new Student(4,"Ionela", "Fira", 104);
+           Course c1 = new Course(4,"c3", 3, 2,12);
            studentJDBCRepository.create(s1);
-           studentJDBCRepository.delete(s1);
+
+           s1.addCourse(c1);
+           studentJDBCRepository.update(s1);
+            System.out.println(s1.getTotalCredits());
+            System.out.println(s1.getEnrolledCourses());
+
+           //studentJDBCRepository.delete(s1);
 
         } catch (SQLException exeption) {
             exeption.printStackTrace();

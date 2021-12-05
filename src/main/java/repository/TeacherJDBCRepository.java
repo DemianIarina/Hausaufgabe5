@@ -90,7 +90,7 @@ public class TeacherJDBCRepository extends JDBCRepository<Teacher>{
            oldCourses.add(rs.getInt("id"));      //find the actual list of courses from the database
         }
 
-        //find the course deleted -
+        //find the deleted course
         List<Integer> aux = new ArrayList<>(oldCourses);
         aux.removeAll(obj.getCourses());        //the one which is in the database
         int deletedCourseId = aux.get(0);       // but in the given teacher object not

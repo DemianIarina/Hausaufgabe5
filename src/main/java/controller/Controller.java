@@ -154,7 +154,11 @@ public class Controller {
             teachers.update(teacher);
 
             //delete from the course REPO
-            courses.delete(course);
+            Course actualCourse = courses.getAll().stream()
+                    .filter(elem -> elem.getId() == course.getId())
+                    .findAny()
+                    .orElse(null);
+            courses.delete(actualCourse);
 
             return courses.getAll();
         }
@@ -177,9 +181,14 @@ public class Controller {
 
     public List<Course> updateCreditsCourse(Course course, int newCredits) throws NonexistentArgumentException, IOException, SQLException {
         List<Integer> toUnenrollStudents = new ArrayList<>();
-        if(courses.getAll().contains(course)) {
+        Course actualCourse = courses.getAll().stream()
+                .filter(elem -> elem.getId() == course.getId())
+                .findAny()
+                .orElse(null);
+        if(courses.getAll().contains(actualCourse)) {
             //update student REPO
-            for (int studentId : course.getStudentsEnrolledId()) {
+            assert actualCourse != null;
+            for (int studentId : actualCourse.getStudentsEnrolledId()) {
                 Student student = students.getAll().stream()
                         .filter(elem -> elem.getId() == studentId)
                         .findAny()
@@ -188,7 +197,7 @@ public class Controller {
 
                     assert student != null;
                     if(student.getEnrolledCourses().stream().anyMatch(elem -> elem.getCourseId() == course.getId())) {
-                            student.updateCredits(course, newCredits);
+                            student.updateCredits(actualCourse, newCredits);
                             students.update(student);
                     }
                 }

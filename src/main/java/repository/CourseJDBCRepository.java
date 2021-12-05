@@ -89,6 +89,7 @@ public class CourseJDBCRepository extends JDBCRepository<Course>{
             List<Integer> aux = new ArrayList<>(oldStudents);
             aux.removeAll(obj.getStudentsEnrolledId());        //the one which is in the database
             int deletedStudentId = aux.get(0);                   // but in the given student object not
+            oldStudents.remove(deletedStudentId);
 
             stmt.executeUpdate("DELETE FROM studenten_course WHERE idCourse = " + courseToUpdate.getId() + "AND idStudent = " + deletedStudentId +";");
         }
@@ -97,11 +98,12 @@ public class CourseJDBCRepository extends JDBCRepository<Course>{
                 List<Integer> aux = new ArrayList<>(obj.getStudentsEnrolledId());
                 aux.removeAll(oldStudents);
                 int addedStudentId = aux.get(0);
+                oldStudents.add(addedStudentId);
 
                 stmt.executeUpdate("INSERT INTO studenten_course VALUES(" + addedStudentId + ", " + obj.getId() + ");");
             }
 
-        courseToUpdate.setStudentsEnrolledId(obj.getStudentsEnrolledId());
+        courseToUpdate.setStudentsEnrolledId(oldStudents);
 
         return courseToUpdate;
     }

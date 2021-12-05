@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 public class Main {
 
@@ -42,6 +43,34 @@ public class Main {
 
             Controller controller = new Controller(courseJDBCRepository,studentJDBCRepository,teacherJDBCRepository);
 
+            System.out.println(controller.retriveCoursesWithFreePlaces());
+            System.out.println(controller.getAllCourses());
+            System.out.println(controller.sortCourses());
+            System.out.println(controller.filterCourses());
+
+            //deleteCourse without students
+            //TODO delete la cursuri cu studenti
+            // add in baza de date c4
+            /*Course c4 = new Course(4, "c4", 2,2,10);
+            System.out.println(controller.updateCreditsCourse(c4,12));
+            System.out.println(controller.deleteCourse(c4));*/
+
+            //register
+            //TODO verificat daca merge cu obiecte luate din repo
+            Course c1 = new Course(1, "c1", 1,2,10);
+            Course c2 = new Course(2, "c2", 1, 2, 10);
+            Course c3  = new Course(3,"c3", 2, 2, 11);
+            Student s1 = new Student(1, "Mihai", "Dinero", 101, 0);
+            Student s2 = new Student(2,"Bob", "Rus", 102,0);
+            Student s3 = new Student(3, "Ion", "Goga", 103,0);
+            controller.register(c1,s1);
+            controller.register(c1,s2);
+            controller.register(c2,s1);
+            controller.register(c2,s3);
+            controller.register(c3,s3);
+
+            System.out.println(studentJDBCRepository.getAll());
+            System.out.println(courseJDBCRepository.getAll());
 
 
             /*Teacher t1 = new Teacher(3,"Lala", "Haa");

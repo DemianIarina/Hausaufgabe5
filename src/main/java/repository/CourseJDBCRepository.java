@@ -1,6 +1,7 @@
 package repository;
 
 import model.Course;
+import model.Pair;
 import model.Student;
 
 import java.io.IOException;
@@ -9,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class CourseJDBCRepository extends JDBCRepository<Course>{
     public CourseJDBCRepository(Statement stmt) {
@@ -59,29 +61,60 @@ public class CourseJDBCRepository extends JDBCRepository<Course>{
      * @return the added object
      */
     @Override
-    public Course create(Course obj) {
-        return null;
+    public Course create(Course obj) throws SQLException {
+        repoList.add(obj);
+        stmt.executeUpdate("INSERT INTO course VALUES ("+ obj.getId()
+                + ", \'" + obj.getName() + "\', " + obj.getIdTeacher() + "," + obj.getMaxEnrollment()+ ", " + obj.getCredits() + ");");
+        return obj;
     }
 
     /**
      * Modifies the students list of a course in repository
-     * Modifies in the file also
+     * Modifies in the database also
      * @param obj a course with the new list of students
      * @return modified course
      */
     @Override
-    public Course update(Course obj) {
-        return null;
+    public Course update(Course obj) throws SQLException {
+        Course courseToUpdate = this.repoList.stream()
+                .filter(course -> course.getId() == obj.getId())
+                .findFirst()
+                .orElseThrow();
+        courseToUpdate.setStudentsEnrolledId(obj.getStudentsEnrolledId());
+
+        ResultSet rs = stmt.executeQuery("SELECT idStudent FROM studenten_course WHERE idCourse = " + obj.getId() + ";");
+        List<Integer> oldStudents = new ArrayList<>();
+        while(rs.next()) {
+            oldStudents.add(rs.getInt("idStudent"));      //find the actual list of students from the database
+        }
+
+        if(oldStudents.size() < obj.getStudentsEnrolledId().size()) {    //when a student has been added
+            List<Integer> aux = new ArrayList<>(obj.getStudentsEnrolledId());
+            aux.removeAll(oldStudents);
+            int addedStudentId = aux.get(0);
+
+            stmt.executeUpdate("INSERT INTO studenten_course VALUES(" + addedStudentId + ", " + obj.getId() + ");");
+        }
+
+        return courseToUpdate;
     }
 
     /**
-     * Modified the number of credits of a specific course in the repository, found by name
-     * Modifies in the file also
+     * Modified the number of credits of a specific course in the repository, found by id
+     * Modifies in the database also
      * @param obj a course with a new value for credits
      * @return modified course
      */
-    public Course updateCredits(Course obj){
-        return null;
+    public Course updateCredits(Course obj) throws SQLException {
+        Course courseToUpdate = this.repoList.stream()
+                .filter(course -> course.getId() == obj.getId())
+                .findFirst()
+                .orElseThrow();
+        courseToUpdate.setCredits(obj.getCredits());
+
+        stmt.executeUpdate("UPDATE course SET credits = "+ obj.getCredits() + " where id = " + obj.getId() +";");
+
+        return courseToUpdate;
     }
 
     /**
@@ -89,7 +122,9 @@ public class CourseJDBCRepository extends JDBCRepository<Course>{
      * @param obj the Course to be deleted
      */
     @Override
-    public void delete(Course obj) {
+    public void delete(Course obj) throws SQLException {
+        repoList.remove(obj);
+        stmt.executeUpdate("DELETE FROM course where id = "+ obj.getId()+";");
 
     }
 }

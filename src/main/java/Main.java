@@ -51,12 +51,12 @@ public class Main {
             System.out.println(teacherJDBCRepository.read());*/
 
 
-           Student s1 = new Student(4,"Ionela", "Fira", 104);
-           Course c1 = new Course(4,"c3", 3, 2,12);
-           studentJDBCRepository.create(s1);
+            /*Student s1 = new Student(4,"Ionela", "Fira", 104);
+            Course c1 = new Course(4,"c3", 3, 2,12);
+            studentJDBCRepository.create(s1);
 
-           s1.addCourse(c1);
-           studentJDBCRepository.update(s1);
+            s1.addCourse(c1);
+            studentJDBCRepository.update(s1);
             System.out.println(s1.getTotalCredits());
             System.out.println(s1.getEnrolledCourses());
 
@@ -66,11 +66,28 @@ public class Main {
             System.out.println(s1.getEnrolledCourses());
 
             s1.removeCourse(c1);
-            System.out.println(s1.getTotalCredits());
+            System.out.println(s1.getTotalCredits())\
             System.out.println(s1.getEnrolledCourses());
 
 
-           //studentJDBCRepository.delete(s1);
+            studentJDBCRepository.delete(s1);*/
+
+
+            Course c1 = new Course(4,"c4", 3, 2,12);
+            courseJDBCRepository.create(c1);
+            System.out.println(courseJDBCRepository.getAll());
+
+            //System.out.println(teacherJDBCRepository.read());    //TODO in controller, dupa ce adaug ceva sa mai citesc o data baza de date
+            //fiindca nu arata bine System.out.println(teacherJDBCRepository.getAll()); fara readu
+
+            c1.setCredits(15);
+            courseJDBCRepository.updateCredits(c1);
+
+            c1.addStudent(1);
+            courseJDBCRepository.update(c1);
+
+            /*courseJDBCRepository.delete(c1);
+            System.out.println(courseJDBCRepository.getAll());*/
 
         } catch (SQLException exeption) {
             exeption.printStackTrace();

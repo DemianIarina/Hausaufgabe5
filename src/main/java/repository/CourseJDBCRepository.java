@@ -23,7 +23,7 @@ public class CourseJDBCRepository extends JDBCRepository<Course>{
      */
     @Override
     public List<Course> read() throws SQLException {
-        String selectSql = "SELECT * FROM course inner join studenten_course sc " +
+        String selectSql = "SELECT * FROM course left join studenten_course sc " +
                 "on course.id = sc.idCourse ";
         try (ResultSet resultSet = stmt.executeQuery(selectSql)) {
             List<Course> courses = new ArrayList<>();
@@ -45,7 +45,9 @@ public class CourseJDBCRepository extends JDBCRepository<Course>{
                 }
                 else{
                 Course course = new Course(id, name, idTeacher,maxEnrollment,credits);
-                course.addStudent(studentId);
+                if(studentId != 0){
+                    course.addStudent(studentId);
+                }
                 courses.add(course);
                 }
             }

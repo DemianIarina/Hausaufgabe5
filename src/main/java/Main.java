@@ -43,6 +43,7 @@ public class Main {
             Controller controller = new Controller(courseJDBCRepository,studentJDBCRepository,teacherJDBCRepository);
 
 
+
             /*Teacher t1 = new Teacher(3,"Lala", "Haa");
             //teacherJDBCRepository.create(t1);
 

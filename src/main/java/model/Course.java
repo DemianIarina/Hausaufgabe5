@@ -106,7 +106,8 @@ public class Course implements Comparable<Course>{
     @Override
     public String toString() {
         return "Course{" +
-                "name='" + name + '\'' +
+                "id = "+ id +
+                ", name='" + name + '\'' +
                 ", idTeacher=" + idTeacher+
                 ", maxEnrollment=" + maxEnrollment +
                 ", studentsEnrolledId=" + studentsEnrolledId +

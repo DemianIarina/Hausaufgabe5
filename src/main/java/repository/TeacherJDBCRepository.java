@@ -24,30 +24,31 @@ public class TeacherJDBCRepository extends JDBCRepository<Teacher>{
     @Override
     public List<Teacher> read() throws SQLException {
         String selectSql = "SELECT * FROM teacher left join course c on teacher.id = c.idTeacher";
+
         try (ResultSet resultSet = stmt.executeQuery(selectSql)) {
             List<Teacher> teachers = new ArrayList<>();
             while (resultSet.next()) {
                 int id= resultSet.getInt("teacher.id");
                 String firstName = resultSet.getString("firstName");
                 String lastName = resultSet.getString("lastName");
-                int courseId = resultSet.getInt("c.id");
+                int courseId = resultSet.getInt("c.id");    //converts NULL to 0
 
-                if(courseId>0) {
-                    if (teachers.stream().anyMatch(teacher -> teacher.getId() == id)) {
+                if(courseId>0) {    //when the current teacher has courses
+                    if (teachers.stream().anyMatch(teacher -> teacher.getId() == id)) {      //when the current teacher has already other courses
                         Teacher searchedTeacher = teachers.stream()
                                 .filter(teacher -> teacher.getId() == id)
                                 .findAny()
                                 .orElse(null);
                         assert searchedTeacher != null;
-                        searchedTeacher.addCourse(courseId);
+                        searchedTeacher.addCourse(courseId);           //the teacher already exists in the list
                     } else {
-                        Teacher teacher = new Teacher(id, firstName, lastName);
+                        Teacher teacher = new Teacher(id, firstName, lastName);           //create the new teacher
                         teacher.addCourse(courseId);
                         teachers.add(teacher);
                     }
                 }
                 else{
-                    Teacher teacher = new Teacher(id, firstName, lastName);
+                    Teacher teacher = new Teacher(id, firstName, lastName);    //create teacher without courses
                     teachers.add(teacher);
                 }
             }
@@ -71,22 +72,32 @@ public class TeacherJDBCRepository extends JDBCRepository<Teacher>{
     }
 
     /**
-     * Modifies the list of courses of a specific teacher in the repository, found by firs and lastname
-     * Modifies in the file
+     * Modifies the list of courses of a specific teacher in the repository, found by id
+     * Modifies the database also
      * @param obj a teacher with the new list of courses
      * @return modified teacher
      */
     @Override
-    public Teacher update(Teacher obj) {
+    public Teacher update(Teacher obj) throws SQLException {
         Teacher teacherToUpdate = this.repoList.stream()
                 .filter(teacher -> teacher.getId()== obj.getId())
                 .findFirst()
                 .orElseThrow();
 
+        ResultSet rs = stmt.executeQuery("SELECT id FROM course WHERE idTeacher = " + obj.getId() + ";");
+        List<Integer> oldCourses = new ArrayList<>();
+        while(rs.next()) {
+           oldCourses.add(rs.getInt("id"));      //find the actual list of courses from the database
+        }
+
+        //find the course deleted -
+        List<Integer> aux = new ArrayList<>(oldCourses);
+        aux.removeAll(obj.getCourses());        //the one which is in the database
+        int deletedCourseId = aux.get(0);       // but in the given teacher object not
+        stmt.executeUpdate("DELETE FROM course WHERE id = " + deletedCourseId +";");
+
         teacherToUpdate.setCourses(obj.getCourses());
-        //TODO update pe baza de date, pe tabelu de cursuri
-        // stmt.executeUpdate("UPDATE teacher SET ")
-        return null;
+        return teacherToUpdate;
     }
 
     /**

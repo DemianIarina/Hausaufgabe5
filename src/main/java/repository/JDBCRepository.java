@@ -41,7 +41,7 @@ public abstract class JDBCRepository<T> implements ICrudRepository<T> {
      * @param obj the object with the new information
      * @return the modified object
      */
-    public abstract T update(T obj);
+    public abstract T update(T obj) throws SQLException;
 
     /**
      * delete an existing object from the repo

@@ -37,12 +37,18 @@ public class Main {
             System.out.println(studentJDBCRepository.read());
             System.out.println(courseJDBCRepository.read());
 
-            Teacher t1 = new Teacher(3,"Lala", "Haa");
-            teacherJDBCRepository.create(t1);
-            System.out.println(teacherJDBCRepository.read());
+            /*Teacher t1 = new Teacher(3,"Lala", "Haa");
+            //teacherJDBCRepository.create(t1);
+
+            //add in db cursu
+            Course c1 = new Course(4,"c3", 3, 2,12);
+            t1.addCourse(c1.getId());
+            t1.removeCourse(c1.getId());
+            teacherJDBCRepository.update(t1);
+
 
             teacherJDBCRepository.delete(t1);
-            System.out.println(teacherJDBCRepository.read());
+            System.out.println(teacherJDBCRepository.read());*/
 
         } catch (SQLException exeption) {
             exeption.printStackTrace();

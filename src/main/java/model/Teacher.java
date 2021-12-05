@@ -49,11 +49,11 @@ public class Teacher extends Person{
      * @param course a course object
      * @throws NonexistentArgumentException if the course does not exist
      */
-    public void removeCourse(Course course) throws NonexistentArgumentException {
+    public void removeCourse(int course) throws NonexistentArgumentException {
         if(!courses.contains(course)){
             throw new NonexistentArgumentException("Course does not exist in the teachers list");
         }
-        courses.remove(course);
+        courses.remove(Integer.valueOf(course));
     }
 
     public List<Integer> getCourses() {

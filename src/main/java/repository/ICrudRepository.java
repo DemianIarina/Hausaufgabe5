@@ -14,7 +14,7 @@ public interface ICrudRepository <T> {
 
     List<T> getAll();
 
-    T update(T obj) throws IOException;
+    T update(T obj) throws IOException, SQLException;
 
     void delete(T obj) throws IOException, SQLException;
 }

@@ -73,7 +73,7 @@ public class TeacherJDBCRepository extends JDBCRepository<Teacher>{
 
     /**
      * Modifies the list of courses of a specific teacher in the repository, found by id
-     * Modifies the COURSE database also
+     * Does NOT remove the course from the courses database
      * @param obj a teacher with the new list of courses
      * @return modified teacher
      */
@@ -84,6 +84,7 @@ public class TeacherJDBCRepository extends JDBCRepository<Teacher>{
                 .findFirst()
                 .orElseThrow();
 
+/*
         ResultSet rs = stmt.executeQuery("SELECT id FROM course WHERE idTeacher = " + obj.getId() + ";");
         List<Integer> oldCourses = new ArrayList<>();
         while(rs.next()) {
@@ -95,6 +96,7 @@ public class TeacherJDBCRepository extends JDBCRepository<Teacher>{
         aux.removeAll(obj.getCourses());        //the one which is in the database
         int deletedCourseId = aux.get(0);       // but in the given teacher object not
         stmt.executeUpdate("DELETE FROM course WHERE id = " + deletedCourseId +";");
+*/
 
         teacherToUpdate.setCourses(obj.getCourses());
         return teacherToUpdate;

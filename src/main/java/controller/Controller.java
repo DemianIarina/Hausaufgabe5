@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+//TODO throw exeption pana la View
 public class Controller {
     private CourseJDBCRepository courses;
     private StudentJDBCRepository students;
@@ -151,9 +152,7 @@ public class Controller {
                     .orElse(null);
             assert teacher != null;
             teacher.removeCourse(course.getId());
-            teachers.update(teacher);    //we remove the course from the course database
-
-
+            teachers.update(teacher);
 
             //delete from the course REPO
             courses.delete(course);

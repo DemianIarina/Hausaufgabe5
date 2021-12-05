@@ -60,6 +60,16 @@ public class Main {
             System.out.println(s1.getTotalCredits());
             System.out.println(s1.getEnrolledCourses());
 
+            c1.setCredits(13);
+            studentJDBCRepository.update(s1);
+            System.out.println(s1.getTotalCredits());
+            System.out.println(s1.getEnrolledCourses());
+
+            s1.removeCourse(c1);
+            System.out.println(s1.getTotalCredits());
+            System.out.println(s1.getEnrolledCourses());
+
+
            //studentJDBCRepository.delete(s1);
 
         } catch (SQLException exeption) {

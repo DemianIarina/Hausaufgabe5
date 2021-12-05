@@ -85,6 +85,7 @@ public class StudentJDBCRepository extends JDBCRepository<Student> {
      * @return modified student
      */
     //TODO peste tot unde imi arunca exceptii sa pun in javadocs
+    //TODO maybe face rezl prost la update creditsCourse din controller!!!!!!!!!!!!
     @Override
     public Student update(Student obj) throws SQLException {
         Student studentToUpdate = this.repoList.stream()
@@ -100,7 +101,7 @@ public class StudentJDBCRepository extends JDBCRepository<Student> {
         ResultSet rs = stmt.executeQuery("SELECT idCourse FROM studenten_course WHERE idStudent = " + obj.getId() + ";");
         List<Integer> oldCourses = new ArrayList<>();
         while(rs.next()) {
-            oldCourses.add(rs.getInt("id"));      //find the actual list of courses from the database
+            oldCourses.add(rs.getInt("idCourse"));      //find the actual list of courses from the database
         }
 
         if(oldCourses.size() > obj.getEnrolledCourses().size()){    //when a course has been deleted

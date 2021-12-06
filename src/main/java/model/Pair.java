@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Objects;
+
 public class Pair {
     private int courseId;
     private int credits;
@@ -32,4 +34,13 @@ public class Pair {
                     ", credits=" + credits +
                     '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Pair pair = (Pair) o;
+        return courseId == pair.courseId && credits == pair.credits;
+    }
+
 }

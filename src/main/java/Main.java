@@ -4,6 +4,7 @@ import model.Course;
 import model.Student;
 import model.Teacher;
 import repository.*;
+import view.KonsoleView;
 //import view.KonsoleView;
 
 import java.io.IOException;
@@ -36,12 +37,10 @@ public class Main {
             StudentJDBCRepository studentJDBCRepository = new StudentJDBCRepository(stmt);
             CourseJDBCRepository courseJDBCRepository = new CourseJDBCRepository(stmt);
 
-            System.out.println(teacherJDBCRepository.getAll());
-            System.out.println(studentJDBCRepository.getAll());
-            System.out.println(courseJDBCRepository.getAll());
-
-
             Controller controller = new Controller(courseJDBCRepository,studentJDBCRepository,teacherJDBCRepository);
+
+            KonsoleView view = new KonsoleView(controller);
+            view.main_menu();
 
 /*            System.out.println(controller.retriveCoursesWithFreePlaces());
             System.out.println(controller.getAllCourses());
@@ -52,7 +51,7 @@ public class Main {
 
 
             //register
-            Course c1 = courseJDBCRepository.getAll().get(0);
+           /* Course c1 = courseJDBCRepository.getAll().get(0);
             Course c2 = courseJDBCRepository.getAll().get(1);
             Course c3  = courseJDBCRepository.getAll().get(2);
             Student s1 = studentJDBCRepository.getAll().get(0);
@@ -71,7 +70,7 @@ public class Main {
 
 
             System.out.println(studentJDBCRepository.getAll());
-            System.out.println(courseJDBCRepository.getAll());
+            System.out.println(courseJDBCRepository.getAll());*/
 
             /*controller.deleteCourse(c3);
 

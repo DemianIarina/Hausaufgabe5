@@ -107,6 +107,7 @@ public class Student extends Person implements Comparable<Student> {
 
                 if (newValue <= 30) {
                     totalCredits = newValue;
+                    actualCoursePair.setCredits(newCredits);
                     break;
                 } else {
                     //remove the course from the students list + throw to

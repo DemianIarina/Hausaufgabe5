@@ -89,9 +89,9 @@ public class CourseJDBCRepository extends JDBCRepository<Course>{
             aux.removeAll(obj.getStudentsEnrolledId());        //the ones which are in the database
                                                                 // but in the given student object not
             for (int deletedStudentId : aux) {
-                oldStudents.remove(deletedStudentId);
+                oldStudents.remove(Integer.valueOf(deletedStudentId));
 
-                stmt.executeUpdate("DELETE FROM studenten_course WHERE idCourse = " + obj.getId() + "AND idStudent = " + deletedStudentId + ";");
+                stmt.executeUpdate("DELETE FROM studenten_course WHERE idCourse = " + obj.getId() + " AND idStudent = " + deletedStudentId + ";");
             }
 
         }

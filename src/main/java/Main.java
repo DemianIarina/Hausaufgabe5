@@ -50,12 +50,6 @@ public class Main {
             System.out.println(controller.filterStudents());
             System.out.println(controller.filterCourses());*/
 
-            //deleteCourse without students
-            //TODO delete la cursuri cu studenti
-            // add in baza de date c4
-            /*Course c4 = new Course(4, "c4", 2,2,10);
-            System.out.println(controller.updateCreditsCourse(c4,12));
-            System.out.println(controller.deleteCourse(c4));*/
 
             //register
             Course c1 = courseJDBCRepository.getAll().get(0);
@@ -70,13 +64,19 @@ public class Main {
             controller.register(c2,s3);
             controller.register(c3,s3);
 
+            System.out.println(controller.retriveCoursesWithFreePlaces());
+            System.out.println(controller.retrieveStudentsEnrolledForACourse(c2));
+
+            controller.updateCreditsCourse(c2,20);
+
+
             System.out.println(studentJDBCRepository.getAll());
             System.out.println(courseJDBCRepository.getAll());
 
-            controller.deleteCourse(c3);
+            /*controller.deleteCourse(c3);
 
             System.out.println(studentJDBCRepository.getAll());
-            System.out.println(courseJDBCRepository.getAll());
+            System.out.println(courseJDBCRepository.getAll());*/
 
 
             /*Teacher t1 = new Teacher(3,"Lala", "Haa");

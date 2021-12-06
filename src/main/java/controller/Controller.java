@@ -81,15 +81,10 @@ public class Controller {
      */
 
     public List<Course> retriveCoursesWithFreePlaces(){
-        List<Course> freePlacesCourses = new ArrayList<>();
-        for (Course course : courses.getAll()){
-            int freePlaces = course.getMaxEnrollment() - course.getStudentsEnrolledId().size();
-            if(freePlaces > 0){
-                freePlacesCourses.add(course);
-            }
-        }
         //TODO in View display nr of free places
-        return freePlacesCourses;
+        return courses.getAll().stream()
+                                .filter(elem -> elem.getMaxEnrollment()-elem.getStudentsEnrolledId().size() >0)
+                                .collect(Collectors.toList());
     }
 
 
@@ -126,20 +121,18 @@ public class Controller {
      * @throws IOException  if there occurs an error with the ObjectOutputStream
      */
     public List<Course> deleteCourse(Course course) throws NonexistentArgumentException, SQLException {
-        //TODO functia de remove din course
         if(courses.getAll().contains(course)){
             for (Student student: students.getAll()){       //delete from every student's list, the course
-                List<Pair> studentCourses = student.getEnrolledCourses();
-                List<Integer> enrolledCoursesId = new ArrayList<>();
-                for(Pair elem : studentCourses){
-                    enrolledCoursesId.add(elem.getCourseId());    //from the pairs, get only the id
-                }
+                List<Integer> enrolledCoursesId = student.getEnrolledCourses().stream()          //from the pairs, get only the id
+                                                        .map(Pair::getCourseId)
+                                                        .collect(Collectors.toList());
 
                 if(enrolledCoursesId.contains(course.getId())){
                     student.removeCourse(course);
 
                     //update the students REPO
-                    students.update(student);   //I_AM SETAT NUMA TOTALCREDITS, SI NU MAI ARE CURSU IN LISTA< DA IN BAZA DE DATE II
+                    students.update(student);   //we only set the totalCredits ad delete the course from the students list
+                                                // from the database it is not deleted yet -> the delete course will do that
                 }
             }
 

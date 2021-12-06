@@ -10,6 +10,7 @@ import controller.TooManyCreditsException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * A specific type of person, enrolled in a University
@@ -100,21 +101,23 @@ public class Student extends Person implements Comparable<Student> {
             throw new NonexistentArgumentException("Course does not exist in the student's list");
         }
 
-        for(Pair actualCoursePair: enrolledCourses) {
-            //update the nr of credits of the student -> 2 possibilities (remains under 30 de credits, or not)
-            if (actualCoursePair.getCourseId() == course.getId()) {
-                int newValue = totalCredits - actualCoursePair.getCredits() + newCredits;
+        Pair actualCoursePair = enrolledCourses.stream()
+                .filter(elem -> elem.getCourseId() == course.getId())
+                .findAny()
+                .orElse(null);
 
-                if (newValue <= 30) {
-                    totalCredits = newValue;
-                    actualCoursePair.setCredits(newCredits);
-                    break;
-                } else {
-                    //remove the course from the students list + throw to
-                    enrolledCourses.remove(actualCoursePair);
-                    totalCredits = totalCredits - actualCoursePair.getCredits();
-                    throw new TooManyCreditsException("The credits limit has been reached for " + this.studentId + ". Student unenrolled!", this.getId());
-                }
+            //update the nr of credits of the student -> 2 possibilities (remains under 30 de credits, or not)
+        if (actualCoursePair!=null) {
+            int newValue = totalCredits - actualCoursePair.getCredits() + newCredits;
+
+            if (newValue <= 30) {
+                totalCredits = newValue;
+                actualCoursePair.setCredits(newCredits);
+            } else {
+                //remove the course from the students list + throw to
+                enrolledCourses.remove(actualCoursePair);
+                totalCredits = totalCredits - actualCoursePair.getCredits();
+                throw new TooManyCreditsException("The credits limit has been reached for " + this.studentId + ". Student unenrolled!", this.getId());
             }
         }
     }

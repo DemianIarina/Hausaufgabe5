@@ -20,17 +20,7 @@ public class Main {
     static final String USER = "root";
     static final String PASS = "lolipop";
 
-    public static void main(String[] args) throws IOException {
-//        StudentFileRepo studentRepository = new StudentFileRepo("Students.json");
-//
-//        TeacherFileRepo teacherRepository = new TeacherFileRepo("Teachers.json");
-//
-//        CourseFileRepo courseRepository = new CourseFileRepo("Courses.json");
-//
-//        Controller controller = new Controller(courseRepository, studentRepository, teacherRepository);
-//        KonsoleView view = new KonsoleView(controller);
-//        view.main_menu();
-
+    public static void main(String[] args){
         try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
             Statement stmt = conn.createStatement();){
             TeacherJDBCRepository teacherJDBCRepository = new TeacherJDBCRepository(stmt);

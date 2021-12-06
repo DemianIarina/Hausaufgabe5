@@ -43,12 +43,12 @@ public class Main {
 
             Controller controller = new Controller(courseJDBCRepository,studentJDBCRepository,teacherJDBCRepository);
 
-            System.out.println(controller.retriveCoursesWithFreePlaces());
+/*            System.out.println(controller.retriveCoursesWithFreePlaces());
             System.out.println(controller.getAllCourses());
             System.out.println(controller.sortStudents());
             System.out.println(controller.sortCourses());
             System.out.println(controller.filterStudents());
-            System.out.println(controller.filterCourses());
+            System.out.println(controller.filterCourses());*/
 
             //deleteCourse without students
             //TODO delete la cursuri cu studenti
@@ -58,13 +58,12 @@ public class Main {
             System.out.println(controller.deleteCourse(c4));*/
 
             //register
-            //TODO in view sa se creeze obiect nou
-            Course c1 = new Course(1, "c1", 1,2,10);
-            Course c2 = new Course(2, "c2", 1, 2, 10);
-            Course c3  = new Course(3,"c3", 2, 2, 11);
-            Student s1 = new Student(1, "Mihai", "Dinero", 101, 0);
-            Student s2 = new Student(2,"Bob", "Rus", 102,0);
-            Student s3 = new Student(3, "Ion", "Goga", 103,0);
+            Course c1 = courseJDBCRepository.getAll().get(0);
+            Course c2 = courseJDBCRepository.getAll().get(1);
+            Course c3  = courseJDBCRepository.getAll().get(2);
+            Student s1 = studentJDBCRepository.getAll().get(0);
+            Student s2 = studentJDBCRepository.getAll().get(1);
+            Student s3 = studentJDBCRepository.getAll().get(2);
             controller.register(c1,s1);
             controller.register(c1,s2);
             controller.register(c2,s1);

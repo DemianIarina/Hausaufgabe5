@@ -78,20 +78,22 @@ public class CourseJDBCRepository extends JDBCRepository<Course>{
      */
     @Override
     public Course update(Course obj) throws SQLException {
-        Course courseToUpdate = this.repoList.stream()
-                .filter(course -> course.getId() == obj.getId())
-                .findFirst()
-                .orElseThrow();
-
-        List<Integer> oldStudents = courseToUpdate.getStudentsEnrolledId();
+        List<Integer> oldStudents = new ArrayList<>();
+        ResultSet rs = stmt.executeQuery("SELECT idStudent FROM studenten_course  WHERE idCourse = " + obj.getId() +";" );
+        while(rs.next()){
+            oldStudents.add(rs.getInt("idStudent"));
+        }
 
         if(oldStudents.size() > obj.getStudentsEnrolledId().size()){   //when a student has been deleted
             List<Integer> aux = new ArrayList<>(oldStudents);
-            aux.removeAll(obj.getStudentsEnrolledId());        //the one which is in the database
-            int deletedStudentId = aux.get(0);                   // but in the given student object not
-            oldStudents.remove(deletedStudentId);
+            aux.removeAll(obj.getStudentsEnrolledId());        //the ones which are in the database
+                                                                // but in the given student object not
+            for (int deletedStudentId : aux) {
+                oldStudents.remove(deletedStudentId);
 
-            stmt.executeUpdate("DELETE FROM studenten_course WHERE idCourse = " + courseToUpdate.getId() + "AND idStudent = " + deletedStudentId +";");
+                stmt.executeUpdate("DELETE FROM studenten_course WHERE idCourse = " + obj.getId() + "AND idStudent = " + deletedStudentId + ";");
+            }
+
         }
         else
             if(oldStudents.size() < obj.getStudentsEnrolledId().size()) {    //when a student has been added
@@ -103,9 +105,7 @@ public class CourseJDBCRepository extends JDBCRepository<Course>{
                 stmt.executeUpdate("INSERT INTO studenten_course VALUES(" + addedStudentId + ", " + obj.getId() + ");");
             }
 
-        courseToUpdate.setStudentsEnrolledId(oldStudents);
-
-        return courseToUpdate;
+        return obj;
     }
 
     /**
@@ -115,15 +115,9 @@ public class CourseJDBCRepository extends JDBCRepository<Course>{
      * @return modified course
      */
     public Course updateCredits(Course obj) throws SQLException {
-        Course courseToUpdate = this.repoList.stream()
-                .filter(course -> course.getId() == obj.getId())
-                .findFirst()
-                .orElseThrow();
-        courseToUpdate.setCredits(obj.getCredits());
-
         stmt.executeUpdate("UPDATE course SET credits = "+ obj.getCredits() + " where id = " + obj.getId() +";");
 
-        return courseToUpdate;
+        return obj;
     }
 
     /**

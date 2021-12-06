@@ -91,61 +91,11 @@ public class StudentJDBCRepository extends JDBCRepository<Student> {
     //TODO maybe face rezl prost la update creditsCourse din controller!!!!!!!!!!!!
     @Override
     public Student update(Student obj) throws SQLException {
-        Student studentToUpdate = this.repoList.stream()
-                .filter(student -> student.getStudentId() == obj.getStudentId())
-                .findFirst()
-                .orElseThrow();
-
-
-        List<Integer> oldCourses = new ArrayList<>();
-        for(Pair elem: studentToUpdate.getEnrolledCourses()) {
-            oldCourses.add(elem.getCourseId());      //find the old courses ids
-        }
-
-        if(oldCourses.size() > obj.getEnrolledCourses().size()){    //when a course has been deleted
-            //find the deleted course
-            List<Integer> aux = new ArrayList<>(oldCourses);
-            List<Integer> newEnrolledCoursesId = new ArrayList<>();
-            for(Pair elem : obj.getEnrolledCourses()){
-                newEnrolledCoursesId.add(elem.getCourseId());    //from the pairs, get only the id
-            }
-            aux.removeAll(newEnrolledCoursesId);        //the one which is in the database
-            int deletedCourseId = aux.get(0);        // but in the given student object not
-
-            Pair deletedCoursePair = obj.getEnrolledCourses().stream()
-                    .filter(elem -> elem.getCourseId() == deletedCourseId)
-                    .findFirst()
-                    .orElseThrow();
-
-            Course deletedCourse = new Course(deletedCoursePair.getCourseId(), deletedCoursePair.getCredits());
-            studentToUpdate.removeCourse(deletedCourse);
-        }
-        else
-            if(oldCourses.size() < obj.getEnrolledCourses().size()){    //when a course has been added
-                List<Integer> newEnrolledCoursesId = new ArrayList<>();
-                for(Pair elem : obj.getEnrolledCourses()){
-                    newEnrolledCoursesId.add(elem.getCourseId());    //from the pairs, get only the id
-                }
-
-                List<Integer> aux = new ArrayList<>(newEnrolledCoursesId);
-                aux.removeAll(oldCourses);
-                int addedCourseId = aux.get(0);
-
-                Pair addedCoursePair = obj.getEnrolledCourses().stream()
-                        .filter(elem -> elem.getCourseId() == addedCourseId)
-                        .findFirst()
-                        .orElseThrow();
-
-                Course deletedCourse = new Course(addedCoursePair.getCourseId(), addedCoursePair.getCredits());
-                studentToUpdate.addCourse(deletedCourse);
-            }
 
         //update the total of credits in the database
-        stmt.executeUpdate("UPDATE student SET totalCredits = "+ obj.getTotalCredits() + " where id = " + studentToUpdate.getId() +";");  //total credits of given object
+        stmt.executeUpdate("UPDATE student SET totalCredits = "+ obj.getTotalCredits() + " where id = " + obj.getId() +";");  //total credits of given object
                                                                                                                                               // because it has the modified nr of credits
-
-
-        return studentToUpdate;
+        return obj;
     }
 
     /**

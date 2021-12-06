@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import controller.AlreadyExistingException;
 import controller.FullCourseException;
+import controller.NonexistentArgumentException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +55,14 @@ public class Course implements Comparable<Course>{
             }
             studentsEnrolledId.add(studentId);
         }
+
+    public void removeStudent(int studentId) throws NonexistentArgumentException {
+        if(!studentsEnrolledId.contains(studentId)){
+            throw new AlreadyExistingException("Not registered to this course");
+        }
+
+        studentsEnrolledId.remove(studentId);
+    }
 
         public String getName() {
             return name;

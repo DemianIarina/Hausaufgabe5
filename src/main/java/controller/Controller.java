@@ -126,20 +126,20 @@ public class Controller {
      * @throws IOException  if there occurs an error with the ObjectOutputStream
      */
     public List<Course> deleteCourse(Course course) throws NonexistentArgumentException, SQLException {
-        if(courses.getAll().stream().anyMatch(elem -> elem.getId() == course.getId())){
+        //TODO functia de remove din course
+        if(courses.getAll().contains(course)){
             for (Student student: students.getAll()){       //delete from every student's list, the course
                 List<Pair> studentCourses = student.getEnrolledCourses();
                 List<Integer> enrolledCoursesId = new ArrayList<>();
                 for(Pair elem : studentCourses){
                     enrolledCoursesId.add(elem.getCourseId());    //from the pairs, get only the id
                 }
-                Student studentModif = new Student(student.getId(),student.getFirstName(), student.getLastName(),student.getStudentId(),student.getTotalCredits(), student.getEnrolledCourses());
 
                 if(enrolledCoursesId.contains(course.getId())){
-                    studentModif.removeCourse(course);
+                    student.removeCourse(course);
 
                     //update the students REPO
-                    students.update(studentModif);
+                    students.update(student);   //I_AM SETAT NUMA TOTALCREDITS, SI NU MAI ARE CURSU IN LISTA< DA IN BAZA DE DATE II
                 }
             }
 
@@ -151,16 +151,11 @@ public class Controller {
                     .findAny()
                     .orElse(null);
             assert teacher != null;
-            Teacher teacherModif = new Teacher(teacher.getId(),teacher.getFirstName(), teacher.getLastName(),teacher.getCourses());
-            teacherModif.removeCourse(course.getId());
-            teachers.update(teacherModif);
+            teacher.removeCourse(course.getId());
+            teachers.update(teacher);
 
             //delete from the course REPO
-            Course actualCourse = courses.getAll().stream()
-                    .filter(elem -> elem.getId() == course.getId())
-                    .findAny()
-                    .orElse(null);
-            courses.delete(actualCourse);
+            courses.delete(course);
 
 
             return courses.getAll();
@@ -184,14 +179,10 @@ public class Controller {
 
     public List<Course> updateCreditsCourse(Course course, int newCredits) throws NonexistentArgumentException, IOException, SQLException {
         List<Integer> toUnenrollStudents = new ArrayList<>();
-        Course actualCourse = courses.getAll().stream()
-                .filter(elem -> elem.getId() == course.getId())
-                .findAny()
-                .orElse(null);
-        if(courses.getAll().contains(actualCourse)) {
+
+        if(courses.getAll().contains(course)) {
             //update student REPO
-            assert actualCourse != null;
-            for (int studentId : actualCourse.getStudentsEnrolledId()) {
+            for (int studentId : course.getStudentsEnrolledId()) {
                 Student student = students.getAll().stream()
                         .filter(elem -> elem.getId() == studentId)
                         .findAny()
@@ -200,7 +191,7 @@ public class Controller {
 
                     assert student != null;
                     if(student.getEnrolledCourses().stream().anyMatch(elem -> elem.getCourseId() == course.getId())) {
-                            student.updateCredits(actualCourse, newCredits);
+                            student.updateCredits(course, newCredits);
                             students.update(student);
                     }
                 }

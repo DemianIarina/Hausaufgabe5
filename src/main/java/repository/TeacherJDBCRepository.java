@@ -79,27 +79,7 @@ public class TeacherJDBCRepository extends JDBCRepository<Teacher>{
      */
     @Override
     public Teacher update(Teacher obj) throws SQLException {
-        Teacher teacherToUpdate = this.repoList.stream()
-                .filter(teacher -> teacher.getId()== obj.getId())
-                .findFirst()
-                .orElseThrow();
-
-/*
-        ResultSet rs = stmt.executeQuery("SELECT id FROM course WHERE idTeacher = " + obj.getId() + ";");
-        List<Integer> oldCourses = new ArrayList<>();
-        while(rs.next()) {
-           oldCourses.add(rs.getInt("id"));      //find the actual list of courses from the database
-        }
-
-        //find the deleted course
-        List<Integer> aux = new ArrayList<>(oldCourses);
-        aux.removeAll(obj.getCourses());        //the one which is in the database
-        int deletedCourseId = aux.get(0);       // but in the given teacher object not
-        stmt.executeUpdate("DELETE FROM course WHERE id = " + deletedCourseId +";");
-*/
-
-        teacherToUpdate.setCourses(obj.getCourses());
-        return teacherToUpdate;
+        return obj;
     }
 
     /**

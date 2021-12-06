@@ -45,7 +45,9 @@ public class Main {
 
             System.out.println(controller.retriveCoursesWithFreePlaces());
             System.out.println(controller.getAllCourses());
+            System.out.println(controller.sortStudents());
             System.out.println(controller.sortCourses());
+            System.out.println(controller.filterStudents());
             System.out.println(controller.filterCourses());
 
             //deleteCourse without students
@@ -56,7 +58,7 @@ public class Main {
             System.out.println(controller.deleteCourse(c4));*/
 
             //register
-            //TODO verificat daca merge cu obiecte luate din repo
+            //TODO in view sa se creeze obiect nou
             Course c1 = new Course(1, "c1", 1,2,10);
             Course c2 = new Course(2, "c2", 1, 2, 10);
             Course c3  = new Course(3,"c3", 2, 2, 11);
@@ -68,6 +70,11 @@ public class Main {
             controller.register(c2,s1);
             controller.register(c2,s3);
             controller.register(c3,s3);
+
+            System.out.println(studentJDBCRepository.getAll());
+            System.out.println(courseJDBCRepository.getAll());
+
+            controller.deleteCourse(c3);
 
             System.out.println(studentJDBCRepository.getAll());
             System.out.println(courseJDBCRepository.getAll());

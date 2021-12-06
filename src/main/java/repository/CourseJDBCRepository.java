@@ -133,6 +133,8 @@ public class CourseJDBCRepository extends JDBCRepository<Course>{
     @Override
     public void delete(Course obj) throws SQLException {
         repoList.remove(obj);
+
+        stmt.executeUpdate("DELETE FROM studenten_course WHERE idCourse = " + obj.getId()+ ";");
         stmt.executeUpdate("DELETE FROM course where id = "+ obj.getId()+";");
 
     }

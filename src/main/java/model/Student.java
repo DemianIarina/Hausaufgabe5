@@ -30,6 +30,13 @@ public class Student extends Person implements Comparable<Student> {
         this.enrolledCourses = new ArrayList<>();
     }
 
+    public Student(int id, String firstName, String lastName, long studentId, int totalCredits, List<Pair> enrolledCourses) {
+        super(id, firstName, lastName);
+        this.studentId = studentId;
+        this.totalCredits = totalCredits;
+        this.enrolledCourses = enrolledCourses;
+    }
+
     public Student(int id, String firstName, String lastName, long studentId) {
         super(id, firstName, lastName);
         this.studentId = studentId;

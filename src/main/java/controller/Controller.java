@@ -133,12 +133,13 @@ public class Controller {
                 for(Pair elem : studentCourses){
                     enrolledCoursesId.add(elem.getCourseId());    //from the pairs, get only the id
                 }
+                Student studentModif = new Student(student.getId(),student.getFirstName(), student.getLastName(),student.getStudentId(),student.getTotalCredits(), student.getEnrolledCourses());
 
                 if(enrolledCoursesId.contains(course.getId())){
-                    student.removeCourse(course);
+                    studentModif.removeCourse(course);
 
                     //update the students REPO
-                    students.update(student);
+                    students.update(studentModif);
                 }
             }
 
@@ -150,8 +151,9 @@ public class Controller {
                     .findAny()
                     .orElse(null);
             assert teacher != null;
-            teacher.removeCourse(course.getId());
-            teachers.update(teacher);
+            Teacher teacherModif = new Teacher(teacher.getId(),teacher.getFirstName(), teacher.getLastName(),teacher.getCourses());
+            teacherModif.removeCourse(course.getId());
+            teachers.update(teacherModif);
 
             //delete from the course REPO
             Course actualCourse = courses.getAll().stream()
@@ -159,6 +161,7 @@ public class Controller {
                     .findAny()
                     .orElse(null);
             courses.delete(actualCourse);
+
 
             return courses.getAll();
         }

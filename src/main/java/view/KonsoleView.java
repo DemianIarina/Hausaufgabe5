@@ -38,7 +38,6 @@ public class KonsoleView {
                     "------------------------");
 
             System.out.println("Choose a option (write the number):");
-            //TODO catch cand sa da argument prost
             try {
                 int inp = reader.nextInt();
                 reader.nextLine();

@@ -118,7 +118,7 @@ public class Main {
             courseJDBCRepository.create(c1);
             System.out.println(courseJDBCRepository.getAll());
 
-            //System.out.println(teacherJDBCRepository.read());    //TODO in controller, dupa ce adaug ceva sa mai citesc o data baza de date
+            //System.out.println(teacherJDBCRepository.read());
             //fiindca nu arata bine System.out.println(teacherJDBCRepository.getAll()); fara readu
 
             c1.setCredits(15);

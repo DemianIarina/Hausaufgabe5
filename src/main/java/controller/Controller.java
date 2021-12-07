@@ -14,7 +14,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-//TODO throw exeption pana la View
 public class Controller {
     private CourseJDBCRepository courses;
     private StudentJDBCRepository students;

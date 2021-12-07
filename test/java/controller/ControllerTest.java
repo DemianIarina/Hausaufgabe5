@@ -39,10 +39,20 @@ class ControllerTest {
     static final String USER = "root";
     static final String PASS = "lolipop";
 
+    public static void resetDatabase(Statement stmt) throws SQLException {
+        stmt.executeUpdate("DELETE FROM studenten_course;");
+        stmt.executeUpdate("UPDATE student SET totalCredits = "+ 0 + ";");
+        stmt.executeUpdate("DELETE FROM course;");
+        stmt.executeUpdate("INSERT INTO course VALUES (1,'c1',1,2,10), (2,'c2',1,2,10), (3,'c3',2,2,11)");
+    }
+
     @BeforeAll
     void init(){
         try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
             Statement stmt = conn.createStatement()){
+
+            resetDatabase(stmt);
+
             teacherJDBCRepository = new TeacherJDBCRepository(stmt);
             studentJDBCRepository = new StudentJDBCRepository(stmt);
             courseJDBCRepository = new CourseJDBCRepository(stmt);
@@ -128,24 +138,6 @@ class ControllerTest {
         List<Course> expectedCourses = new ArrayList<>(Arrays.asList(c1, c2, c3));
         assertEquals(expectedCourses,allCourses);
     }
-/*
-    @Test
-    void updateCreditsCourse() throws IOException, SQLException {
-        controller.updateCreditsCourse(c2,19);
-        assertEquals(29, s1.getTotalCredits());
-        assertEquals(30, s3.getTotalCredits());
-        assertEquals(19, c2.getCredits());
-
-        //when the course does not exist
-        Course c4  = new Course(4,"c4", 1, 2, 5);
-        try{
-            controller.updateCreditsCourse(c4,20);
-        }
-        catch (NonexistentArgumentException e){
-            assertEquals(5, c4.getCredits());
-        }
-
-    }*/
 
     @Test
     void sortStudents() {
@@ -178,27 +170,4 @@ class ControllerTest {
 
         assertEquals(expectedCourses,obtainedCourses);
     }
-
-/*    @Test
-    void deleteCourse() throws SQLException {
-        controller.deleteCourse(c3);
-        List<Integer> expectedCoursesTeacher = new ArrayList<>(List.of());
-        assertEquals(expectedCoursesTeacher,t2.getCourses());
-
-        List<Pair> expectedCoursesStudent = new ArrayList<>(List.of(new Pair(c2.getId(),c2.getCredits())));
-        assertEquals(expectedCoursesStudent,s3.getEnrolledCourses());
-
-        List<Course> expectedCourses = new ArrayList<>(Arrays.asList(c1, c2));
-        assertEquals(expectedCourses, courseJDBCRepository.getAll());
-
-        //when the course does not exist
-        Course c4  = new Course(4,"c4", 1, 2, 5);
-        List<Course> expectedCourses2 = new ArrayList<>(Arrays.asList(c1, c2));
-        try{
-            controller.deleteCourse(c4);
-        }
-        catch (NonexistentArgumentException e){
-            assertEquals(expectedCourses2, courseJDBCRepository.getAll());
-        }
-    }*/
 }

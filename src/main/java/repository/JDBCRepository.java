@@ -49,5 +49,4 @@ public abstract class JDBCRepository<T> implements ICrudRepository<T> {
      * @param obj the object to be deleted
      */
     public abstract void delete(T obj) throws SQLException;
-
 }

@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.mockito.Mockito;
 import repository.*;
 
 import java.io.IOException;
@@ -46,7 +47,7 @@ class ControllerTest {
         stmt.executeUpdate("INSERT INTO course VALUES (1,'c1',1,2,10), (2,'c2',1,2,10), (3,'c3',2,2,11)");
     }
 
-    @BeforeAll
+    @BeforeEach
     void init(){
         try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
             Statement stmt = conn.createStatement()){
@@ -170,4 +171,27 @@ class ControllerTest {
 
         assertEquals(expectedCourses,obtainedCourses);
     }
+
+    @Test
+    void deleteCourse() throws SQLException {
+        controller.deleteCourse(c3);
+        List<Integer> expectedCoursesTeacher = new ArrayList<>(List.of());
+        assertEquals(expectedCoursesTeacher,t2.getCourses());
+        List<Pair> expectedCoursesStudent = new ArrayList<>(List.of(new Pair(c2.getId(),c2.getCredits())));
+        assertEquals(expectedCoursesStudent,s3.getEnrolledCourses());
+        List<Course> expectedCourses = new ArrayList<>(Arrays.asList(c1, c2));
+        assertEquals(expectedCourses, courseJDBCRepository.getAll());
+        //when the course does not exist
+
+        Course c4  = new Course(4,"c4", 1, 2, 5);
+        List<Course> expectedCourses2 = new ArrayList<>(Arrays.asList(c1, c2));
+        try{
+            controller.deleteCourse(c4);
+        }
+        catch (NonexistentArgumentException e){
+            assertEquals(expectedCourses2,courseJDBCRepository.getAll());
+        }
+    }
+
+
 }

@@ -31,7 +31,7 @@ public class Main {
         try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
             Statement stmt = conn.createStatement()){
 
-            //resetDatabase(stmt);  //we can reset the database, to start from 0
+            resetDatabase(stmt);  //we can reset the database, to start from 0
 
             TeacherJDBCRepository teacherJDBCRepository = new TeacherJDBCRepository(stmt);
             StudentJDBCRepository studentJDBCRepository = new StudentJDBCRepository(stmt);

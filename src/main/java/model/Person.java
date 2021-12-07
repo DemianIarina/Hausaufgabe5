@@ -15,10 +15,6 @@ public abstract class Person {
         this.lastName = lastName;
     }
 
-
-    public Person() {
-    }
-
     public int getId() {
         return id;
     }
@@ -51,4 +47,5 @@ public abstract class Person {
                 ", lastName='" + lastName + '\'' +
                 '}';
     }
+
 }

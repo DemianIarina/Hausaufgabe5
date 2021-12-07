@@ -22,6 +22,7 @@ public class StudentJDBCRepository extends JDBCRepository<Student> {
     /**
      * returns the list from the database
      * @return a list of Students objects that were read
+     * @throws SQLException when any exception regarding the SQL happen
      */
     @Override
     public List<Student> read() throws SQLException {
@@ -71,6 +72,7 @@ public class StudentJDBCRepository extends JDBCRepository<Student> {
      * Adds a new Student to the repository, WITH THE DEFAULT NR OF CREDITS
      * @param obj a new Object of type Student
      * @return the added object
+     * @throws SQLException when any exception regarding the SQL happen
      */
     @Override
     public Student create(Student obj) throws SQLException {
@@ -82,13 +84,12 @@ public class StudentJDBCRepository extends JDBCRepository<Student> {
 
     /**
      * Modifies the courses list and the number of credits from a student in the repository, found by id
-     * Modifies the student database, in the credits column
-     * Does NOT modify the studenten_course database
+     * Modifies the student table, in the credits column
+     * Does NOT modify the studenten_course table
      * @param obj a student with the new courses and number of credits
      * @return modified student
+     * @throws SQLException when any exception regarding the SQL happen
      */
-    //TODO peste tot unde imi arunca exceptii sa pun in javadocs
-    //TODO maybe face rezl prost la update creditsCourse din controller!!!!!!!!!!!!
     @Override
     public Student update(Student obj) throws SQLException {
 
@@ -100,7 +101,9 @@ public class StudentJDBCRepository extends JDBCRepository<Student> {
 
     /**
      * delete an existing Student from the repo
+     * Modifies the student table
      * @param obj the Student to be deleted
+     * @throws SQLException when any exception regarding the SQL happen
      */
     @Override
     public void delete(Student obj) throws SQLException {

@@ -1,7 +1,5 @@
 package model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import controller.AlreadyExistingException;
 import controller.NonexistentArgumentException;
 
@@ -9,10 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A specific type of person, who teaches at a Univeristy
+ * A specific type of person, who teaches at a University
  * He teaches one or more courses
  */
-@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "@json_id")
 public class Teacher extends Person{
     private List<Integer> courses;
 
@@ -21,19 +18,10 @@ public class Teacher extends Person{
         this.courses = new ArrayList<>();
     }
 
-    public Teacher(int id, String firstName, String lastName, List<Integer> courses) {
-        super(id, firstName, lastName);
-        this.courses = courses;
-    }
-
-
-    public Teacher(){
-        super();
-    }
 
     /**
-     * Adds a new curse to the list of taught courses
-     * @param courseId a new Course object
+     * Adds a new curse id to the list of taught courses
+     * @param courseId a new Course id
      * @throws AlreadyExistingException if the course already exists
      */
     public void addCourse(int courseId) throws AlreadyExistingException {
@@ -44,9 +32,9 @@ public class Teacher extends Person{
     }
 
     /**
-     * Removes a course from the list of taught courses
-     * @param course a course object
-     * @throws NonexistentArgumentException if the course does not exist
+     * Removes a course id from the list of taught courses
+     * @param course a course id
+     * @throws NonexistentArgumentException if the course does not exist in the teachers list
      */
     public void removeCourse(int course) throws NonexistentArgumentException {
         if(!courses.contains(course)){

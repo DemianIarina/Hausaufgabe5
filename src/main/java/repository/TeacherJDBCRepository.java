@@ -18,8 +18,9 @@ public class TeacherJDBCRepository extends JDBCRepository<Teacher>{
     }
 
     /**
-     * returns the list from the file
+     * returns the list from the database
      * @return a list of Teacher objects that were read
+     * @throws SQLException when any exception regarding the SQL happen
      */
     @Override
     public List<Teacher> read() throws SQLException {
@@ -62,6 +63,7 @@ public class TeacherJDBCRepository extends JDBCRepository<Teacher>{
      * Adds a new Teacher, WITHOUT COURSES, to the repository
      * @param obj a new Object of type Teacher
      * @return the added object
+     * @throws SQLException when any exception regarding the SQL happen
      */
     @Override
     public Teacher create(Teacher obj) throws SQLException {
@@ -72,19 +74,21 @@ public class TeacherJDBCRepository extends JDBCRepository<Teacher>{
     }
 
     /**
-     * Modifies the list of courses of a specific teacher in the repository, found by id
+     * Modifies the list of courses of a specific teacher in the repository
      * Does NOT remove the course from the courses database
      * @param obj a teacher with the new list of courses
      * @return modified teacher
      */
     @Override
-    public Teacher update(Teacher obj) throws SQLException {
-        return obj;
+    public Teacher update(Teacher obj) {
+        return obj;   //the object is already modified
     }
 
     /**
      * delete an existing Teacher from the repo
+     * Modifies obly the teaxher table
      * @param obj the Teacher to be deleted
+     * @throws SQLException when any exception regarding the SQL happen
      */
     @Override
     public void delete(Teacher obj) throws SQLException {

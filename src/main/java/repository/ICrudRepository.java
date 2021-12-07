@@ -17,4 +17,5 @@ public interface ICrudRepository <T> {
     T update(T obj) throws IOException, SQLException;
 
     void delete(T obj) throws IOException, SQLException;
+
 }

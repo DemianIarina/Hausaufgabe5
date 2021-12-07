@@ -1,16 +1,12 @@
 package repository;
 
 import model.Course;
-import model.Pair;
-import model.Student;
 
-import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class CourseJDBCRepository extends JDBCRepository<Course>{
     public CourseJDBCRepository(Statement stmt) throws SQLException {
@@ -18,8 +14,9 @@ public class CourseJDBCRepository extends JDBCRepository<Course>{
     }
 
     /**
-     * returns the list from the file
+     * returns the list of courses from the database
      * @return a list of Courses objects that were read
+     * @throws SQLException when any exception regarding the SQL happen
      */
     @Override
     public List<Course> read() throws SQLException {
@@ -35,8 +32,8 @@ public class CourseJDBCRepository extends JDBCRepository<Course>{
                 int credits= resultSet.getInt("credits");
                 int studentId = resultSet.getInt("idStudent");
 
-                if (courses.stream().anyMatch(course -> course.getId() == id)) {
-                    Course searchedcourse = courses.stream()
+                if (courses.stream().anyMatch(course -> course.getId() == id)) {   //if the course already in the list is
+                    Course searchedcourse = courses.stream()                        //means that the course has more than 1 students enrolled
                             .filter(course -> course.getId() == id)
                             .findAny()
                             .orElse(null);
@@ -46,7 +43,7 @@ public class CourseJDBCRepository extends JDBCRepository<Course>{
                 else{
                 Course course = new Course(id, name, idTeacher,maxEnrollment,credits);
                 if(studentId != 0){
-                    course.addStudent(studentId);
+                    course.addStudent(studentId);           //when the course has a student enrolled
                 }
                 courses.add(course);
                 }
@@ -58,9 +55,11 @@ public class CourseJDBCRepository extends JDBCRepository<Course>{
     }
 
     /**
-     * Adds a new Course to the repository
+     * Adds a new Course to the repository,
+     * incl. in the database
      * @param obj a new Object of type Course
      * @return the added object
+     * @throws SQLException when any exception regarding the SQL happen
      */
     @Override
     public Course create(Course obj) throws SQLException {
@@ -72,9 +71,10 @@ public class CourseJDBCRepository extends JDBCRepository<Course>{
 
     /**
      * Modifies the students list of a course in repository
-     * Modifies studenten_course database  also
+     * Modifies studenten_course table also
      * @param obj a course with the new list of students
      * @return modified course
+     * @throws SQLException when any exception regarding the SQL happen
      */
     @Override
     public Course update(Course obj) throws SQLException {
@@ -110,9 +110,10 @@ public class CourseJDBCRepository extends JDBCRepository<Course>{
 
     /**
      * Modified the number of credits of a specific course in the repository, found by id
-     * Modifies in the database also
+     * Modifies in the course table also
      * @param obj a course with a new value for credits
      * @return modified course
+     * @throws SQLException when any exception regarding the SQL happen
      */
     public Course updateCredits(Course obj) throws SQLException {
         stmt.executeUpdate("UPDATE course SET credits = "+ obj.getCredits() + " where id = " + obj.getId() +";");
@@ -122,13 +123,15 @@ public class CourseJDBCRepository extends JDBCRepository<Course>{
 
     /**
      * delete an existing Course from the repo
+     * Modifies in the database Course table and in the studenten_course link table
      * @param obj the Course to be deleted
+     * @throws SQLException when any exception regarding the SQL happen
      */
     @Override
     public void delete(Course obj) throws SQLException {
         repoList.remove(obj);
 
-        stmt.executeUpdate("DELETE FROM studenten_course WHERE idCourse = " + obj.getId()+ ";");
+        stmt.executeUpdate("DELETE FROM studenten_course WHERE idCourse = " + obj.getId()+ ";");   //delete from the link table
         stmt.executeUpdate("DELETE FROM course where id = "+ obj.getId()+";");
 
     }

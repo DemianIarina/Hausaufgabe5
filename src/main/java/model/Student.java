@@ -1,24 +1,19 @@
 package model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.mysql.cj.conf.ConnectionUrlParser;
 import controller.AlreadyExistingException;
 import controller.NonexistentArgumentException;
 import controller.TooManyCreditsException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
+
 
 /**
  * A specific type of person, enrolled in a University
- * He has a personal id, and a total number of credits from the courses he is enrolled
+ * He has a firstname, lastname, studenId, and a total number of credits from the courses he is enrolled
  * He can have maximum 30 credits
  * He can be enrolled in one or many courses
  */
-@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "@json_id")
 public class Student extends Person implements Comparable<Student> {
     private long studentId;
     private int totalCredits;
@@ -31,21 +26,12 @@ public class Student extends Person implements Comparable<Student> {
         this.enrolledCourses = new ArrayList<>();
     }
 
-    public Student(int id, String firstName, String lastName, long studentId, int totalCredits, List<Pair> enrolledCourses) {
-        super(id, firstName, lastName);
-        this.studentId = studentId;
-        this.totalCredits = totalCredits;
-        this.enrolledCourses = enrolledCourses;
-    }
-
     public Student(int id, String firstName, String lastName, long studentId) {
         super(id, firstName, lastName);
         this.studentId = studentId;
         this.enrolledCourses = new ArrayList<>();
     }
 
-
-    public Student(){super();}
 
     /**
      * Adds a new curse to the list of attended courses, and adds the corresponding number of credits to the total

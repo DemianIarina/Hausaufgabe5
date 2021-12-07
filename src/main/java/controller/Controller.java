@@ -47,8 +47,8 @@ public class Controller {
      * @param student the student who wants to register to the course
      * @return true if all repos have been updated successfully
      * @throws NonexistentArgumentException if the given student or course does not exist in the according repository
-     * @throws IOException  if there occurs an error with the ObjectOutputStream
      * @throws TooManyCreditsException if the credits has been exited
+     * @throws SQLException when any exception regarding the SQL happen
      */
 
     public boolean register(Course course, Student student) throws NonexistentArgumentException, TooManyCreditsException, SQLException {
@@ -89,7 +89,7 @@ public class Controller {
 
 
     /**
-     * Gives a list of all students enrolled in a given course found in the course
+     * Gives a list of all students enrolled in a given course found in the course repo
      * @param course the course from which we want the students enrolled
      * @return a list of studentsId
      * @throws NonexistentArgumentException if the given course does not exist is the courses repository
@@ -118,7 +118,7 @@ public class Controller {
      * @param course the course to be deleted
      * @return the modified list of courses
      * @throws NonexistentArgumentException if the given course does not exist in te courses list
-     * @throws IOException  if there occurs an error with the ObjectOutputStream
+     * @throws SQLException when any exception regarding the SQL happen
      */
     public List<Course> deleteCourse(Course course) throws NonexistentArgumentException, SQLException {
         if(courses.getAll().contains(course)){
@@ -160,17 +160,17 @@ public class Controller {
     }
 
     /**
-     * A teacher can update the number of credits of his/her course, automaticly modifying the value of the total value of credits
+     * A teacher can update the number of credits of his/her course, automatically modifying the value of the total value of credits
      * for each student enrolled by his/her course - if the total credits of the student has been reached,
      * the course will be automatically be taken out - through student.updateCourse()
      * @param course the course to be updated
      * @param newCredits the new value for numbers of credits
      * @return the updated list of courses
      * @throws NonexistentArgumentException if the given course does not exist in te courses list
-     * @throws IOException  if there occurs an error with the ObjectOutputStream
+     * @throws SQLException when any exception regarding the SQL happen
      */
 
-    public List<Course> updateCreditsCourse(Course course, int newCredits) throws NonexistentArgumentException, IOException, SQLException {
+    public List<Course> updateCreditsCourse(Course course, int newCredits) throws NonexistentArgumentException, SQLException {
         List<Integer> toUnenrollStudents = new ArrayList<>();
 
         if(courses.getAll().contains(course)) {

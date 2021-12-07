@@ -1,7 +1,5 @@
 package model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import controller.AlreadyExistingException;
 import controller.FullCourseException;
 import controller.NonexistentArgumentException;
@@ -13,7 +11,6 @@ import java.util.List;
  * Represents a subject taught in a university by one specific teacher, and has a credits value
  * There can be none to as many students enrolled, as in maxEnrolled specified
  */
-@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "@json_id")
 public class Course implements Comparable<Course>{
         private int id;
         private String name;
@@ -41,7 +38,7 @@ public class Course implements Comparable<Course>{
 
         /**
          * Adds a new student to the course list
-         * @param studentId a new student object
+         * @param studentId a new student id
          * @throws AlreadyExistingException if the student already enrolled in the course is
          * @throws FullCourseException if the max number of enrolled students has been reached
          */
@@ -56,13 +53,18 @@ public class Course implements Comparable<Course>{
             studentsEnrolledId.add(studentId);
         }
 
-    public void removeStudent(int studentId) throws NonexistentArgumentException {
-        if(!studentsEnrolledId.contains(studentId)){
-            throw new AlreadyExistingException("Not registered to this course");
-        }
+        /**
+         * removes a student from the students list
+         * @param studentId the students id to be removed
+         * @throws NonexistentArgumentException if the student is not enrolled to the course
+         */
+        public void removeStudent(int studentId) throws NonexistentArgumentException {
+            if(!studentsEnrolledId.contains(studentId)){
+                throw new AlreadyExistingException("Not registered to this course");
+            }
 
-        studentsEnrolledId.remove(studentId);
-    }
+            studentsEnrolledId.remove(studentId);
+        }
 
         public String getName() {
             return name;

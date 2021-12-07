@@ -1,7 +1,9 @@
 package model;
 
-import java.util.Objects;
-
+/**
+ * A pair of the id of a course and the number of credits
+ * used for easier management of Courses in a student object
+ */
 public class Pair {
     private int courseId;
     private int credits;

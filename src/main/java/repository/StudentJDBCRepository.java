@@ -50,14 +50,14 @@ public class StudentJDBCRepository extends JDBCRepository<Student> {
                             .orElse(null);
                     Course newCourse = new Course(courseId, name, idTeacher, maxEnrollment, credits);
                     assert searchedStudent != null;
-                    searchedStudent.addCourse(newCourse);
+                    searchedStudent.getEnrolledCourses().add(new Pair(newCourse.getId(), newCourse.getCredits()));
 
                 }
                 else{
                     Student student = new Student(id, firstName, lastName, studentId, totalCredits);
                     if(courseId != 0){
                         Course newCourse = new Course(courseId, name, idTeacher, maxEnrollment, credits);
-                        student.addCourse(newCourse);
+                        student.getEnrolledCourses().add(new Pair(newCourse.getId(), newCourse.getCredits()));
                     }
                     students.add(student);
                 }

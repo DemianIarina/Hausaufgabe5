@@ -1,21 +1,27 @@
-/*
 package controller;
 
 import model.Course;
+import model.Pair;
 import model.Student;
 import model.Teacher;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import repository.*;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ControllerTest {
     Controller controller;
     Teacher t1;
@@ -26,73 +32,78 @@ class ControllerTest {
     Student s1;
     Student s2;
     Student s3;
-    StudentJDBCRepository studentRepository;
-    TeacherJDBCRepository teacherRepository;
-    CourseJDBCRepository courseRepository;
+    StudentJDBCRepository studentJDBCRepository;
+    TeacherJDBCRepository teacherJDBCRepository;
+    CourseJDBCRepository courseJDBCRepository;
+    static final String DB_URL = "jdbc:mysql://localhost:3306/lab5database";
+    static final String USER = "root";
+    static final String PASS = "lolipop";
 
-    @BeforeEach
-    void init() throws Exception {
-        CopyFromFileaToFileb.copyContent("StudentsOG.json", "Students.json");
-        CopyFromFileaToFileb.copyContent("TeachersOG.json", "Teachers.json");
-        CopyFromFileaToFileb.copyContent("CoursesOG.json", "Courses.json");
+    @BeforeAll
+    void init(){
+        try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            Statement stmt = conn.createStatement()){
+            teacherJDBCRepository = new TeacherJDBCRepository(stmt);
+            studentJDBCRepository = new StudentJDBCRepository(stmt);
+            courseJDBCRepository = new CourseJDBCRepository(stmt);
 
-        studentRepository = new StudentJDBCRepository("Students.json");
-        teacherRepository = new TeacherFileRepo("Teachers.json");
-        courseRepository = new CourseFileRepo("Courses.json");
-        controller = new Controller(courseRepository, studentRepository, teacherRepository);
+            controller = new Controller(courseJDBCRepository,studentJDBCRepository,teacherJDBCRepository);
+            t1 = teacherJDBCRepository.getAll().get(0);
+            t2 = teacherJDBCRepository.getAll().get(1);
 
-        t1 = teacherRepository.getAll().get(0);
-        t2 = teacherRepository.getAll().get(1);
+            c1 = this.courseJDBCRepository.getAll().get(0);
+            c2 = this.courseJDBCRepository.getAll().get(1);
+            c3  = this.courseJDBCRepository.getAll().get(2);
 
-        c1 = courseRepository.getAll().get(0);
-        c2 = courseRepository.getAll().get(1);
-        c3  = courseRepository.getAll().get(2);
+            s1 = this.studentJDBCRepository.getAll().get(0);
+            s2 = this.studentJDBCRepository.getAll().get(1);
+            s3 = this.studentJDBCRepository.getAll().get(2);
 
-        s1 = studentRepository.getAll().get(0);
-        s2 = studentRepository.getAll().get(1);
-        s3 = studentRepository.getAll().get(2);
+            controller.register(c1,s1);
+            controller.register(c1,s2);
 
-        controller.register(c1,s1);
-        controller.register(c1,s2);
+            controller.register(c2,s1);
+            controller.register(c2,s3);
 
-        controller.register(c2,s1);
-        controller.register(c2,s3);
+            controller.register(c3,s3);
 
-        controller.register(c3,s3);
+        } catch (SQLException exeption) {
+            exeption.printStackTrace();
+        }
     }
 
     @Test
-    void register() throws IOException{
+    void register() throws IOException, SQLException{
 
         //check the effect on the students
-        List<Course> expectedCourses = new ArrayList<>(Arrays.asList(c1,c2));
+        List<Pair> expectedCourses = new ArrayList<>(Arrays.asList(new Pair(c1.getId(),c1.getCredits()),new Pair(c2.getId(),c2.getCredits())));
         assertEquals(expectedCourses,s1.getEnrolledCourses());
 
         //check the effect on the courses
-        List<Student> expectedStudents = new ArrayList<>(Arrays.asList(s1, s3));
-        assertEquals(expectedStudents, c2.getStudentsEnrolled());
+        List<Integer> expectedStudents = new ArrayList<>(Arrays.asList(s1.getId(), s3.getId()));
+        assertEquals(expectedStudents, c2.getStudentsEnrolledId());
 
         //when the student does not exist
-        Student s4 = new Student("Ionel", "Tau", 104);
-        List<Course> expectedCourses2 = new ArrayList<>(List.of());
-        List<Student> expectedStudents2 = new ArrayList<>(List.of(s3));
+        Student s4 = new Student(4,"Ionel", "Tau", 104);
+        List<Pair> expectedCourses2 = new ArrayList<>(List.of());
+        List<Integer> expectedStudents2 = new ArrayList<>(List.of(s3.getId()));
         try{
             controller.register(c3,s4);
         }
         catch (NonexistentArgumentException e){
             assertEquals(expectedCourses2,s4.getEnrolledCourses());
-            assertEquals(expectedStudents2, c3.getStudentsEnrolled());
+            assertEquals(expectedStudents2, c3.getStudentsEnrolledId());
         }
 
         //when the course does not exist
-        Course c4  = new Course("c4", t1, 2, 5);
-        List<Student> expectedStudents3 = new ArrayList<>(List.of());
+        Course c4  = new Course(4, "c4", 1, 2, 5);
+        List<Integer> expectedStudents3 = new ArrayList<>(List.of());
         try{
             controller.register(c4,s1);
         }
         catch (NonexistentArgumentException e){
             assertEquals(expectedCourses,s1.getEnrolledCourses());
-            assertEquals(expectedStudents3, c4.getStudentsEnrolled());
+            assertEquals(expectedStudents3, c4.getStudentsEnrolledId());
 
         }
     }
@@ -107,7 +118,7 @@ class ControllerTest {
     @Test
     void retrieveStudentsEnrolledForACourse() {
         List<Integer> enrolledStudents = controller.retrieveStudentsEnrolledForACourse(c2);
-        List<Integer> expectedStudents = new ArrayList<>(Arrays.asList(s1, s3));
+        List<Integer> expectedStudents = new ArrayList<>(Arrays.asList(s1.getId(), s3.getId()));
         assertEquals(expectedStudents,enrolledStudents);
     }
 
@@ -117,30 +128,7 @@ class ControllerTest {
         List<Course> expectedCourses = new ArrayList<>(Arrays.asList(c1, c2, c3));
         assertEquals(expectedCourses,allCourses);
     }
-
-    @Test
-    void deleteCourse() throws SQLException {
-        controller.deleteCourse(c3);
-        List<Course> expectedCoursesTeacher = new ArrayList<>(List.of());
-        assertEquals(expectedCoursesTeacher,t2.getCourses());
-
-        List<Course> expectedCoursesStudent = new ArrayList<>(List.of(c2));
-        assertEquals(expectedCoursesStudent,s3.getEnrolledCourses());
-
-        List<Course> expectedCourses = new ArrayList<>(Arrays.asList(c1, c2));
-        assertEquals(expectedCourses, courseRepository.getAll());
-
-        //when the course does not exist
-        Course c4  = new Course("c4", t1, 2, 5);
-        List<Course> expectedCourses2 = new ArrayList<>(Arrays.asList(c1, c2));
-        try{
-            controller.deleteCourse(c4);
-        }
-        catch (NonexistentArgumentException e){
-            assertEquals(expectedCourses2,courseRepository.getAll());
-        }
-    }
-
+/*
     @Test
     void updateCreditsCourse() throws IOException, SQLException {
         controller.updateCreditsCourse(c2,19);
@@ -149,7 +137,7 @@ class ControllerTest {
         assertEquals(19, c2.getCredits());
 
         //when the course does not exist
-        Course c4  = new Course("c4", t1, 2, 5);
+        Course c4  = new Course(4,"c4", 1, 2, 5);
         try{
             controller.updateCreditsCourse(c4,20);
         }
@@ -157,7 +145,7 @@ class ControllerTest {
             assertEquals(5, c4.getCredits());
         }
 
-    }
+    }*/
 
     @Test
     void sortStudents() {
@@ -190,4 +178,27 @@ class ControllerTest {
 
         assertEquals(expectedCourses,obtainedCourses);
     }
-}*/
+
+/*    @Test
+    void deleteCourse() throws SQLException {
+        controller.deleteCourse(c3);
+        List<Integer> expectedCoursesTeacher = new ArrayList<>(List.of());
+        assertEquals(expectedCoursesTeacher,t2.getCourses());
+
+        List<Pair> expectedCoursesStudent = new ArrayList<>(List.of(new Pair(c2.getId(),c2.getCredits())));
+        assertEquals(expectedCoursesStudent,s3.getEnrolledCourses());
+
+        List<Course> expectedCourses = new ArrayList<>(Arrays.asList(c1, c2));
+        assertEquals(expectedCourses, courseJDBCRepository.getAll());
+
+        //when the course does not exist
+        Course c4  = new Course(4,"c4", 1, 2, 5);
+        List<Course> expectedCourses2 = new ArrayList<>(Arrays.asList(c1, c2));
+        try{
+            controller.deleteCourse(c4);
+        }
+        catch (NonexistentArgumentException e){
+            assertEquals(expectedCourses2, courseJDBCRepository.getAll());
+        }
+    }*/
+}

@@ -20,9 +20,19 @@ public class Main {
     static final String USER = "root";
     static final String PASS = "lolipop";
 
+    public static void resetDatabase(Statement stmt) throws SQLException {
+        stmt.executeUpdate("DELETE FROM studenten_course;");
+        stmt.executeUpdate("UPDATE student SET totalCredits = "+ 0 + ";");
+        stmt.executeUpdate("DELETE FROM course;");
+        stmt.executeUpdate("INSERT INTO course VALUES (1,'c1',1,2,10), (2,'c2',1,2,10), (3,'c3',2,2,11)");
+    }
+
     public static void main(String[] args){
         try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            Statement stmt = conn.createStatement();){
+            Statement stmt = conn.createStatement()){
+
+            //resetDatabase(stmt);  //we can reset the database, to start from 0
+
             TeacherJDBCRepository teacherJDBCRepository = new TeacherJDBCRepository(stmt);
             StudentJDBCRepository studentJDBCRepository = new StudentJDBCRepository(stmt);
             CourseJDBCRepository courseJDBCRepository = new CourseJDBCRepository(stmt);

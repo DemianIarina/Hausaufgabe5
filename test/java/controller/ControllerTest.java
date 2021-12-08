@@ -49,8 +49,8 @@ class ControllerTest {
 
     @BeforeEach
     void init(){
-        try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            Statement stmt = conn.createStatement()){
+        try{Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            Statement stmt = conn.createStatement();
 
             resetDatabase(stmt);
 
@@ -78,13 +78,13 @@ class ControllerTest {
 
             controller.register(c3,s3);
 
-        } catch (SQLException exeption) {
-            exeption.printStackTrace();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
         }
     }
 
     @Test
-    void register() throws IOException, SQLException{
+    void register() throws SQLException{
 
         //check the effect on the students
         List<Pair> expectedCourses = new ArrayList<>(Arrays.asList(new Pair(c1.getId(),c1.getCredits()),new Pair(c2.getId(),c2.getCredits())));
@@ -194,7 +194,7 @@ class ControllerTest {
     }
 
     @Test
-    void updateCreditsCourse() throws IOException, SQLException {
+    void updateCreditsCourse() throws SQLException {
         controller.updateCreditsCourse(c2,19);
         assertEquals(29, s1.getTotalCredits());
         assertEquals(30, s3.getTotalCredits());

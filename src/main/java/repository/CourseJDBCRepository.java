@@ -155,6 +155,4 @@ public class CourseJDBCRepository extends JDBCRepository<Course>{
             exeption.printStackTrace();
         }
     }
-
-
 }

@@ -28,8 +28,8 @@ public class Main {
     }
 
     public static void main(String[] args){
-        try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            Statement stmt = conn.createStatement()){
+        try{Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            Statement stmt = conn.createStatement();
 
             resetDatabase(stmt);  //we can reset the database, to start from 0
 
@@ -42,7 +42,7 @@ public class Main {
             KonsoleView view = new KonsoleView(controller);
             view.main_menu();
 
-/*            System.out.println(controller.retriveCoursesWithFreePlaces());
+            /*            System.out.println(controller.retriveCoursesWithFreePlaces());
             System.out.println(controller.getAllCourses());
             System.out.println(controller.sortStudents());
             System.out.println(controller.sortCourses());
@@ -114,6 +114,8 @@ public class Main {
         } catch (SQLException exeption) {
             exeption.printStackTrace();
         }
+
+
 
 
     }

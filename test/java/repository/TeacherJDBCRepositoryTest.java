@@ -1,8 +1,9 @@
-/*
 package repository;
 
+import model.Course;
 import model.Teacher;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mockito;
@@ -12,6 +13,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,36 +34,42 @@ class TeacherJDBCRepositoryTest {
         stmt.executeUpdate("DELETE FROM teacher WHERE id NOT IN (1,2);");
     }
 
-    @BeforeAll
+    @BeforeEach
     void init(){
-        teacherJDBCRepository = mock(TeacherJDBCRepository.class);
+        try {
+            Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            Statement stmt = conn.createStatement();
+
+            resetDatabase(stmt);
+
+            teacherJDBCRepository = new TeacherJDBCRepository(conn);
+
+            t1 = teacherJDBCRepository.getAll().get(0);
+            t2 = teacherJDBCRepository.getAll().get(1);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     void create() throws SQLException {
-        Teacher t1 = new Teacher(1,"Ana", "Mare");
-        List<Teacher> teachers = new ArrayList<Teacher>();
-        teachers.add(t1);
-
-        teacherJDBCRepository.create(t1);
-        when(teacherJDBCRepository.create(t1))
-
-
-       */
-/* Teacher t3 = new Teacher(3,"Lala", "Haa");
+        Teacher t3 = new Teacher(3,"Lala", "Haa");
         teacherJDBCRepository.create(t3);
         List<Teacher> expectedTeachers = new ArrayList<>(List.of(t1,t2,t3));
-        assertEquals(expectedTeachers,teacherJDBCRepository.getAll());*//*
-
-
+        assertEquals(expectedTeachers,teacherJDBCRepository.getAll());
 
     }
 
     @Test
-    void update() {
-    }
+    void delete() throws SQLException {
+        Teacher t3 = new Teacher(3,"Lala", "Haa");
+        teacherJDBCRepository.create(t3);
+        t3.addCourse(4);
+        t3.addCourse(5);
+        teacherJDBCRepository.delete(t3);
 
-    @Test
-    void delete() {
+        List<Teacher> expectedTeachers = new ArrayList<>(List.of(t1, t2));
+        assertEquals(expectedTeachers, teacherJDBCRepository.getAll());
     }
-}*/
+}

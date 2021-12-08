@@ -93,7 +93,7 @@ public class TeacherJDBCRepository extends JDBCRepository<Teacher>{
 
     /**
      * delete an existing Teacher from the repo
-     * Modifies obly the teaxher table
+     * Modifies only the teacher table
      * @param obj the Teacher to be deleted
      * @throws SQLException when any exception regarding the SQL happen
      */

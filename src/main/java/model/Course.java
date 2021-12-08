@@ -62,8 +62,7 @@ public class Course implements Comparable<Course>{
             if(!studentsEnrolledId.contains(studentId)){
                 throw new AlreadyExistingException("Not registered to this course");
             }
-
-            studentsEnrolledId.remove(studentId);
+            studentsEnrolledId.remove(Integer.valueOf(studentId));
         }
 
         public String getName() {

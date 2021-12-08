@@ -20,7 +20,7 @@ class CourseJDBCRepositoryTest {
     CourseJDBCRepository courseJDBCRepository;
     static final String DB_URL = "jdbc:mysql://localhost:3306/lab5database";
     static final String USER = "root";
-    static final String PASS = "lolipop";
+    static final String PASS = "password";
 
     public static void resetDatabase(Statement stmt) throws SQLException {
         stmt.executeUpdate("DELETE FROM studenten_course;");

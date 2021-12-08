@@ -2,10 +2,13 @@ package repository;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represent an abstract Repository working with a database
+ * @param <T> the typo of objects in the repository
+ */
 public abstract class JDBCRepository<T> implements ICrudRepository<T> {
     protected List<T> repoList;
     protected Connection conn;

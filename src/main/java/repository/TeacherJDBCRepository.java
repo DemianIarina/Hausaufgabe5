@@ -1,17 +1,18 @@
 package repository;
 
-import model.Course;
 import model.Teacher;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
+/**
+ * Represents the repository of Teacher objects, which is connected to the database
+ * Every modification is projected on the database
+ */
 public class TeacherJDBCRepository extends JDBCRepository<Teacher>{
     public TeacherJDBCRepository(Connection conn) throws SQLException {
         super(conn);

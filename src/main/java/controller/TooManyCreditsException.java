@@ -1,7 +1,5 @@
 package controller;
 
-import model.Student;
-
 /**
  * Represents an exception triggered when the limit of credits has been reached
  */

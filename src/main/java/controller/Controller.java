@@ -1,4 +1,3 @@
-
 package controller;
 
 import model.Course;
@@ -7,13 +6,17 @@ import model.Student;
 import model.Teacher;
 import repository.*;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Represents the all the actions possible, using 3 different repositories - corses, students and teachers
+ * It handles all the necessary actions to answer users requests, retrieves all necessary data from the repositories,
+ * and returns the appropriate responses
+ */
 public class Controller {
     private CourseJDBCRepository courses;
     private StudentJDBCRepository students;

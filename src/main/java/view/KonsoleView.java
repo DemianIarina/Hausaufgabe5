@@ -9,6 +9,9 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Represents the menu through witch the user will interact with the databases
+ */
 public class KonsoleView {
 
     public Controller controller;
@@ -17,12 +20,17 @@ public class KonsoleView {
         this.controller = controller;
     }
 
+    /**
+     *Shows the main maniu with all the possible actions, reads the input from the user
+     * and calls the appropiate functions
+     * @throws SQLException when any exception regarding the SQL happen
+     */
     public void main_menu() throws SQLException {
         Scanner reader = new Scanner(System.in);
 
         loop:
         while (true) {
-            System.out.println("-----------------\n" +
+            System.out.println("-----------------\n" +      //the menu with all the possible actions
                     "Menu\n" +
                     "1. Register Student to Course\n" +
                     "2. Retrive Courses With Free Places\n" +
@@ -33,13 +41,13 @@ public class KonsoleView {
                     "7. Sort Students by First Name\n" +
                     "8. Sort Courses by Name\n" +
                     "9. Filter Students\n" +
-                    "10. FilterCourses\n" +
+                    "10. Filter Courses\n" +
                     "11. Exit\n" +
                     "------------------------");
 
             System.out.println("Choose a option (write the number):");
             try {
-                int inp = reader.nextInt();
+                int inp = reader.nextInt();    //reading the input from the user
                 reader.nextLine();
 
                 switch (inp) {
@@ -47,14 +55,14 @@ public class KonsoleView {
                         try {
                             System.out.println("Enter Course Name:");
                             String courseName = reader.nextLine();
-                            Course course = controller.getCourses().getAll().stream()
+                            Course course = controller.getCourses().getAll().stream()    //checking if the course exists
                                     .filter(actualCourse -> courseName.equals(actualCourse.getName()))
                                     .findAny()
                                     .orElseThrow(() -> new NonexistentArgumentException("No course found with the name: " + courseName));
 
                             System.out.println("Enter Student Id:");
                             long studentId = reader.nextLong();
-                            Student student = controller.getStudents().getAll().stream()
+                            Student student = controller.getStudents().getAll().stream()   //checking if the student exists
                                     .filter(actualStudent -> studentId == actualStudent.getStudentId())
                                     .findAny()
                                     .orElseThrow(() -> new NonexistentArgumentException("No student found with the id: " + studentId));
@@ -84,7 +92,7 @@ public class KonsoleView {
                         String courseName2 = reader.nextLine();
 
                         try {
-                            Course course2 = controller.getCourses().getAll().stream()
+                            Course course2 = controller.getCourses().getAll().stream()   //checking if the course exists
                                     .filter(actualCourse -> courseName2.equals(actualCourse.getName()))
                                     .findAny()
                                     .orElseThrow(() -> new NonexistentArgumentException("No course found with the name: " + courseName2));
@@ -110,7 +118,7 @@ public class KonsoleView {
                         try {
                             System.out.println("Enter Course Name:");
                             String courseName3 = reader.nextLine();
-                            Course course3 = controller.getCourses().getAll().stream()
+                            Course course3 = controller.getCourses().getAll().stream()   //checking if the course exists
                                     .filter(actualCourse -> courseName3.equals(actualCourse.getName()))
                                     .findAny()
                                     .orElseThrow(() -> new NonexistentArgumentException("No course found with the name: " + courseName3));
@@ -133,7 +141,7 @@ public class KonsoleView {
                         try {
                             System.out.println("Enter Course Name:");
                             String courseName4 = reader.nextLine();
-                            Course course4 = controller.getCourses().getAll().stream()
+                            Course course4 = controller.getCourses().getAll().stream()   //checking if the course exists
                                     .filter(actualCourse -> courseName4.equals(actualCourse.getName()))
                                     .findAny()
                                     .orElseThrow(() -> new NonexistentArgumentException("No course found with the name: " + courseName4));
@@ -179,7 +187,7 @@ public class KonsoleView {
                         System.out.println("Quiting...");
                         break loop;
 
-                    default: //when den input is not one of the options,the meniu will be shown once again
+                    default:           //when den input is not one of the options,the meniu will be shown once again
                         System.out.println("Input is invalid \n Enter again:");
                         break;
 

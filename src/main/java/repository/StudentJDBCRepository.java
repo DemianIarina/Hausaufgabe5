@@ -1,12 +1,9 @@
 package repository;
 
-import com.mysql.cj.conf.ConnectionUrlParser;
 import model.Course;
 import model.Pair;
 import model.Student;
-import model.Teacher;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,6 +11,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents the repository of Students objects, which is connected to the database
+ * Every modification is projected on the database
+ */
 public class StudentJDBCRepository extends JDBCRepository<Student> {
 
     public StudentJDBCRepository(Connection conn) throws SQLException {

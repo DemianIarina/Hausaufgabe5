@@ -9,6 +9,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents the repository of Courses objects, which is connected to the database
+ * Every modification is projected on the database
+ */
 public class CourseJDBCRepository extends JDBCRepository<Course>{
     public CourseJDBCRepository(Connection conn) throws SQLException {
         super(conn);

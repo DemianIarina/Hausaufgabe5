@@ -54,9 +54,9 @@ class ControllerTest {
 
             resetDatabase(stmt);
 
-            teacherJDBCRepository = new TeacherJDBCRepository(stmt);
-            studentJDBCRepository = new StudentJDBCRepository(stmt);
-            courseJDBCRepository = new CourseJDBCRepository(stmt);
+            teacherJDBCRepository = new TeacherJDBCRepository(conn);
+            studentJDBCRepository = new StudentJDBCRepository(conn);
+            courseJDBCRepository = new CourseJDBCRepository(conn);
 
             controller = new Controller(courseJDBCRepository,studentJDBCRepository,teacherJDBCRepository);
             t1 = teacherJDBCRepository.getAll().get(0);
@@ -192,6 +192,25 @@ class ControllerTest {
             assertEquals(expectedCourses2,courseJDBCRepository.getAll());
         }
     }
+
+    @Test
+    void updateCreditsCourse() throws IOException, SQLException {
+        controller.updateCreditsCourse(c2,19);
+        assertEquals(29, s1.getTotalCredits());
+        assertEquals(30, s3.getTotalCredits());
+        assertEquals(19, c2.getCredits());
+
+        //when the course does not exist
+        Course c4  = new Course(4,"c4", 1, 2, 5);
+        try{
+            controller.updateCreditsCourse(c4,20);
+        }
+        catch (NonexistentArgumentException e){
+            assertEquals(5, c4.getCredits());
+        }
+
+    }
+
 
 
 }

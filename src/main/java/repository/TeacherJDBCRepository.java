@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class TeacherJDBCRepository extends JDBCRepository<Teacher>{
-    public TeacherJDBCRepository(Statement stmt) throws SQLException {
-        super(stmt);
+    public TeacherJDBCRepository(Connection conn) throws SQLException {
+        super(conn);
     }
 
     /**
@@ -24,36 +24,39 @@ public class TeacherJDBCRepository extends JDBCRepository<Teacher>{
      */
     @Override
     public List<Teacher> read() throws SQLException {
-        String selectSql = "SELECT * FROM teacher left join course c on teacher.id = c.idTeacher";
+        try( Statement stmt = conn.createStatement()) {
+            String selectSql = "SELECT * FROM teacher left join course c on teacher.id = c.idTeacher";
 
-        try (ResultSet resultSet = stmt.executeQuery(selectSql)) {
-            List<Teacher> teachers = new ArrayList<>();
-            while (resultSet.next()) {
-                int id= resultSet.getInt("teacher.id");
-                String firstName = resultSet.getString("firstName");
-                String lastName = resultSet.getString("lastName");
-                int courseId = resultSet.getInt("c.id");    //converts NULL to 0
+            try (ResultSet resultSet = stmt.executeQuery(selectSql)) {
+                List<Teacher> teachers = new ArrayList<>();
+                while (resultSet.next()) {
+                    int id = resultSet.getInt("teacher.id");
+                    String firstName = resultSet.getString("firstName");
+                    String lastName = resultSet.getString("lastName");
+                    int courseId = resultSet.getInt("c.id");    //converts NULL to 0
 
-                if(courseId>0) {    //when the current teacher has courses
-                    if (teachers.stream().anyMatch(teacher -> teacher.getId() == id)) {      //when the current teacher has already other courses
-                        Teacher searchedTeacher = teachers.stream()
-                                .filter(teacher -> teacher.getId() == id)
-                                .findAny()
-                                .orElse(null);
-                        assert searchedTeacher != null;
-                        searchedTeacher.addCourse(courseId);           //the teacher already exists in the list
+                    if (courseId > 0) {    //when the current teacher has courses
+                        if (teachers.stream().anyMatch(teacher -> teacher.getId() == id)) {      //when the current teacher has already other courses
+                            Teacher searchedTeacher = teachers.stream()
+                                    .filter(teacher -> teacher.getId() == id)
+                                    .findAny()
+                                    .orElse(null);
+                            assert searchedTeacher != null;
+                            searchedTeacher.addCourse(courseId);           //the teacher already exists in the list
+                        } else {
+                            Teacher teacher = new Teacher(id, firstName, lastName);           //create the new teacher
+                            teacher.addCourse(courseId);
+                            teachers.add(teacher);
+                        }
                     } else {
-                        Teacher teacher = new Teacher(id, firstName, lastName);           //create the new teacher
-                        teacher.addCourse(courseId);
+                        Teacher teacher = new Teacher(id, firstName, lastName);    //create teacher without courses
                         teachers.add(teacher);
                     }
                 }
-                else{
-                    Teacher teacher = new Teacher(id, firstName, lastName);    //create teacher without courses
-                    teachers.add(teacher);
-                }
+                repoList = teachers;
             }
-            repoList = teachers;
+        } catch (SQLException exeption) {
+            exeption.printStackTrace();
         }
         return repoList;
 
@@ -67,9 +70,13 @@ public class TeacherJDBCRepository extends JDBCRepository<Teacher>{
      */
     @Override
     public Teacher create(Teacher obj) throws SQLException {
-        repoList.add(obj);
-        stmt.executeUpdate("INSERT INTO teacher VALUES ("+ obj.getId()
-                + ", \'" + obj.getFirstName() + "\', \'" + obj.getLastName() + "\');");
+        try( Statement stmt = conn.createStatement()) {
+            repoList.add(obj);
+            stmt.executeUpdate("INSERT INTO teacher VALUES (" + obj.getId()
+                    + ", \'" + obj.getFirstName() + "\', \'" + obj.getLastName() + "\');");
+        }  catch (SQLException exeption) {
+            exeption.printStackTrace();
+        }
         return obj;
     }
 
@@ -92,7 +99,11 @@ public class TeacherJDBCRepository extends JDBCRepository<Teacher>{
      */
     @Override
     public void delete(Teacher obj) throws SQLException {
-        repoList.remove(obj);
-        stmt.executeUpdate("DELETE FROM teacher where id = "+ obj.getId()+";");
+        try( Statement stmt = conn.createStatement()) {
+            repoList.remove(obj);
+            stmt.executeUpdate("DELETE FROM teacher where id = " + obj.getId() + ";");
+        } catch (SQLException exeption) {
+            exeption.printStackTrace();
+        }
     }
 }

@@ -62,21 +62,17 @@ public class KonsoleView {
                                 controller.register(course, student);
                             } catch (NonexistentArgumentException e) {
                                 System.out.println("Invalid arguments, try again");
-                                main_menu();
                             } catch (AlreadyExistingException | FullCourseException | TooManyCreditsException e2) {
                                 System.out.println("Could not register, error occurred while registering: " + e2);
-                                main_menu();
                             } catch (SQLException e3) {
                                 System.out.println("Database failed, try again");
                                 e3.printStackTrace();
-                                main_menu();
                             }
                             break;
                         } catch (NonexistentArgumentException e) {
                             System.out.println("Invalid arguments, try again");
-                            main_menu();
                         }
-
+                        break;
 
                     case 2:
                         List<Course> coursesWithFreePlaces = controller.retriveCoursesWithFreePlaces();
@@ -97,13 +93,12 @@ public class KonsoleView {
                                 System.out.println(studentList);
                             } catch (NonexistentArgumentException e) {
                                 System.out.println("Invalid arguments, try again");
-                                main_menu();
                             }
                             break;
                         } catch (NonexistentArgumentException e) {
                             System.out.println("Invalid arguments, try again");
-                            main_menu();
                         }
+                        break;
 
 
                     case 4:
@@ -124,17 +119,15 @@ public class KonsoleView {
                                 System.out.println(courseList3);
                             } catch (NonexistentArgumentException e) {
                                 System.out.println("Invalid arguments, try again");
-                                main_menu();
                             } catch (SQLException e3) {
                                 System.out.println("Database failed, try again");
                                 e3.printStackTrace();
-                                main_menu();
                             }
                             break;
                         } catch (NonexistentArgumentException e) {
                             System.out.println("Invalid arguments, try again");
-                            main_menu();
                         }
+                        break;
 
                     case 6:
                         try {
@@ -150,20 +143,17 @@ public class KonsoleView {
                                 controller.updateCreditsCourse(course4, newCredits);
                             } catch (NonexistentArgumentException e) {
                                 System.out.println("Invalid arguments, try again");
-                                main_menu();
                             } catch (TooManyCreditsException e2) {
                                 System.out.println(e2);
                             } catch (SQLException e3) {
                                 System.out.println("Database failed, try again");
                                 e3.printStackTrace();
-                                main_menu();
                             }
                             break;
                         } catch (NonexistentArgumentException e) {
                             System.out.println("Invalid arguments, try again");
-                            main_menu();
                         }
-
+                        break;
 
                     case 7:
                         List<Student> sortedStudents = controller.sortStudents();
@@ -189,13 +179,15 @@ public class KonsoleView {
                         System.out.println("Quiting...");
                         break loop;
 
-                    default: //wenn den input is not one of the options,the meniu will be shown once again
+                    default: //when den input is not one of the options,the meniu will be shown once again
                         System.out.println("Input is invalid \n Enter again:");
-                        main_menu();
+                        break;
+
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Invalid arguments, try again");
                 main_menu();
+                break;
             }
         }
     }

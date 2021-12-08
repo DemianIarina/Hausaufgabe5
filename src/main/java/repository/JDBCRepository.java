@@ -1,5 +1,6 @@
 package repository;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -7,11 +8,11 @@ import java.util.List;
 
 public abstract class JDBCRepository<T> implements ICrudRepository<T> {
     protected List<T> repoList;
-    protected Statement stmt;
+    protected Connection conn;
 
-    public JDBCRepository(Statement stmt) throws SQLException {
+    public JDBCRepository(Connection conn) throws SQLException {
         this.repoList = new ArrayList<>();
-        this.stmt = stmt;
+        this.conn = conn;
         repoList = read();
     }
 

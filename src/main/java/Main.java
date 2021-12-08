@@ -33,9 +33,9 @@ public class Main {
 
             resetDatabase(stmt);  //we can reset the database, to start from 0
 
-            TeacherJDBCRepository teacherJDBCRepository = new TeacherJDBCRepository(stmt);
-            StudentJDBCRepository studentJDBCRepository = new StudentJDBCRepository(stmt);
-            CourseJDBCRepository courseJDBCRepository = new CourseJDBCRepository(stmt);
+            TeacherJDBCRepository teacherJDBCRepository = new TeacherJDBCRepository(conn);
+            StudentJDBCRepository studentJDBCRepository = new StudentJDBCRepository(conn);
+            CourseJDBCRepository courseJDBCRepository = new CourseJDBCRepository(conn);
 
             Controller controller = new Controller(courseJDBCRepository,studentJDBCRepository,teacherJDBCRepository);
 
@@ -62,32 +62,24 @@ public class Main {
             controller.register(c2,s1);
             controller.register(c2,s3);
             controller.register(c3,s3);
-
             System.out.println(controller.retriveCoursesWithFreePlaces());
             System.out.println(controller.retrieveStudentsEnrolledForACourse(c2));
-
             controller.updateCreditsCourse(c2,20);
-
-
             System.out.println(studentJDBCRepository.getAll());
             System.out.println(courseJDBCRepository.getAll());*/
 
             /*controller.deleteCourse(c3);
-
             System.out.println(studentJDBCRepository.getAll());
             System.out.println(courseJDBCRepository.getAll());*/
 
 
             /*Teacher t1 = new Teacher(3,"Lala", "Haa");
             //teacherJDBCRepository.create(t1);
-
             //add in db cursu
             Course c1 = new Course(4,"c3", 3, 2,12);
             t1.addCourse(c1.getId());
             t1.removeCourse(c1.getId());
             teacherJDBCRepository.update(t1);
-
-
             teacherJDBCRepository.delete(t1);
             System.out.println(teacherJDBCRepository.read());*/
 
@@ -95,38 +87,27 @@ public class Main {
             /*Student s1 = new Student(4,"Ionela", "Fira", 104);
             Course c1 = new Course(4,"c3", 3, 2,12);
             studentJDBCRepository.create(s1);
-
             s1.addCourse(c1);
             studentJDBCRepository.update(s1);
             System.out.println(s1.getTotalCredits());
             System.out.println(s1.getEnrolledCourses());
-
             c1.setCredits(13);
             studentJDBCRepository.update(s1);
             System.out.println(s1.getTotalCredits());
             System.out.println(s1.getEnrolledCourses());
-
             s1.removeCourse(c1);
             System.out.println(s1.getTotalCredits())\
             System.out.println(s1.getEnrolledCourses());
-
-
             studentJDBCRepository.delete(s1);
-
-
             Course c1 = new Course(4,"c4", 3, 2,12);
             courseJDBCRepository.create(c1);
             System.out.println(courseJDBCRepository.getAll());
-
             //System.out.println(teacherJDBCRepository.read());
             //fiindca nu arata bine System.out.println(teacherJDBCRepository.getAll()); fara readu
-
             c1.setCredits(15);
             courseJDBCRepository.updateCredits(c1);
-
             c1.addStudent(1);
             courseJDBCRepository.update(c1);
-
             courseJDBCRepository.delete(c1);
             System.out.println(courseJDBCRepository.getAll());*/
 
@@ -138,4 +119,3 @@ public class Main {
     }
 
 }
-

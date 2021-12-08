@@ -7,6 +7,7 @@ import model.Student;
 import model.Teacher;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -15,8 +16,8 @@ import java.util.List;
 
 public class StudentJDBCRepository extends JDBCRepository<Student> {
 
-    public StudentJDBCRepository(Statement stmt) throws SQLException {
-        super(stmt);
+    public StudentJDBCRepository(Connection conn) throws SQLException {
+        super(conn);
     }
 
     /**
@@ -26,44 +27,48 @@ public class StudentJDBCRepository extends JDBCRepository<Student> {
      */
     @Override
     public List<Student> read() throws SQLException {
-        String selectSql = "SELECT * FROM student left join studenten_course sc " +
-                "on student.id = sc.idStudent " +
-                "left join course c " +
-                "on sc.idCourse = c.id";
-        try (ResultSet resultSet = stmt.executeQuery(selectSql)) {
-            List<Student> students = new ArrayList<>();
-            while (resultSet.next()) {
-                int id = resultSet.getInt("student.id");
-                String firstName = resultSet.getString("firstName");
-                String lastName = resultSet.getString("lastName");
-                long studentId = resultSet.getLong("studentId");
-                int totalCredits = resultSet.getInt("totalCredits");
-                int courseId = resultSet.getInt("idCourse");
-                String name = resultSet.getString("name");
-                int idTeacher = resultSet.getInt("idTeacher");
-                int maxEnrollment = resultSet.getInt("maxEnrollment");
-                int credits = resultSet.getInt("credits");
+        try( Statement stmt = conn.createStatement()){
+            String selectSql = "SELECT * FROM student left join studenten_course sc " +
+                    "on student.id = sc.idStudent " +
+                    "left join course c " +
+                    "on sc.idCourse = c.id";
+            try (ResultSet resultSet = stmt.executeQuery(selectSql)) {
+                List<Student> students = new ArrayList<>();
+                while (resultSet.next()) {
+                    int id = resultSet.getInt("student.id");
+                    String firstName = resultSet.getString("firstName");
+                    String lastName = resultSet.getString("lastName");
+                    long studentId = resultSet.getLong("studentId");
+                    int totalCredits = resultSet.getInt("totalCredits");
+                    int courseId = resultSet.getInt("idCourse");
+                    String name = resultSet.getString("name");
+                    int idTeacher = resultSet.getInt("idTeacher");
+                    int maxEnrollment = resultSet.getInt("maxEnrollment");
+                    int credits = resultSet.getInt("credits");
 
-                if (students.stream().anyMatch(student -> student.getId() == id)) {
-                    Student searchedStudent = students.stream()
-                            .filter(student -> student.getId() == id)
-                            .findAny()
-                            .orElse(null);
-                    Course newCourse = new Course(courseId, name, idTeacher, maxEnrollment, credits);
-                    assert searchedStudent != null;
-                    searchedStudent.getEnrolledCourses().add(new Pair(newCourse.getId(), newCourse.getCredits()));
-
-                }
-                else{
-                    Student student = new Student(id, firstName, lastName, studentId, totalCredits);
-                    if(courseId != 0){
+                    if (students.stream().anyMatch(student -> student.getId() == id)) {
+                        Student searchedStudent = students.stream()
+                                .filter(student -> student.getId() == id)
+                                .findAny()
+                                .orElse(null);
                         Course newCourse = new Course(courseId, name, idTeacher, maxEnrollment, credits);
-                        student.getEnrolledCourses().add(new Pair(newCourse.getId(), newCourse.getCredits()));
+                        assert searchedStudent != null;
+                        searchedStudent.getEnrolledCourses().add(new Pair(newCourse.getId(), newCourse.getCredits()));
+
                     }
-                    students.add(student);
+                    else{
+                        Student student = new Student(id, firstName, lastName, studentId, totalCredits);
+                        if(courseId != 0){
+                            Course newCourse = new Course(courseId, name, idTeacher, maxEnrollment, credits);
+                            student.getEnrolledCourses().add(new Pair(newCourse.getId(), newCourse.getCredits()));
+                        }
+                        students.add(student);
+                    }
                 }
+                repoList = students;
             }
-            repoList = students;
+        } catch (SQLException exeption) {
+            exeption.printStackTrace();
         }
         return repoList;
     }
@@ -76,9 +81,13 @@ public class StudentJDBCRepository extends JDBCRepository<Student> {
      */
     @Override
     public Student create(Student obj) throws SQLException {
-        repoList.add(obj);
-        stmt.executeUpdate("INSERT INTO student VALUES ("+ obj.getId()
-                + ", \'" + obj.getFirstName() + "\', \'" + obj.getLastName() + "\' ," + obj.getStudentId()+ ", DEFAULT);");
+        try( Statement stmt = conn.createStatement()){
+            repoList.add(obj);
+            stmt.executeUpdate("INSERT INTO student VALUES ("+ obj.getId()
+                    + ", \'" + obj.getFirstName() + "\', \'" + obj.getLastName() + "\' ," + obj.getStudentId()+ ", DEFAULT);");
+        } catch (SQLException exeption) {
+            exeption.printStackTrace();
+        }
         return obj;
     }
 
@@ -92,10 +101,14 @@ public class StudentJDBCRepository extends JDBCRepository<Student> {
      */
     @Override
     public Student update(Student obj) throws SQLException {
-
-        //update the total of credits in the database
-        stmt.executeUpdate("UPDATE student SET totalCredits = "+ obj.getTotalCredits() + " where id = " + obj.getId() +";");  //total credits of given object
-                                                                                                                                              // because it has the modified nr of credits
+        try( Statement stmt = conn.createStatement()){
+            //update the total of credits in the database
+            stmt.executeUpdate("UPDATE student SET totalCredits = "+ obj.getTotalCredits() + " where id = " + obj.getId() +";");  //total credits of given object
+            // because it has the modified nr of credits
+        }
+        catch (SQLException exeption) {
+            exeption.printStackTrace();
+        }
         return obj;
     }
 
@@ -107,7 +120,11 @@ public class StudentJDBCRepository extends JDBCRepository<Student> {
      */
     @Override
     public void delete(Student obj) throws SQLException {
-        repoList.remove(obj);
-        stmt.executeUpdate("DELETE FROM student where id = "+ obj.getId()+";");
+        try (Statement stmt = conn.createStatement()) {
+            repoList.remove(obj);
+            stmt.executeUpdate("DELETE FROM student where id = " + obj.getId() + ";");
+        } catch (SQLException exeption) {
+            exeption.printStackTrace();
+        }
     }
 }
